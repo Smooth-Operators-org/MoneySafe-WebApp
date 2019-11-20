@@ -1,0 +1,70 @@
+aside .sidenav .user-view{
+    margin-bottom: 0;   
+}
+
+aside a:hover {
+    background-color: #fafafa !important;
+    transition:all 0.3s ease;
+}
+
+aside a:hover span{ 
+    color: #455a64  !important;
+    transition:all 0.3s ease;
+}
+
+aside a:hover i{ 
+    color: #455a64 !important;
+    transition:all 0.3s ease;
+}
+
+#main-container {
+    padding-left: 200px;
+}
+
+#modal-ingresos {
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+#modal-gastos {
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+#modal-categorias {
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+#span_side{
+    font-size: 15px;
+    line-height: 48px;
+}
+
+#icon_side{
+    font-size: 15px;
+    margin: 0 15px 0 0;
+}
+
+@media only screen and (max-width : 992px) {
+    #main-container {
+      padding-left: 0;
+    }
+}
+
+@media only screen and (max-width : 360px) {
+    #modal-ingresos {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    
+    #modal-gastos {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    
+    #modal-categorias {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}

@@ -1,0 +1,26 @@
+body{
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-box{
+    margin-top: 30px;
+    max-width: 430px;
+    padding: 35px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.logo{
+    background-image: url("/img/MS-Logo.png");
+    width: 95px;
+    height: 90px;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+
+#register-form{
+    display: none;
+}

@@ -372,6 +372,7 @@
   <script src="/vendor/components/jquery/jquery.min.js"></script>
   <!-- MATERIALIZE SCRIPT -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="/js/main.js"></script>
   <!-- SWEET ALERT -->
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

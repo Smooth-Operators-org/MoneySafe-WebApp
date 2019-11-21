@@ -14,9 +14,10 @@ $(document).ready(function(){
             console.log(e);
             if(e.status == 1 || e.status == '1'){
                 console.log("Correcto");
+                location.reload();
             } else {
                 console.log("Incorrecto");
             }
-        });
+        }, "JSON");
     });
 });

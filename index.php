@@ -261,7 +261,7 @@
       </div>
       <div class="modal-footer">
           <button class="modal-close btn red waves-effect waves-light" type="button">Cancelar</button>
-          <button class="btn green waves-effect waves-light" type="button">Insertar</button>
+          <button class="btn green waves-effect waves-light" type="button" id="insertCat">Insertar</button>
         </div>
     </div>
   </div>

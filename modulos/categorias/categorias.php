@@ -26,7 +26,7 @@
     <div class="row">
       <div class="col s12 24">
         <h2>Categorías</h2>
-        <a href="#modal-categorias" class="btn-floating tooltipped pulse modal-trigger right" data-position="right" data-tooltip="Añadir gasto"><i class="fas fa-plus"></i></a>
+        <a href="#modal-categorias" class="btn-floating tooltipped pulse modal-trigger right insert-new__cat" data-position="right" data-tooltip="Añadir gasto"><i class="fas fa-plus"></i></a>
       </div>
     </div>
 
@@ -84,7 +84,8 @@
       </div>
       <div class="modal-footer">
           <button class="modal-close btn red waves-effect waves-light" type="button">Cancelar</button>
-          <button class="btn green waves-effect waves-light" type="button" id="insertCat">Insertar</button>
+          <button class="btn green waves-effect waves-light insertCat" type="button">Insertar</button>
+          <button class="btn green waves-effect waves-light editCat" type="button">Editar</button>
         </div>
     </div>
   </div>

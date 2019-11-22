@@ -1,6 +1,12 @@
 $(document).ready(function(){
     $(".modal").modal();
     let obj = {};
+    let editEnable = false;
+    $('.insert-new__cat').click(function(){
+        editEnable = false;
+        checkBtnEnable(editEnable);
+        $('#nombre_cat').val('');
+    });
     // obj = {
     //     "accion": "verCategorias"
     // };
@@ -11,7 +17,7 @@ $(document).ready(function(){
     //         console.log("aaaaaaa");
     //     }
     // }, "JSON");
-    $('#insertCat').click(function(){
+    $('.insertCat').click(function(){
         let nombre_cat = $('#nombre_cat').val();
         obj = {
             "accion": "insertarCategoria",
@@ -41,24 +47,32 @@ $(document).ready(function(){
         $.post("../../includes/funciones.php",obj,function(r){
             console.log(r);
             $('#nombre_cat').val(r.nombre_cat);
-            $('#insertCat').attr("id","editCat");
-            $('#editCat').text('Editar');
-            $('#editCat').data("catcat", idc);
+            // $('.insertCat').addClass("editCat");
+            // $('.editCat').removeClass("insertCat");
+            // $('.editCat').text('Editar');
+            $('.editCat').attr("data-catcat", idc);
         }, "JSON");
     });
-    $('#editCat').click(function(e){
-        e.preventDefault();
-        let idc = $(this).data("catcat");
+    $('.btn-edit').click(function(e){
+        editEnable = true;
+        checkBtnEnable(editEnable);
+        // e.preventDefault();
+    });
+    $('.editCat').click(function(){
+        let idc = $('.editCat').data("catcat");
+        console.log(idc);
         let nombree = $('#nombre_cat').val();
+        console.log(idc,nombree);
         obj = {
             "accion": "editCat",
-            "id": idc,
+            "id_cat": idc,
             "nombre_cat": nombree
         };
         console.log(obj);
         $.post("../../includes/funciones.php", obj, function(a){
             if(a.status == 1 || a.status == '1'){
                 console.log("Bienbien");
+                location.reload();
             } else {
                 console.log("auxilio");
             }
@@ -95,3 +109,13 @@ $(document).ready(function(){
 
 
 });
+
+function checkBtnEnable(aaa){
+    if(!aaa){
+        $('.editCat').hide();
+        $('.insertCat').show();
+    } else {
+        $('.editCat').show();
+        $('.insertCat').hide();
+    }
+}

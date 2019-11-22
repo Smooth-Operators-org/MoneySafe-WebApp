@@ -12,7 +12,7 @@ switch($_POST["accion"]){
         uniCat($_POST["id"]);
     break;
     case 'editCat':
-        editCat($_POST["id"]);
+        editCat($_POST["id_cat"]);
     break;
 
     case 'deleteCat':

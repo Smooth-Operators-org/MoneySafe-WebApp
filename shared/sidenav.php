@@ -26,6 +26,10 @@
                 <i class="fas fa-file-invoice-dollar fa-lg white-text" id="icon_side"></i>
                 <span class="white-text" id="span_side">Gastos</span>
             </a>
+            <a href="modulos/categorias/categorias.php">
+                <i class="fas fa-file-invoice-dollar fa-lg white-text" id="icon_side"></i>
+                <span class="white-text" id="span_side">Categoría</span>
+            </a>
         </li>
         </ul>
 </aside>

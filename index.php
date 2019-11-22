@@ -1,3 +1,6 @@
+<?php 
+    require_once $_SERVER["DOCUMENT_ROOT"].'includes/_db.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -71,6 +74,9 @@
         <button type="button" id="left" class="btn-floating btn-large waves-effect waves-light blue-grey lighten-1 z-depth-2">
           <i class="fas fa-chevron-left center-align"></i>
         </button>
+        <div class="card-action">
+            <a href="#modal-gastos" class="white-text modal-trigger"><b>Añadir nuevo gasto</b></a>
+          </div>
       </div>
       <div class="col s4 m4 l8 center-align">
         <h5>Fecha Actual</h5>
@@ -94,15 +100,34 @@
             </tr>
           </thead>
           <tbody>
+          <?php 
+            $gastos = $db->select('gastos','*');
+            $totalG = 0;
+            if($gastos){
+              $num = 1;
+              foreach($gastos as $gasto){
+          ?>
             <tr>
-              <td>Luz</td>
-              <td>Electricidad</td>
-              <td>$1,500</td>
+              <td><?php echo utf8_encode($gasto['nombre_gst']);?></td>
+              <td><?php 
+              $categoria = $db->get('categorias','nombre_cat',['id_cat'=>$gasto['id_cat']]);
+                  if($categoria){
+                    echo $categoria; }?>
+              </td>
+              <td><?php echo $gasto['cant_gst'];?></td>
+              <?php
+                $num = $num + 1;
+                $totalG = $totalG + $gasto['cant_gst'];
+                }
+              }else{
+                 echo "<script>errorAlert()</script>";
+                }
+              ?>
             </tr>
           </tbody>
         </table>
         <div class="collection col s12 m12 l10 offset-l1 blue-grey lighten-1">
-          <p class="collection-item blue-grey lighten-1 white-text"><b>Total: <span class="badge white-text">$1,500</span></b></p>
+          <p class="collection-item blue-grey lighten-1 white-text"><b>Total: <span class="badge white-text">$<?php echo $totalG;?></span></b></p>
         </div>
       </div>
       <div class="col s12 m12 l6">

@@ -22,7 +22,13 @@
             </div>
         </li>
         <li>
-            <a href="#">
+            <a href="/index.php">
+                <i class="fas fa-home fa-lg white-text" id="icon_side"></i>
+                <span class="white-text" id="span_side">Home</span>
+            </a>
+        </li>
+        <li>
+            <a href="/modulos/gastos/index.php">
                 <i class="fas fa-file-invoice-dollar fa-lg white-text" id="icon_side"></i>
                 <span class="white-text" id="span_side">Gastos</span>
             </a>

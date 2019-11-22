@@ -3,7 +3,8 @@
         "mervick/material-design-icons": "2.2.0",
         "components/jquery": "^3.4",
         "fortawesome/font-awesome": "^5.11",
-        "components/jquery-cookie": "1.4.1.2"
+        "components/jquery-cookie": "1.4.1.2",
+        "catfan/medoo": "1.7.3"
     },
 
     "config": {

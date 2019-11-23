@@ -1,8 +1,11 @@
+<?php 
+    require_once $_SERVER["DOCUMENT_ROOT"].'/includes/_db.php';
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- CSS -->
@@ -27,18 +30,16 @@
             <div class="row">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">email</i>
-                    <input type="email" id="email" name="email" class="validate">
-                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="validate" placeholder="Email">
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">vpn_key</i>
-                    <input type="password" id="password" name="password" class="validate">
-                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="validate" placeholder="Password">
                     <p>
                         <label>
-                            <input type="checkbox" id="remember" />
+                            <input type="checkbox" id="remember" name="remember"/>
                             <span>Recordar Credenciales</span>
                         </label>
                     </p>
@@ -50,7 +51,7 @@
                     <a href="#">Registrarse</a>
                 </div>
                 <div class="col s6 right-align">
-                    <button class="btn waves-effect waves-light green accent-4" type="button">Login</button>
+                    <button class="btn waves-effect waves-light green accent-4" type="button" id="btn-login">Login</button>
                 </div>
             </div>
         </form>
@@ -89,11 +90,16 @@
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <select>
+                    <select name="id_plan" id="id_plan">
                         <option value="" disabled selected>Eligé un plan:</option>
-                        <option value="1">Trial</option>
-                        <option value="2">Básico</option>
-                        <option value="3">Premium</option>
+                        <?php
+                          $planes = $db->select('planes', '*');
+                            foreach($planes as $plan){
+                        ?>
+                              <option value="<?php echo $plan['id_plan']; ?>"><?php echo $plan['nombre_plan']; ?></option>
+                        <?php
+                            }
+                        ?>
                     </select>
                     <label>Plan</label>
                 </div>
@@ -103,18 +109,17 @@
                     <a href="#">Login</a>
                 </div>
                 <div class="col s6 right-align">
-                    <button class="btn waves-effect waves-light green accent-4" type="button">Enviar</button>
+                    <button class="btn waves-effect waves-light green accent-4" type="button" id="btn-register">Enviar</button>
                 </div>
             </div>
         </form>
     </div>
-    <!-- FONT-AWESOME -->
-    <script src="/vendor/fortawesome/font-awesome/js/all.min.js" data-auto-replace-svg="nest"></script>
-    <!-- JQUERY -->
     <script src="/vendor/components/jquery/jquery.min.js"></script>
-    <!-- MATERIALIZE SCRIPT -->
+    <script src="/vendor/components/jquery-cookie/jquery.cookie.js"></script>
+    <script src="/vendor/fortawesome/font-awesome/js/all.js" data-auto-replace-svg="nest"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="main.js"></script>
+    <script src="/modulos/login/main.js"></script>
 </body>
 
 </html>

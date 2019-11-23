@@ -1,3 +1,10 @@
+<?php
+  require_once $_SERVER["DOCUMENT_ROOT"].'/includes/_db.php';
+	session_start();
+	error_reporting(0);
+	$varsesion = $_SESSION['email'];
+	if (isset($varsesion)){
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -275,3 +282,8 @@
 </body>
 
 </html>
+<?php
+	}else{
+		header('Location: /modulos/login/index.php');
+  }
+?>

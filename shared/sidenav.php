@@ -1,3 +1,9 @@
+<?php 
+    $nivel_usr = $_SESSION['nivel'];
+    $nombre_usr = $_SESSION['nombre'];
+    $correo_usr = $_SESSION['email'];
+    $plan_usr = $_SESSION['plan'];
+?>
 <!-- SIDENAV -->
 <aside class="container section">
     <a href="#" class="sidenav-trigger hide-on-large-only" data-target="menu-side">
@@ -14,18 +20,43 @@
                     <img src="/img/MS-Logo.png" alt="" class="circle">
                 </a>
                 <a href="#">
-                    <span class="name black-text"><b>Alan Jair</b></span>
+                    <span class="name black-text"><b><?php echo $nombre_usr?></b></span>
                 </a>
                 <a href="#">
-                    <span class="email black-text"><b>dubekone@gmail.com</b></span>
+                    <span class="email black-text"><b><?php echo $correo_usr?></b></span>
+                </a>
+                <a href="#">
+                    <span class="email black-text"><b>Plan actual: 
+                        <?php 
+                        if ($plan_usr == 1) {
+                                echo "Trial";
+                        }elseif ($plan_usr == 2) {
+                                echo "Basico";
+                        }elseif ($plan_usr == 3) {
+                                echo "Premium";
+                        } 
+                        ?></b>
+                    </span>
                 </a>
             </div>
         </li>
+        <?php
+            if ($nivel_usr == 1) {
+        ?>
         <li>
-            <a href="#">
-                <i class="fas fa-file-invoice-dollar fa-lg white-text" id="icon_side"></i>
-                <span class="white-text" id="span_side">Gastos</span>
+            <a href="/modulos/usuarios/">
+                <i class="fas fa-sign-out-alt fa-lg white-text" id="icon_side"></i>
+                <span class="white-text" id="span_side">Usuarios</span>
             </a>
         </li>
-        </ul>
+        <?php
+            }
+        ?>
+        <li>
+            <a href="/includes/close_session.php">
+                <i class="fas fa-sign-out-alt fa-lg white-text" id="icon_side"></i>
+                <span class="white-text" id="span_side">Salir</span>
+            </a>
+        </li>
+    </ul>
 </aside>

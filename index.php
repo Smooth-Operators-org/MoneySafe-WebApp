@@ -43,14 +43,21 @@
     <?php 
       $cuentaGastos = $db->count('gastos', ['id_usr' => $id_usr]);
       $totalG = $db->sum('gastos','cant_gst', ['id_usr' => $id_usr]);
+
+      $cuentaIngresos = $db->count('ingresos', ['id_usr' => $id_usr]);
+      $totalI = $db->sum('ingresos','cant_ing', ['id_usr' => $id_usr]);
     ?>
     <div class="row">
       <div class="col s12 m12 l4">
         <div class="card teal lighten-1 z-depth-2">
           <div class="card-content white-text">
             <span class="card-title"><b><i class="fas fa-dollar-sign"></i> Ingresos</b></span>
-            <p><b>Ingresos registrados: 4</b></p>
-            <p><b>Total de ingresos: <i class="fas fa-dollar-sign"></i> 5000</b></p>
+            <p><b>Ingresos registrados: <?php echo $cuentaIngresos  ;?></b></p>
+            <p><b>Total de ingresos: <i class="fas fa-dollar-sign"></i><?php if($totalI == ""){
+                  echo 0;
+                }else{
+                echo $totalI;
+              }?></b></p>
           </div>
           <div class="card-action">
             <a href="#modal-ingresos" class="white-text modal-trigger"><b>Añadir nuevo ingreso</b></a>
@@ -156,14 +163,29 @@
             </tr>
           </thead>
           <tbody>
+          <?php 
+            $ingresos = $db->select('ingresos','*',['id_usr' => $id_usr]);
+            if($ingresos){
+              $num = 1;
+              foreach($ingresos as $ingreso){
+          ?>
             <tr>
-              <td>Sueldo</td>
-              <td>$3000</td>
+              <td><?php echo utf8_encode($ingreso['nombre_ing']);?></td>
+              <td><?php echo $ingreso['cant_ing'];?></td>
+              <?php
+                $num = $num + 1;
+                }
+              }
+              ?>
             </tr>
           </tbody>
         </table>
         <div class="collection col s12 m12 l10 offset-l1 blue-grey lighten-1">
-          <p class="collection-item blue-grey lighten-1 white-text"><b>Total: <span class="badge white-text">$3,000</b></span></p>
+          <p class="collection-item blue-grey lighten-1 white-text"><b>Total: <span class="badge white-text">$<?php if($totalI == ""){
+                  echo 0;
+                }else{
+                echo $totalI;
+              }?></span></b></p>
         </div>
       </div>
     </div>
@@ -173,12 +195,12 @@
         <div class="card-panel teal center-align z-depth-2">
           <span class="white-text"><b>Total $
           <?php 
-        //$total = $ingresos - $totalG;
-        //   if($total == ""){
-        //     echo 0;
-        //   }else{
-        //   echo $total;
-        // }
+        $total = $totalI - $totalG;
+           if($total == ""){
+             echo 0;
+           }else{
+           echo $total;
+         }
            ?>
           </b></span>
         </div>
@@ -211,7 +233,8 @@
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input type="text" id="fecha_ing" name="fecha_ing" class="datepicker container">
+            <input type="text" id="fecha_ing" name="fecha_ing" class="datepicker">
+            <input type="hidden" id="varsesion" name="varsesion" class="hidden" value="<?php echo $varsesion?>">
             <label for="fecha_ing">Fecha de Ingreso</label>
           </div>
         </div>

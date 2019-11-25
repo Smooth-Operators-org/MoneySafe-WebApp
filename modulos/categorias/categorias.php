@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +12,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <title>Categorías</title>
 </head>
-
 <body>
 
   <!-- SIDENAV -->
@@ -77,8 +75,7 @@
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input type="text" id="nombre_cat" name="nombre_cat" class="validate">
-            <label for="nombre_cat">Nombre</label>
+            <input type="text" id="nombre_cat" name="nombre_cat" class="validate" placeholder="Nombre">
           </div>
         </div>
       </div>

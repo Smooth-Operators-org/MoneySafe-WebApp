@@ -2,7 +2,8 @@
   require_once $_SERVER["DOCUMENT_ROOT"].'/includes/_db.php';
 	session_start();
 	error_reporting(0);
-	$varsesion = $_SESSION['email'];
+  $varsesion = $_SESSION['email'];
+  $id_usr = $_SESSION['id'];
 	if (isset($varsesion)){
 ?>
 <!DOCTYPE html>
@@ -34,6 +35,11 @@
       </div>
     </div>
     <!-- TARJETAS INFORMATIVAS -->
+    <!-- PHP tarjetas -->
+    <?php 
+      $cuentaGastos = $db->count('gastos', ['id_usr' => $id_usr]);
+      $totalG = $db->sum('gastos','cant_gst', ['id_usr' => $id_usr]);
+    ?>
     <div class="row">
       <div class="col s12 m12 l4">
         <div class="card teal lighten-1 z-depth-2">
@@ -47,15 +53,20 @@
           </div>
         </div>
       </div>
+      <!-- TARJETA GASTOS -->
       <div class="col s12 m12 l4">
         <div class="card blue lighten-1 z-depth-2">
           <div class="card-content white-text">
             <span class="card-title"><b><i class="fas fa-file-invoice-dollar"></i> Gastos</b></span>
-            <p><b>Gastos registrados: 4</b></p>
-            <p><b>Total de gastos: <i class="fas fa-dollar-sign"></i> 15,000</b></p>
+            <p><b>Gastos registrados: <?php echo $cuentaGastos;?></b></p>
+            <p><b>Total de gastos: <i class="fas fa-dollar-sign"></i> <?php if($totalG == ""){
+                  echo 0;
+                }else{
+                echo $totalG;
+              }?></b></p>
           </div>
           <div class="card-action">
-            <a href="#modal-gastos" class="white-text modal-trigger"><b>Añadir nuevo gasto</b></a>
+            <a href="#modal-gastos" class="white-text modal-trigger btn-new"><b>Añadir nuevo gasto</b></a>
           </div>
         </div>
       </div>
@@ -101,15 +112,34 @@
             </tr>
           </thead>
           <tbody>
+          <?php 
+            $gastos = $db->select('gastos','*',['id_usr' => $id_usr]);
+            if($gastos){
+              $num = 1;
+              foreach($gastos as $gasto){
+          ?>
             <tr>
-              <td>Luz</td>
-              <td>Electricidad</td>
-              <td>$1,500</td>
+              <td><?php echo utf8_encode($gasto['nombre_gst']);?></td>
+              <td><?php 
+              $categoria = $db->get('categorias','nombre_cat',['id_cat'=>$gasto['id_cat']]);
+                  if($categoria){
+                    echo utf8_encode($categoria); }?>
+              </td>
+              <td><?php echo $gasto['cant_gst'];?></td>
+              <?php
+                $num = $num + 1;
+                }
+              }
+              ?>
             </tr>
           </tbody>
         </table>
         <div class="collection col s12 m12 l10 offset-l1 blue-grey lighten-1">
-          <p class="collection-item blue-grey lighten-1 white-text"><b>Total: <span class="badge white-text">$1,500</span></b></p>
+          <p class="collection-item blue-grey lighten-1 white-text"><b>Total: <span class="badge white-text"> $<?php if($totalG == ""){
+                  echo 0;
+                }else{
+                echo $totalG;
+              }?></span></b></p>
         </div>
       </div>
       <div class="col s12 m12 l6">
@@ -137,7 +167,16 @@
     <div class="row">
       <div class="col s12 m12 l4 offset-l4">
         <div class="card-panel teal center-align z-depth-2">
-          <span class="white-text"><b>Total $1,500</b></span>
+          <span class="white-text"><b>Total $
+          <?php 
+        //$total = $ingresos - $totalG;
+        //   if($total == ""){
+        //     echo 0;
+        //   }else{
+        //   echo $total;
+        // }
+           ?>
+          </b></span>
         </div>
       </div>
     </div>
@@ -200,58 +239,63 @@
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input type="text" id="nombre_gst" name="nombre_gst" class="validate">
-            <label for="nombre_gst">Nombre</label>
+            <input type="text" id="nombre_gst" name="nombre_gst" class="validate" placeholder="Nombre">
           </div>
         </div>
+        <!-- SELECT -->
         <div class="row">
           <div class="input-field col s12">
-            <select id="fecha_gst" name="fecha_gst">
-              <option value="" disabled selected>Selecciona una opción:</option>
-              <option value="1">Option 1</option>
-              <option value="2">Option 2</option>
-              <option value="3">Option 3</option>
+            <select id="id_cat" name="id_cat">
+              <option value="" disabled selected>Selecciona una categoria:</option>
+              <?php 
+                $categ = $db->select('categorias','*');
+                foreach($categ as $cat){
+                  ?>
+                  <option value="<?php echo $cat['id_cat']; ?>"><?php echo $cat['nombre_cat']; ?></option>
+                  <?php
+                }
+              ?>
             </select>
-            <label>Categoría</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input type="number" id="cant_ing" name="cant_ing" min="1" class="validate" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}">
-            <label for="cant_ing">Cantidad</label>
+            <input type="number" id="cant_gst" name="cant_gst" min="1" class="validate"
+              pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Cantidad">
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input type="text" id="desc_gst" name="desc_gst" class="validate">
-            <label for="desc_gst">Descripción</label>
+            <input type="text" id="desc_gst" name="desc_gst" class="validate" placeholder="Descripción">
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input type="text" id="fecha_gst" name="fecha_gst" class="datepicker">
-            <label for="fecha_gst">Fecha del Gasto</label>
+            <input type="text" id="fecha_gst" name="fecha_gst" class="datepicker" placeholder="Fecha del Gasto">
+            <input type="hidden" id="varsesion" name="varsesion" class="hidden" value="<?php echo $varsesion?>">
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12 center-align">
-          <span>¿Es recurrente?</span>
+            <span>¿Es recurrente?</span>
             <div class="switch">
               <label>
-                  Off
+                Off
                 <input type="checkbox" id="recurrente_gst" name="recurrente_gst">
                 <span class="lever"></span>
-                  On
+                On
               </label>
             </div>
           </div>
         </div>
+        <!-- BOTONES MODAL -->
         <div class="modal-footer">
-          <button class="modal-close btn red waves-effect waves-light" type="button">Cancelar</button>
-          <button class="btn green waves-effect waves-light" type="button">Insertar</button>
+          <button class="modal-close btn red waves-effect waves-light" id="btn-cancel" type="button">Cancelar</button>
+          <button class="btn green waves-effect waves-light" id="btn-form" type="button">Insertar</button>
         </div>
       </div>
     </div>
+  </div>
     <!-- MODALS FORMS FOR CATEGORIAS (POP UP) -->
     <div class="modal" id="modal-categorias">
       <div class="modal-content">
@@ -279,6 +323,10 @@
   <!-- MATERIALIZE SCRIPT -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="/js/main.js"></script>
+  <!-- SWEET ALERT -->
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <!-- SCRIPT GASTOS -->
+  <script src="/modulos/gastos/main.js"></script>
 </body>
 
 </html>

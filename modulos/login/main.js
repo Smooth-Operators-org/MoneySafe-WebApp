@@ -39,7 +39,12 @@ $(document).ready(function(){
 
         $.post( "/modulos/login/consultas.php", obj, function (respuesta) {
             if (respuesta.status == 3) {
-              window.location.href = "/index.php";
+              if(respuesta.nivelusr == 1){
+                window.location.href = "/modulos/usuarios/index.php";
+              }else{
+                window.location.href = "/index.php";
+              }
+              
             }
             if (respuesta.status == 5) {
               swal("¡ERROR!", "Campos vacios", "error");

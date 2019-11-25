@@ -16,9 +16,17 @@
                 <div class="background">
                     <img src="/img/back.jpg" alt="">
                 </div>
-                <a href="#">
+                <?php 
+                if($nivel_usr == 1){
+                ?>
+                <a href="/modulos/usuarios/index.php/">
                     <img src="/img/MS-Logo.png" alt="" class="circle">
                 </a>
+                <?php } elseif($nivel_usr == 2){?>
+                <a href="/index.php/">
+                <img src="/img/MS-Logo.png" alt="" class="circle">
+                </a>
+                <?php }?>
                 <a href="#">
                     <span class="name black-text"><b><?php echo $nombre_usr?></b></span>
                 </a>
@@ -26,15 +34,17 @@
                     <span class="email black-text"><b><?php echo $correo_usr?></b></span>
                 </a>
                 <a href="#">
-                    <span class="email black-text"><b>Plan actual: 
+                    <span class="email black-text"><b>
                         <?php 
-                        if ($plan_usr == 1) {
-                                echo "Trial";
-                        }elseif ($plan_usr == 2) {
-                                echo "Basico";
-                        }elseif ($plan_usr == 3) {
-                                echo "Premium";
-                        } 
+                        if ($plan_usr == 1 && $nivel_usr == 2) {
+                                echo "Plan actual: Trial";
+                        }elseif ($plan_usr == 2 && $nivel_usr == 2) {
+                                echo "Plan actual: Basico";
+                        }elseif ($plan_usr == 3 && $nivel_usr == 2) {
+                                echo "Plan actual: Premium";
+                        } elseif($nivel_usr == 1){
+                            echo "Administrador";
+                        }
                         ?></b>
                     </span>
                 </a>
@@ -45,18 +55,40 @@
         ?>
         <li>
             <a href="/modulos/usuarios/">
-                <i class="fas fa-sign-out-alt fa-lg white-text" id="icon_side"></i>
+                <i class="fas fa-user fa-lg white-text" id="icon_side"></i>
                 <span class="white-text" id="span_side">Usuarios</span>
             </a>
         </li>
-        <?php
-            }
-        ?>
         <li>
             <a href="/includes/close_session.php">
                 <i class="fas fa-sign-out-alt fa-lg white-text" id="icon_side"></i>
                 <span class="white-text" id="span_side">Salir</span>
             </a>
         </li>
+        <?php
+            }elseif ($nivel_usr == 2) {
+        ?>
+        <li>
+            <a href="/index.php">
+                <i class="fas fa-home fa-lg white-text" id="icon_side"></i>
+                <span class="white-text" id="span_side">Home</span>
+            </a>
+        </li>
+        <li>
+            <a href="/modulos/gastos/">
+                <i class="fas fa-file-invoice-dollar fa-lg white-text" id="icon_side"></i>
+                <span class="white-text" id="span_side">Gastos</span>
+            </a>
+        </li>
+        <li>
+            <a href="/includes/close_session.php">
+                <i class="fas fa-sign-out-alt fa-lg white-text" id="icon_side"></i>
+                <span class="white-text" id="span_side">Salir</span>
+            </a>
+        </li>
+        <?php
+            }
+        ?>
+        
     </ul>
 </aside>

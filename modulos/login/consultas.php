@@ -53,6 +53,7 @@
 					$_SESSION['nivel'] = $usuario["id_niv"];
 					$_SESSION['plan'] = $usuario["id_plan"];
 					$respuesta["status"] = 3;
+					$respuesta["nivelusr"] = $_SESSION['nivel'];
 					$varsesion= $_SESSION['email'];
 				}else{
 					$respuesta["status"] = 2;

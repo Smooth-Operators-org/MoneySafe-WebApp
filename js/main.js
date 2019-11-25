@@ -10,7 +10,7 @@ $(document).ready(function(){
             "accion": "insertarCategoria",
             "nombre_cat": nombre_cat
         };
-        $.post("../includes/funciones.php", obj, function(e){
+        $.post("../../modulos/categorias/funciones.php", obj, function(e){
             console.log(e);
             if(e.status == 1 || e.status == '1'){
                 console.log("Correcto");

@@ -49,6 +49,12 @@
                 <span class="white-text" id="span_side">Usuarios</span>
             </a>
         </li>
+        <li>
+            <a href="/modulos/ingresos/">
+                <i class="fas fa-dollar-sign fa-lg white-text" id="icon_side"></i>
+                <span class="white-text" id="span_side">Ingresos</span>
+            </a>
+        </li>
         <?php
             }
         ?>

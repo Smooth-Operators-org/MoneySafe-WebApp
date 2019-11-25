@@ -78,10 +78,8 @@
               <td><?php echo $gasto['desc_gst'];?></td>
               <td><?php echo $gasto['fecha_gst'];?></td>
               <td>
-                <a href="#modal-gastos" data="<?php echo $gasto['id_gst']?>" class="btn-edit modal-trigger"><i class="fas fa-edit"
-                    title="Editar"></i></a>
-                <a href="#" data="<?php echo $gasto['id_gst']?>" class="btn-delete"><i class="fas fa-trash-alt"
-                    title="Eliminar"></i></a>
+                <a href="#modal-gastos" data="<?php echo $gasto['id_gst']?>" class="btn-edit modal-trigger tooltipped" data-position="left" data-tooltip="Editar"><i class="fas fa-edit"></i></a>
+                <a href="#" data="<?php echo $gasto['id_gst']?>" class="btn-delete tooltipped" data-position="right" data-tooltip="Eliminar"><i class="fas fa-trash-alt"></i></a>
               </td>
               <?php
                 $num = $num + 1;
@@ -107,7 +105,7 @@
     <div class="modal" id="modal-gastos">
       <div class="modal-content">
         <div class="row center-align">
-          <h5 class="black-text">Nuevo Gasto</h5>
+          <h5 class="black-text" id="modal-title">Nuevo Gasto</h5>
           <h6 class="green-text accent-4"><b>Money-Safe</b></h6>
         </div>
         <div class="row">
@@ -119,7 +117,7 @@
         <div class="row">
           <div class="input-field col s12">
             <select id="id_cat" name="id_cat" class="browser-default">
-              <option value="" selected disabled>Selecciona una categoria:</option>
+              <option value="0" selected disabled>Selecciona una categoria:</option>
               <?php 
                 $categ = $db->select('categorias','*');
                 foreach($categ as $cat){
@@ -166,6 +164,29 @@
           <button class="modal-close btn red waves-effect waves-light" id="btn-cancel" type="button">Cancelar</button>
           <button class="btn green waves-effect waves-light" id="btn-form" type="button">Insertar</button>
         </div>
+      </div>
+    </div>
+    <!-- MODALS FORMS FOR INFO-PERFIL-USUARIO (POP UP) -->
+    <div class="modal" id="modal-info-perfil">
+      <div class="modal-content">
+        <h5 class="black-text center">Detalles de la cuenta</h5>
+        <div class="collection">
+          <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge">
+            <?php 
+              if ($plan_usr == 1) {
+                echo "Trial";
+              }elseif ($plan_usr == 2) {
+                echo "Basico";
+              }elseif ($plan_usr == 3) {
+                echo "Premium";
+              } 
+            ?></span>Plan contratado</a>
+          <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge"><?php echo $fecha_baja?></span>Fecha de vencimiento</a>
+          <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge"><?php echo $days?></span>Días restantes</a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-close btn blue-grey darken-2 waves-effect waves-light" type="button">Aceptar</button>
       </div>
     </div>
   </div>

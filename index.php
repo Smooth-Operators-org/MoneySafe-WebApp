@@ -2,9 +2,13 @@
   require_once $_SERVER["DOCUMENT_ROOT"].'/includes/_db.php';
 	session_start();
 	error_reporting(0);
-  $varsesion = $_SESSION['email'];
+  $id_niv = $_SESSION['nivel'];
   $id_usr = $_SESSION['id'];
-	if (isset($varsesion)){
+    if ($id_niv == 1) {
+        header('Location: /modulos/usuarios/index.php');
+    }else{
+        $varsesion = $_SESSION['email'];
+        if (isset($varsesion)){   
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -354,7 +358,8 @@
 
 </html>
 <?php
-	}else{
-		header('Location: /modulos/login/index.php');
+    }else{
+       header('Location: /modulos/login/index.php');
+    }              
   }
 ?>

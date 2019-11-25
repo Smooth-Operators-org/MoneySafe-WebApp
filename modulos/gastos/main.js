@@ -13,7 +13,7 @@ $(document).ready(function () {
         $('input[type = text]').val('');
         $('#cant_gst').val('');
         $('input[type=checkbox]').prop("checked", false);
-        $('#id_cat').val("0");
+        $('#id_cat').val('0');
         $('input').removeClass('valid');
         $('input').removeClass('invalid');
 
@@ -25,6 +25,7 @@ $(document).ready(function () {
         obj = {
             accion: "insertGasto"
         };
+        $('#modal-title').text('Nuevo Gasto')
         $("#btn-form").text("Registrar");
     });
 
@@ -57,6 +58,7 @@ $(document).ready(function () {
                 };
             }, "JSON"
         );
+        $('#modal-title').text('Editar Gasto');
         $("#btn-form").text("Editar");
     });
 

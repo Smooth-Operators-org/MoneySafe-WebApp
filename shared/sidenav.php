@@ -48,6 +48,8 @@
             <a href="/includes/close_session.php">
                 <i class="fas fa-sign-out-alt fa-lg white-text" id="icon_side"></i>
                 <span class="white-text" id="span_side">Salir</span>
+    
+
             </a>
         </li>
         <?php
@@ -57,6 +59,12 @@
             <a href="/index.php">
                 <i class="fas fa-home fa-lg white-text" id="icon_side"></i>
                 <span class="white-text" id="span_side">Home</span>
+            </a>
+        </li>
+        <li>
+            <a href="/modulos/ingresos/">
+                <i class="fas fa-dollar-sign fa-lg white-text" id="icon_side"></i>
+                <span class="white-text" id="span_side">Ingresos</span>
             </a>
         </li>
         <li>

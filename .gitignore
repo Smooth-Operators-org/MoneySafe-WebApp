@@ -360,3 +360,4 @@ ASALocalRun/
 /vendor
 composer.phar
 .vscode/settings.json
+.vscode/launch.json

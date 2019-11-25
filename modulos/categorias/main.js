@@ -23,7 +23,7 @@ $(document).ready(function(){
             "accion": "insertarCategoria",
             "nombre_cat": nombre_cat
         };
-        $.post("../../includes/funciones.php", obj, function(e){
+        $.post("../../modulos/categorias/funciones.php", obj, function(e){
             console.log(e);
             if(e.status == 1 || e.status == '1'){
                 console.log("Correcto");
@@ -44,7 +44,7 @@ $(document).ready(function(){
             "accion":"uniCat",
             "id":idc
         };
-        $.post("../../includes/funciones.php",obj,function(r){
+        $.post("../../modulos/categorias/funciones.php",obj,function(r){
             console.log(r);
             $('#nombre_cat').val(r.nombre_cat);
             // $('.insertCat').addClass("editCat");
@@ -69,7 +69,7 @@ $(document).ready(function(){
             "nombre_cat": nombree
         };
         console.log(obj);
-        $.post("../../includes/funciones.php", obj, function(a){
+        $.post("../../modulos/categorias/funciones.php", obj, function(a){
             if(a.status == 1 || a.status == '1'){
                 console.log("Bienbien");
                 location.reload();
@@ -93,7 +93,7 @@ $(document).ready(function(){
             dangerMode: true
         }).then(willDelete => {
             if (willDelete) {
-                $.post("/includes/funciones.php", obj, function (respuesta) {
+                $.post("../../modulos/categorias/funciones.php", obj, function (respuesta) {
                     if (respuesta.status == 1) {
                         swal("Éxito", "La categoría fue eliminada correctamente", "success").then((willDelete) => {
                             location.reload();

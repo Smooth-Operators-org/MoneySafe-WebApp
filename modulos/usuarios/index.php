@@ -35,7 +35,7 @@
     <!-- MAIN CONTAINER -->
     <div class="container" id="main-container">
         <div class="row">
-            <div class="col s12 24">
+            <div class="col s12">
                 <h2>Usuarios</h2>
                 <a href="#modal-usuarios" class="btn-floating tooltipped pulse modal-trigger right btn-new" data-position="right" data-tooltip="Añadir Usuario"><i class="fas fa-plus"></i></a>
             </div>
@@ -43,7 +43,7 @@
 
         <!-- TABLA -->
         <div class="row">
-            <div class="col s12 m12 24">
+            <div class="col s12 m12 l12">
                 <table class="responsive-table highlight centered grey lighten-2 z-depth-1">
                     <thead>
                         <tr>
@@ -180,6 +180,29 @@
                 <button class="modal-close btn red waves-effect waves-light" type="button" id="btn-cancel-modal">Cancelar</button>
                 <button class="btn green waves-effect waves-light" type="button" id="btn-form-modal">Insertar</button>
             </div>
+        </div>
+        <!-- MODALS FORMS FOR INFO-PERFIL-USUARIO (POP UP) -->
+        <div class="modal" id="modal-info-perfil">
+        <div class="modal-content">
+            <h5 class="black-text center">Detalles de la cuenta</h5>
+            <div class="collection">
+            <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge">
+                <?php 
+                if ($plan_usr == 1) {
+                    echo "Trial";
+                }elseif ($plan_usr == 2) {
+                    echo "Basico";
+                }elseif ($plan_usr == 3) {
+                    echo "Premium";
+                } 
+                ?></span>Plan contratado</a>
+            <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge"><?php echo $fecha_baja?></span>Fecha de vencimiento</a>
+            <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge"><?php echo $days?></span>Días restantes</a>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="modal-close btn blue-grey darken-2 waves-effect waves-light" type="button">Aceptar</button>
+        </div>
         </div>
     </div>
     <!-- FONT-AWESOME -->

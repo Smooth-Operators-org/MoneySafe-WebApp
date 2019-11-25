@@ -15,6 +15,14 @@
 				break;
 		}
 	}
+
+	function dias_restantes($fecha_baja) {
+		$fecha_actual = date("Y-m-d");    
+		$s = strtotime($fecha_baja)-strtotime($fecha_actual);  
+		$d = intval($s/86400);  
+		$diferencia = $d;  
+		return $diferencia;  
+	} 
 	
     function generarKey($longitud) {
         $key = '';
@@ -52,6 +60,9 @@
 					$_SESSION['status'] = $usuario["status_usr"];
 					$_SESSION['nivel'] = $usuario["id_niv"];
 					$_SESSION['plan'] = $usuario["id_plan"];
+					$_SESSION['fecha_alta'] = $usuario["fecha_alta"];
+					$_SESSION['fecha_baja'] = $usuario["fecha_baja"];
+					$_SESSION['days'] = dias_restantes($usuario["fecha_baja"]);
 					$respuesta["status"] = 3;
 					$respuesta["nivelusr"] = $_SESSION['nivel'];
 					$varsesion= $_SESSION['email'];

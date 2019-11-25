@@ -62,7 +62,7 @@
         <li>
             <a href="/modulos/ingresos/">
                 <i class="fas fa-dollar-sign fa-lg white-text" id="icon_side"></i>
-                <span class="white-text" id="span_side">ingresos</span>
+                <span class="white-text" id="span_side">Ingresos</span>
             </a>
         </li>
         <li>

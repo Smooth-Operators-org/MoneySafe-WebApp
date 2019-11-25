@@ -9,8 +9,7 @@ if ($id_niv == 1) {
 } else {
     $varsesion = $_SESSION['email'];
     if (isset($varsesion)) {
-
-        ?>
+?>
         <!DOCTYPE html>
         <html lang="en">
 
@@ -31,8 +30,8 @@ if ($id_niv == 1) {
 
             <!-- SIDENAV -->
             <?php
-                    include_once $_SERVER["DOCUMENT_ROOT"] . '/shared/sidenav.php';
-                    ?>
+                include_once $_SERVER["DOCUMENT_ROOT"] . '/shared/sidenav.php';
+            ?>
 
             <!-- MAIN CONTAINER -->
             <div class="container" id="main-container">
@@ -60,12 +59,12 @@ if ($id_niv == 1) {
                             </thead>
                             <tbody>
                                 <?php
-                                        $i = 1;
-                                        $ingresos = $db->select('ingresos', '*', ['id_usr' => $id_usr]);
-                                        $total = $db->sum('ingresos', 'cant_ing', ['id_usr' => $id_usr]);
+                                    $i = 1;
+                                    $ingresos = $db->select('ingresos', '*', ['id_usr' => $id_usr]);
+                                    $total = $db->sum('ingresos', 'cant_ing', ['id_usr' => $id_usr]);
                                         if ($ingresos) {
                                             foreach ($ingresos as $ingreso) {
-                                                ?>
+                                ?>
                                         <tr>
                                             <td><?php echo $i; ?></td>
                                             <td><?php echo utf8_encode($ingreso['nombre_ing']); ?></td>
@@ -73,35 +72,58 @@ if ($id_niv == 1) {
                                             <td><?php echo $ingreso['desc_ing']; ?></td>
                                             <td><?php echo $ingreso['fecha_ing']; ?></td>
                                             <td>
-                                                <?php
-                                                                if ($ingreso['recurrente_ing'] == 0) {
-                                                                    echo 'No';
-                                                                } else {
-                                                                    echo 'Si';
-                                                                }; ?>
+                                            <?php
+                                                if ($ingreso['recurrente_ing'] == 0) {
+                                                    echo 'No';
+                                                } else {
+                                                    echo 'Si';
+                                                }; ?>
                                             </td>
                                             <td>
                                                 <a href="#modal-ingresos" data-modal="<?php echo $ingreso['id_ing']; ?>" class="btn-edit modal-trigger tooltipped" data-position="left" data-tooltip="Editar"><i class="fas fa-edit"></i></a>
                                                 <a href="#" data-modal="<?php echo $ingreso['id_ing']; ?>" class="btn-delete"><i class="fas fa-trash-alt tooltipped" data-position="right" data-tooltip="Eliminar"></i></a>
                                             </td>
                                         </tr>
-                                <?php
+                                    <?php
                                                 $i++;
                                             }
                                         }
-                                        ?>
+                                    ?>
                             </tbody>
                         </table>
                         <div class="collection col s8 m8 l4  blue-grey lighten-1">
                             <p class="collection-item blue-grey lighten-1 white-text"><b>Total: <span class="badge white-text">
-                                        $<?php
-                                                    if ($total == "") {
-                                                        echo 0;
-                                                    } else {
-                                                        echo $total;
-                                                    }
-                                                    ?></span></b></p>
+                                $<?php
+                                    if ($total == "") {
+                                        echo 0;
+                                    } else {
+                                        echo $total;
+                                    }
+                                ?></span></b></p>
                         </div>
+                    </div>
+                </div>
+                <!-- MODALS FORMS FOR INFO-PERFIL-USUARIO (POP UP) -->
+                <div class="modal" id="modal-info-perfil">
+                    <div class="modal-content">
+                        <h5 class="black-text center">Detalles de la cuenta</h5>
+                            <div class="collection">
+                                <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge">
+                                        <?php
+                                                if ($plan_usr == 1) {
+                                                    echo "Trial";
+                                                } elseif ($plan_usr == 2) {
+                                                    echo "Basico";
+                                                } elseif ($plan_usr == 3) {
+                                                    echo "Premium";
+                                                }
+                                                ?></span>Plan contratado</a>
+                                <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge"><?php echo $fecha_baja ?></span>Fecha de vencimiento</a>
+                                <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge"><?php echo $days ?></span>Días restantes</a>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="modal-close btn blue-grey darken-2 waves-effect waves-light" type="button">Aceptar</button>
                     </div>
                 </div>
                 <!-- MODALS FORMS FOR INGRESOS (POP UP) -->
@@ -118,61 +140,41 @@ if ($id_niv == 1) {
                         </div>
                         <div class="row">
                             <div class="input-field col s12">
-                                <input type="number" id="cant_ing" name="cant_ing" min="1" class="validate" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Cantidad" </div> </div> <div class="row">
-                                <div class="input-field col s12">
-                                    <input type="text" id="desc_ing" name="desc_ing" class="validate" placeholder="Descripcion">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <input type="text" id="fecha_ing" name="fecha_ing" class="datepicker" placeholder="Fecha ingreso">
-                                    <input type="hidden" id="varsesion" name="varsesion" class="hidden" value="<?php echo $varsesion ?>">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12 center-align">
-                                    <span>¿Es recurrente?</span>
-                                    <div class="switch">
-                                        <label>
-                                            Off
-                                            <input type="checkbox" id="recurrente_ing" name="recurrente_ing">
-                                            <span class="lever"></span>
-                                            On
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- BOTONES MODAL -->
-                            <div class="modal-footer">
-                                <button class="modal-close btn red waves-effect waves-light" id="btn-cancel" type="button">Cancelar</button>
-                                <button class="btn green waves-effect waves-light" id="btn-form" type="button">Insertar</button>
+                                <input type="number" id="cant_ing" name="cant_ing" min="1" class="validate" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Cantidad" 
+                            </div> 
+                        </div> 
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input type="text" id="desc_ing" name="desc_ing" class="validate" placeholder="Descripcion">
                             </div>
                         </div>
-                    </div>
-                    <!-- MODALS FORMS FOR INFO-PERFIL-USUARIO (POP UP) -->
-                    <div class="modal" id="modal-info-perfil">
-                        <div class="modal-content">
-                            <h5 class="black-text center">Detalles de la cuenta</h5>
-                            <div class="collection">
-                                <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge">
-                                        <?php
-                                                if ($plan_usr == 1) {
-                                                    echo "Trial";
-                                                } elseif ($plan_usr == 2) {
-                                                    echo "Basico";
-                                                } elseif ($plan_usr == 3) {
-                                                    echo "Premium";
-                                                }
-                                                ?></span>Plan contratado</a>
-                                <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge"><?php echo $fecha_baja ?></span>Fecha de vencimiento</a>
-                                <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge"><?php echo $days ?></span>Días restantes</a>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input type="text" id="fecha_ing" name="fecha_ing" class="datepicker" placeholder="Fecha ingreso">
+                                <input type="hidden" id="varsesion" name="varsesion" class="hidden" value="<?php echo $varsesion ?>">
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="input-field col s12 center-align">
+                                <span>¿Es recurrente?</span>
+                                <div class="switch">
+                                    <label>
+                                        Off
+                                        <input type="checkbox" id="recurrente_ing" name="recurrente_ing">
+                                        <span class="lever"></span>
+                                        On
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- BOTONES MODAL -->
                         <div class="modal-footer">
-                            <button class="modal-close btn blue-grey darken-2 waves-effect waves-light" type="button">Aceptar</button>
+                            <button class="modal-close btn red waves-effect waves-light" id="btn-cancel" type="button">Cancelar</button>
+                            <button class="btn green waves-effect waves-light" id="btn-form" type="button">Insertar</button>
                         </div>
                     </div>
                 </div>
+            </div>
                 <!-- FONT-AWESOME -->
                 <script src="/vendor/fortawesome/font-awesome/js/all.min.js" data-auto-replace-svg="nest"></script>
                 <!-- JQUERY -->

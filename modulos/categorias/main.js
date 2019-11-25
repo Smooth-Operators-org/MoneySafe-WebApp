@@ -7,6 +7,7 @@ $(document).ready(function(){
         checkBtnEnable(editEnable);
         $('#nombre_cat').val('');
     });
+    
     // obj = {
     //     "accion": "verCategorias"
     // };

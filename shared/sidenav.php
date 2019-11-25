@@ -3,6 +3,8 @@
     $nombre_usr = $_SESSION['nombre'];
     $correo_usr = $_SESSION['email'];
     $plan_usr = $_SESSION['plan'];
+    $fecha_baja = $_SESSION['fecha_baja'];
+    $days = $_SESSION['days'];
 ?>
 <!-- SIDENAV -->
 <aside class="container section">
@@ -13,9 +15,7 @@
     <ul class="sidenav sidenav-fixed blue-grey darken-2 z-depth-3" id="menu-side">
         <li>
             <div class="user-view">
-                <div class="background">
-                    <img src="/img/back.jpg" alt="">
-                </div>
+                <div class="background teal lighten-5"></div>
                 <?php 
                 if($nivel_usr == 1){
                 ?>
@@ -27,26 +27,11 @@
                 <img src="/img/MS-Logo.png" alt="" class="circle">
                 </a>
                 <?php }?>
-                <a href="#">
+                <a href="#modal-info-perfil" class="modal-trigger">
                     <span class="name black-text"><b><?php echo $nombre_usr?></b></span>
                 </a>
-                <a href="#">
+                <a href="#" class="no-pointer">
                     <span class="email black-text"><b><?php echo $correo_usr?></b></span>
-                </a>
-                <a href="#">
-                    <span class="email black-text"><b>
-                        <?php 
-                        if ($plan_usr == 1 && $nivel_usr == 2) {
-                                echo "Plan actual: Trial";
-                        }elseif ($plan_usr == 2 && $nivel_usr == 2) {
-                                echo "Plan actual: Basico";
-                        }elseif ($plan_usr == 3 && $nivel_usr == 2) {
-                                echo "Plan actual: Premium";
-                        } elseif($nivel_usr == 1){
-                            echo "Administrador";
-                        }
-                        ?></b>
-                    </span>
                 </a>
             </div>
         </li>
@@ -55,7 +40,7 @@
         ?>
         <li>
             <a href="/modulos/usuarios/">
-                <i class="fas fa-user fa-lg white-text" id="icon_side"></i>
+                <i class="fas fa-users fa-lg white-text" id="icon_side"></i>
                 <span class="white-text" id="span_side">Usuarios</span>
             </a>
         </li>

@@ -17,28 +17,13 @@ aside a:hover i{
     transition:all 0.3s ease;
 }
 
+.no-pointer{
+    pointer-events: none;
+    cursor: default;
+}
+
 #main-container {
     padding-left: 200px;
-}
-
-#modal-ingresos {
-    padding-left: 100px;
-    padding-right: 100px;
-}
-
-#modal-gastos {
-    padding-left: 100px;
-    padding-right: 100px;
-}
-
-#modal-usuarios {
-    padding-left: 100px;
-    padding-right: 100px;
-}
-
-#modal-categorias {
-    padding-left: 100px;
-    padding-right: 100px;
 }
 
 #span_side{
@@ -54,22 +39,5 @@ aside a:hover i{
 @media only screen and (max-width : 992px) {
     #main-container {
       padding-left: 0;
-    }
-}
-
-@media only screen and (max-width : 360px) {
-    #modal-ingresos {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-    
-    #modal-gastos {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-    
-    #modal-categorias {
-        padding-left: 20px;
-        padding-right: 20px;
     }
 }

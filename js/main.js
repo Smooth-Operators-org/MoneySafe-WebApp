@@ -3,4 +3,32 @@ $(document).ready(function(){
     $('.modal').modal();
     $('select').formSelect();
     $('.datepicker').datepicker();
+    let obj = {};
+
+    $("#btn-cancel").click(function () {
+        $('input[type = text]').val('');
+        $('input').removeClass('valid');
+        $('input').removeClass('invalid');
+    });
+    
+    $('#insertCat').click(function(){
+        let nombre_cat = $('#nombre_cat').val();
+        obj = {
+            "accion": "insertarCategoria",
+            "nombre_cat": nombre_cat
+        };
+        $.post("../../modulos/categorias/funciones.php", obj, function(e){
+            console.log(e);
+            if(e.status == 1 || e.status == '1'){
+                console.log("Correcto");
+                swal("Éxito", "Categoría añadida correctamente", "success").then(
+                    () => {
+                      location.reload();
+                    }
+                  );
+            } else {
+                console.log("Incorrecto");
+            }
+        }, "JSON");
+    });
 });

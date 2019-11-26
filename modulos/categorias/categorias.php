@@ -1,3 +1,16 @@
+<?php
+    require_once $_SERVER["DOCUMENT_ROOT"].'/includes/_db.php';
+    session_start();
+    error_reporting(0);
+    $id_niv = $_SESSION['nivel'];
+    $id_usr = $_SESSION['id'];
+    if ($id_niv == 1) {
+        header('Location: /modulos/usuarios/index.php');
+    }else{
+        $varsesion = $_SESSION['email'];
+        if (isset($varsesion)){   
+          
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -80,13 +93,36 @@
         </div>
       </div>
       <div class="modal-footer">
-          <button class="modal-close btn red waves-effect waves-light" type="button">Cancelar</button>
+          <button class="modal-close btn red waves-effect waves-light" id="btn-cancel" type="button">Cancelar</button>
           <button class="btn green waves-effect waves-light insertCat" type="button">Insertar</button>
           <button class="btn green waves-effect waves-light editCat" type="button">Editar</button>
         </div>
     </div>
   </div>
-
+    <!-- MODALS FORMS FOR INFO-PERFIL-USUARIO (POP UP) -->
+    <div class="modal" id="modal-info-perfil">
+      <div class="modal-content">
+        <h5 class="black-text center">Detalles de la cuenta</h5>
+        <div class="collection">
+          <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge">
+            <?php 
+              if ($plan_usr == 1) {
+                echo "Trial";
+              }elseif ($plan_usr == 2) {
+                echo "Basico";
+              }elseif ($plan_usr == 3) {
+                echo "Premium";
+              } 
+            ?></span>Plan contratado</a>
+          <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge"><?php echo $fecha_baja?></span>Fecha de vencimiento</a>
+          <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge"><?php echo $days?></span>Días restantes</a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-close btn blue-grey darken-2 waves-effect waves-light" type="button">Aceptar</button>
+      </div>
+    </div>
+  </div>
 
 
 
@@ -101,3 +137,9 @@
 </body>
 
 </html>
+<?php
+        }else{
+            header('Location: /modulos/login/index.php');
+        }
+    }
+?>

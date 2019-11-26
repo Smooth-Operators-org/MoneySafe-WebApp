@@ -7,17 +7,13 @@ $(document).ready(function(){
         checkBtnEnable(editEnable);
         $('#nombre_cat').val('');
     });
-    
-    // obj = {
-    //     "accion": "verCategorias"
-    // };
-    // $.post("../../includes/funciones.php", obj, function(r){
-    //     if(r.status == 1 || r.status == '1'){
-    //         console.log("Bienxd");
-    //     } else {
-    //         console.log("aaaaaaa");
-    //     }
-    // }, "JSON");
+
+    $("#btn-cancel").click(function () {
+        $('input[type = text]').val('');
+        $('input').removeClass('valid');
+        $('input').removeClass('invalid');
+    });
+
     $('.insertCat').click(function(){
         let nombre_cat = $('#nombre_cat').val();
         obj = {

@@ -4,6 +4,13 @@ $(document).ready(function(){
     $('select').formSelect();
     $('.datepicker').datepicker();
     let obj = {};
+
+    $("#btn-cancel").click(function () {
+        $('input[type = text]').val('');
+        $('input').removeClass('valid');
+        $('input').removeClass('invalid');
+    });
+    
     $('#insertCat').click(function(){
         let nombre_cat = $('#nombre_cat').val();
         obj = {

@@ -38,7 +38,6 @@
         <h2>Dashboard</h2>
       </div>
     </div>
-    <!-- TARJETAS INFORMATIVAS -->
     <!-- PHP tarjetas -->
     <?php 
       $cuentaGastos = $db->count('gastos', ['id_usr' => $id_usr]);
@@ -46,8 +45,12 @@
 
       $cuentaIngresos = $db->count('ingresos', ['id_usr' => $id_usr]);
       $totalI = $db->sum('ingresos','cant_ing', ['id_usr' => $id_usr]);
+
+      $cuentaCat = $db->count('categorias', ['id_usr' => $id_usr]);
     ?>
+    <!-- TARJETAS INFORMATIVAS -->
     <div class="row">
+      <!-- TARJETA INGRESOS -->
       <div class="col s12 m12 l4">
         <div class="card teal lighten-1 z-depth-2">
           <div class="card-content white-text">
@@ -60,7 +63,7 @@
               }?></b></p>
           </div>
           <div class="card-action">
-            <a href="#modal-ingresos" class="white-text modal-trigger"><b>Añadir nuevo ingreso</b></a>
+            <a href="#modal-ingresos" class="white-text modal-trigger btn-new-ingreso"><b>Añadir nuevo ingreso</b></a>
           </div>
         </div>
       </div>
@@ -81,15 +84,16 @@
           </div>
         </div>
       </div>
+      <!-- TARJETA CATEGORIAS -->
       <div class="col s12 m12 l4">
         <div class="card purple lighten-1 z-depth-2">
           <div class="card-content white-text">
             <span class="card-title"><b><i class="fas fa-chess-board"></i> Categorías</b></span>
-            <p><b>Categorías insertadas: 4</b></p>
+            <p><b>Categorías insertadas: <?php echo $cuentaCat;?></b></p>
             <br>
           </div>
           <div class="card-action">
-            <a href="#modal-categorias" class="white-text modal-trigger"><b>Añadir nueva categoría</b></a>
+            <a href="#modal-categorias" class="white-text modal-trigger insert-new__cat"><b>Añadir nueva categoría</b></a>
           </div>
         </div>
       </div>
@@ -97,7 +101,8 @@
     <!-- BOTONES Y FECHA -->
     <div class="row section">
       <div class="col s4 m4 l2 left-align">
-        <button type="button" id="left" class="btn-floating btn-large waves-effect waves-light blue-grey lighten-1 z-depth-2">
+        <button type="button" id="left"
+          class="btn-floating btn-large waves-effect waves-light blue-grey lighten-1 z-depth-2">
           <i class="fas fa-chevron-left center-align"></i>
         </button>
       </div>
@@ -105,7 +110,8 @@
         <h5>Fecha Actual</h5>
       </div>
       <div class="col s4 m4 l2 right-align">
-        <button type="button" id="right" class="btn-floating btn-large waves-effect waves-light blue-grey lighten-1 z-depth-2">
+        <button type="button" id="right"
+          class="btn-floating btn-large waves-effect waves-light blue-grey lighten-1 z-depth-2">
           <i class="fas fa-chevron-right center-align"></i>
         </button>
       </div>
@@ -123,7 +129,7 @@
             </tr>
           </thead>
           <tbody>
-          <?php 
+            <?php 
             $gastos = $db->select('gastos','*',['id_usr' => $id_usr]);
             if($gastos){
               $num = 1;
@@ -163,7 +169,7 @@
             </tr>
           </thead>
           <tbody>
-          <?php 
+            <?php 
             $ingresos = $db->select('ingresos','*',['id_usr' => $id_usr]);
             if($ingresos){
               $num = 1;
@@ -194,74 +200,67 @@
       <div class="col s12 m12 l4 offset-l4">
         <div class="card-panel teal center-align z-depth-2">
           <span class="white-text"><b>Total $
-          <?php 
-        $total = $totalI - $totalG;
-           if($total == ""){
-             echo 0;
-           }else{
-           echo $total;
-         }
-           ?>
-          </b></span>
+              <?php 
+                $total = $totalI - $totalG;
+                  if($total == ""){
+                    echo 0;
+                  }else{
+                    echo $total;
+                  }
+              ?>
+            </b></span>
         </div>
       </div>
     </div>
-    <!-- MODALS FORMS FOR INGRESOS (POP UP) -->
-    <div class="modal" id="modal-ingresos">
+    <!-- MODALS FORMS FOR INFO-PERFIL-USUARIO (POP UP) -->
+    <div class="modal" id="modal-info-perfil">
+      <div class="modal-content">
+        <h5 class="black-text center">Detalles de la cuenta</h5>
+        <div class="collection">
+          <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge">
+              <?php 
+              if ($plan_usr == 1) {
+                echo "Trial";
+              }elseif ($plan_usr == 2) {
+                echo "Basico";
+              }elseif ($plan_usr == 3) {
+                echo "Premium";
+              } 
+            ?></span>Plan contratado</a>
+          <a href="#" class="collection-item no-pointer blue-grey-text"><span
+              class="badge"><?php echo $fecha_baja?></span>Fecha de vencimiento</a>
+          <a href="#" class="collection-item no-pointer blue-grey-text"><span
+              class="badge"><?php echo $days?></span>Días restantes</a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-close btn blue-grey darken-2 waves-effect waves-light" type="button">Aceptar</button>
+      </div>
+    </div>
+    <!-- MODALS FORMS FOR CATEGORIAS (POP UP) -->
+    <div class="modal" id="modal-categorias">
       <div class="modal-content">
         <div class="row center-align">
-          <h5 class="black-text">Nuevo Ingreso</h5>
+          <h5 class="black-text">Nuevo Categoría</h5>
           <h6 class="green-text accent-4"><b>Money-Safe</b></h6>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input type="text" id="nombre_ing" name="nombre_ing" class="validate">
-            <label for="nombre_ing">Nombre</label>
+            <input type="text" id="nombre_cat" name="nombre_cat" class="validate" placeholder="Nombre">
           </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="number" id="cant_ing" name="cant_ing" min="1" class="validate" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}">
-            <label for="cant_ing">Cantidad</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" id="desc_ing" name="desc_ing" class="validate">
-            <label for="desc_ing">Descripción</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" id="fecha_ing" name="fecha_ing" class="datepicker">
-            <input type="hidden" id="varsesion" name="varsesion" class="hidden" value="<?php echo $varsesion?>">
-            <label for="fecha_ing">Fecha de Ingreso</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12 center-align">
-          <span>¿Es recurrente?</span>
-            <div class="switch">
-              <label>
-                  Off
-                <input type="checkbox" id="recurrente_ing" name="recurrente_ing">
-                <span class="lever"></span>
-                  On
-              </label>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="modal-close btn red waves-effect waves-light" type="button">Cancelar</button>
-          <button class="btn green waves-effect waves-light" type="button">Insertar</button>
         </div>
       </div>
+      <div class="modal-footer">
+          <button class="modal-close btn red waves-effect waves-light" id="btn-cancel" type="button">Cancelar</button>
+          <button class="btn green waves-effect waves-light insertCat" type="button">Insertar</button>
+          <button class="btn green waves-effect waves-light editCat" type="button">Editar</button>
+        </div>
     </div>
     <!-- MODALS FORMS FOR GASTOS (POP UP) -->
     <div class="modal" id="modal-gastos">
       <div class="modal-content">
         <div class="row center-align">
-          <h5 class="black-text">Nuevo Gasto</h5>
+          <h5 class="black-text" id="modal-title">Nuevo Gasto</h5>
           <h6 class="green-text accent-4"><b>Money-Safe</b></h6>
         </div>
         <div class="row">
@@ -272,8 +271,8 @@
         <!-- SELECT -->
         <div class="row">
           <div class="input-field col s12">
-            <select id="id_cat" name="id_cat">
-              <option value="" disabled selected>Selecciona una categoria:</option>
+            <select id="id_cat" name="id_cat" class="browser-default">
+              <option value="0" selected disabled>Selecciona una categoria:</option>
               <?php 
                 $categ = $db->select('categorias','*');
                 foreach($categ as $cat){
@@ -322,47 +321,51 @@
         </div>
       </div>
     </div>
-  </div>
-    <!-- MODALS FORMS FOR CATEGORIAS (POP UP) -->
-    <div class="modal" id="modal-categorias">
+    <!-- MODALS FORMS FOR INGRESOS (POP UP) -->
+    <div class="modal" id="modal-ingresos">
       <div class="modal-content">
         <div class="row center-align">
-          <h5 class="black-text">Nuevo Categoría</h5>
+          <h5 class="black-text" id="modal-title">Nuevo ingreso</h5>
           <h6 class="green-text accent-4"><b>Money-Safe</b></h6>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input type="text" id="nombre_cat" name="nombre_cat" class="validate">
-            <label for="nombre_cat">Nombre</label>
+            <input type="text" id="nombre_ing" name="nombre_ing" class="validate" placeholder="Nombre">
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-          <button class="modal-close btn red waves-effect waves-light" id="btn-cancel" type="button">Cancelar</button>
-          <button class="btn green waves-effect waves-light" type="button">Insertar</button>
-      </div>
-    </div>
-    <!-- MODALS FORMS FOR INFO-PERFIL-USUARIO (POP UP) -->
-    <div class="modal" id="modal-info-perfil">
-      <div class="modal-content">
-        <h5 class="black-text center">Detalles de la cuenta</h5>
-        <div class="collection">
-          <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge">
-            <?php 
-              if ($plan_usr == 1) {
-                echo "Trial";
-              }elseif ($plan_usr == 2) {
-                echo "Basico";
-              }elseif ($plan_usr == 3) {
-                echo "Premium";
-              } 
-            ?></span>Plan contratado</a>
-          <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge"><?php echo $fecha_baja?></span>Fecha de vencimiento</a>
-          <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge"><?php echo $days?></span>Días restantes</a>
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="number" id="cant_ing" name="cant_ing" min="1" class="validate"
+              pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Cantidad" 
+          </div> </div> <div class="row">
+          <div class="input-field col s12">
+            <input type="text" id="desc_ing" name="desc_ing" class="validate" placeholder="Descripcion">
+          </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button class="modal-close btn blue-grey darken-2 waves-effect waves-light" type="button">Aceptar</button>
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="text" id="fecha_ing" name="fecha_ing" class="datepicker" placeholder="Fecha ingreso">
+            <input type="hidden" id="varsesion" name="varsesion" class="hidden" value="<?php echo $varsesion ?>">
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12 center-align">
+            <span>¿Es recurrente?</span>
+            <div class="switch">
+              <label>
+                Off
+                <input type="checkbox" id="recurrente_ing" name="recurrente_ing">
+                <span class="lever"></span>
+                On
+              </label>
+            </div>
+          </div>
+        </div>
+        <!-- BOTONES MODAL -->
+        <div class="modal-footer">
+          <button class="modal-close btn red waves-effect waves-light" id="btn-cancel" type="button">Cancelar</button>
+          <button class="btn green waves-effect waves-light" id="btn-form-ingresos" type="button">Insertar</button>
+        </div>
       </div>
     </div>
   </div>
@@ -372,12 +375,15 @@
   <script src="/vendor/components/jquery/jquery.min.js"></script>
   <!-- MATERIALIZE SCRIPT -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <script src="/js/main.js"></script>
   <!-- SWEET ALERT -->
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <!-- SCRIPT GASTOS -->
   <script src="/modulos/gastos/main.js"></script>
+  <!-- SCRIPT INGRESOS -->
+  <script src="/modulos/ingresos/main.js"></script>
+  <!-- SCRIPT CATEGORIAS -->
+  <script src="/modulos/categorias/main.js"></script>
+  <script src="/js/main.js"></script>
 </body>
 
 </html>

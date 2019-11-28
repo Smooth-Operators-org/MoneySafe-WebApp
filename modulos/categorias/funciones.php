@@ -1,6 +1,8 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"].'/includes/_db.php';
-
+session_start();
+error_reporting(0);
+$id_usr = $_SESSION['id'];
 switch($_POST["accion"]){
     case 'insertarCategoria':
         insertarCategoria();
@@ -21,16 +23,15 @@ switch($_POST["accion"]){
 }
 
 function insertarCategoria(){
-    global $db;
+    global $db, $id_usr;
     $respuesta = [];
     $nombre_cat = $_POST["nombre_cat"];
     $fecha = strftime("%y-%m-%d");
-    // if(){}
-    $consulta = $db->insert("categorias", ["id_cat"=>"","nombre_cat"=>$nombre_cat, "fecha_reg"=>$fecha]);
-    if($consulta){
-        $respuesta["status"] = 1;
-    } else {
+    if ($nombre_cat == "") {
         $respuesta["status"] = 0;
+    }else{
+        $consulta = $db->insert("categorias", ["id_cat"=>"","nombre_cat"=>$nombre_cat, "id_usr"=>$id_usr, "fecha_reg"=>$fecha]);
+        $respuesta["status"] = 1;
     }
     echo json_encode($respuesta);
 }
@@ -60,11 +61,11 @@ function uniCat($idc){
 function editCat($id){
     global $db;
     $respuesta = [];
-    $consulta = $db->update("categorias",["nombre_cat"=>$_POST["nombre_cat"]],["id_cat"=>$id]);
-    if($consulta){
-        $respuesta["status"] = 1;
-    } else {
+    if ($_POST["nombre_cat"] == "") {
         $respuesta["status"] = 0;
+    }else{
+        $consulta = $db->update("categorias",["nombre_cat"=>$_POST["nombre_cat"]],["id_cat"=>$id]);
+        $respuesta["status"] = 1;
     }
     echo json_encode($respuesta);
 }

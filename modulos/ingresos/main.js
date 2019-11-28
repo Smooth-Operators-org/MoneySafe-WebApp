@@ -18,7 +18,7 @@ $(document).ready(function() {
   });
 
   //Boton Insertar
-  $(".btn-new").click(function() {
+  $(".btn-new-ingreso").click(function() {
     obj = {
       accion: "insertIngreso"
     };
@@ -61,7 +61,7 @@ $(document).ready(function() {
   });
 
   //Boton Insertar/Editar del Modal
-  $("#btn-form").click(function() {
+  $("#btn-form-ingresos").click(function() {
     $("#modal-ingresos")
       .find("input")
       .map(function(i, e) {
@@ -69,12 +69,6 @@ $(document).ready(function() {
         if ($(this).prop("type") == "checkbox") {
           obj[$(this).prop("name")] = $(this).prop("checked");
         }
-      });
-
-    $("#modal-ingresos")
-      .find("select")
-      .map(function(i, e) {
-        obj[$(this).prop("name")] = $(this).val();
       });
 
     switch (obj.accion) {
@@ -86,7 +80,6 @@ $(document).ready(function() {
             if (respuesta.status == 0) {
               swal("¡ERROR!", "Campos vacios", "error");
             } else if (respuesta.status == 2) {
-              // alert(respuesta.sesion + respuesta.registros);
               swal(
                 "PLAN AGOTADO",
                 "Tu cantidad de ingresos a llegado a su máximo número de registros",
@@ -100,7 +93,6 @@ $(document).ready(function() {
                   location.reload();
                 }
               );
-              // alert(respuesta.sesion);
             }
           },
           "JSON"

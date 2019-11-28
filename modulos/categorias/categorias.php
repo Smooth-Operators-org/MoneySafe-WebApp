@@ -47,7 +47,7 @@
         <table class="responsive-table highlight centered grey lighten-2 z-depth-1">
           <thead>
             <tr>
-              <!-- <th>#</th> -->
+              <th>#</th>
               <th>Categoría</th>
               <th>Fecha del Registro</th>
               <th>Acciones</th>
@@ -57,11 +57,12 @@
             <?php
             require_once $_SERVER["DOCUMENT_ROOT"].'/includes/_db.php';
             global $db;
-            $consulta = $db->select("categorias", ["id_cat","nombre_cat", "fecha_reg"]);
+            $i = 1;
+            $consulta = $db->select('categorias', '*', ['id_usr' => $id_usr]);
             foreach($consulta as $c){
             ?>
             <tr>
-              <!-- <td></td> -->
+              <td><?php echo $i?></td>
               <td><?php echo $c["nombre_cat"]; ?></td>
               <td><?php echo $c["fecha_reg"]; ?></td>
               <td>
@@ -72,6 +73,7 @@
               </td>
             </tr>
             <?php
+            $i++;
             }
             ?>
           </tbody>
@@ -79,11 +81,11 @@
       </div>
     </div>
 
-      <!-- MODALS FORMS FOR CATEGORIAS (POP UP) -->
+    <!-- MODALS FORMS FOR CATEGORIAS (POP UP) -->
     <div class="modal" id="modal-categorias">
       <div class="modal-content">
         <div class="row center-align">
-          <h5 class="black-text">Nuevo Categoría</h5>
+          <h5 class="black-text" id="modal-title">Nuevo Categoría</h5>
           <h6 class="green-text accent-4"><b>Money-Safe</b></h6>
         </div>
         <div class="row">
@@ -122,10 +124,6 @@
         <button class="modal-close btn blue-grey darken-2 waves-effect waves-light" type="button">Aceptar</button>
       </div>
     </div>
-  </div>
-
-
-
   <!-- FONT-AWESOME -->
   <script src="../../vendor/fortawesome/font-awesome/js/all.min.js" data-auto-replace-svg="nest"></script>
   <!-- JQUERY -->

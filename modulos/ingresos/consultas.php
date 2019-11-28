@@ -44,11 +44,9 @@ function insertIngreso()
     }
 
     if ($_POST["nombre_ing"] == "" || $_POST["cant_ing"] == "" || $_POST["desc_ing"] == "" || $_POST["fecha_ing"] == "") {
-        $respuesta["status"] = 2;
+        $respuesta["status"] = 0;
     } elseif ($id_plan == 2 && $registros >= 7) {
-        // $respuesta['registros'] = $registros;
-        // $respuesta['sesion'] = $id_plan;
-        $respuesta['status'] = 2;
+        $respuesta["status"] = 2;
     } else {
         $db->insert("ingresos", [
             "nombre_ing" => $_POST['nombre_ing'],

@@ -38,7 +38,7 @@ if ($id_niv == 1) {
                 <div class="row">
                     <div class="col s12 24">
                         <h2>Ingresos</h2>
-                        <a href="#modal-ingresos" class="btn-floating tooltipped pulse modal-trigger right btn-new" data-position="right" data-tooltip="Añadir ingreso"><i class="fas fa-plus"></i></a>
+                        <a href="#modal-ingresos" class="btn-floating tooltipped pulse modal-trigger right btn-new-ingreso" data-position="right" data-tooltip="Añadir ingreso"><i class="fas fa-plus"></i></a>
                     </div>
                 </div>
 

@@ -26,7 +26,7 @@ $(document).ready(function () {
             accion: "insertGasto"
         };
         $('#modal-title').text('Nuevo Gasto')
-        $("#btn-form").text("Registrar");
+        $("#btn-form").text("Insertar");
     });
 
     //Boton Editar

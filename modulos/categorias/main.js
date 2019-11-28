@@ -6,6 +6,7 @@ $(document).ready(function(){
         editEnable = false;
         checkBtnEnable(editEnable);
         $('#nombre_cat').val('');
+        $("#modal-title").text("Nueva Categoría");
     });
 
     $("#btn-cancel").click(function () {
@@ -29,12 +30,13 @@ $(document).ready(function(){
                       location.reload();
                     }
                   );
-            } else {
-                console.log("Incorrecto");
+            } else if(e.status == 0){
+                swal('¡ERROR!', 'Campo vacio', 'error');
             }
         }, "JSON");
     });
     $('.editedit').click(function(e){
+        $("#modal-title").text("Editar Categoría");
         let idc = $(this).data("modalxd");
         e.preventDefault();
         obj = {
@@ -70,8 +72,8 @@ $(document).ready(function(){
             if(a.status == 1 || a.status == '1'){
                 console.log("Bienbien");
                 location.reload();
-            } else {
-                console.log("auxilio");
+            } else if(e.status == 0){
+                swal('¡ERROR!', 'Campo vacio', 'error');
             }
         }, "JSON");
     });

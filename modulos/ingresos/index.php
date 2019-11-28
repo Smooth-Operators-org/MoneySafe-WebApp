@@ -170,7 +170,7 @@ if ($id_niv == 1) {
                         <!-- BOTONES MODAL -->
                         <div class="modal-footer">
                             <button class="modal-close btn red waves-effect waves-light" id="btn-cancel" type="button">Cancelar</button>
-                            <button class="btn green waves-effect waves-light" id="btn-form" type="button">Insertar</button>
+                            <button class="btn green waves-effect waves-light" id="btn-form-ingresos" type="button">Insertar</button>
                         </div>
                     </div>
                 </div>

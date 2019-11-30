@@ -3,6 +3,8 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/includes/_db.php';
 session_start();
 error_reporting(0);
 $id_usr = $_SESSION['id'];
+$nivel = $_SESSION['plan'];
+
 switch($_POST["accion"]){
     case 'insertarCategoria':
         insertarCategoria();
@@ -23,12 +25,18 @@ switch($_POST["accion"]){
 }
 
 function insertarCategoria(){
-    global $db, $id_usr;
+    global $db, $id_usr, $nivel;
     $respuesta = [];
     $nombre_cat = $_POST["nombre_cat"];
     $fecha = strftime("%y-%m-%d");
+    if($nivel == 2){
+        $cuenta = $db->count('categorias','*', ['id_usr' => $id_usr]);
+    }
+
     if ($nombre_cat == "") {
         $respuesta["status"] = 0;
+    }elseif($nivel == 2 && $cuenta >=5){
+        $respuesta["status"] = 2;
     }else{
         $consulta = $db->insert("categorias", ["id_cat"=>"","nombre_cat"=>$nombre_cat, "id_usr"=>$id_usr, "fecha_reg"=>$fecha]);
         $respuesta["status"] = 1;

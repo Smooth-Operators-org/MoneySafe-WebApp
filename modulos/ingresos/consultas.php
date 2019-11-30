@@ -41,6 +41,8 @@ function insertIngreso()
         $recurrente = 0;
     } elseif ($_POST["recurrente_ing"] == "true") {
         $recurrente = 1;
+    }elseif ($_POST["recurrente_ing"] == "") {
+        $recurrente = 2;
     }
 
     if ($_POST["nombre_ing"] == "" || $_POST["cant_ing"] == "" || $_POST["desc_ing"] == "" || $_POST["fecha_ing"] == "") {
@@ -87,7 +89,10 @@ function updateIngreso($id)
         $recurrente = 0;
     } elseif ($_POST["recurrente_ing"] == "true") {
         $recurrente = 1;
+    }elseif ($_POST["recurrente_ing"] == "") {
+        $recurrente = 2;
     }
+
 
     if ($_POST["nombre_ing"] == "" || $_POST["cant_ing"] == "" || $_POST["desc_ing"] == "" || $_POST["fecha_ing"] == "") {
         $respuesta["status"] = 0;

@@ -55,6 +55,9 @@
               <th>Monto</th>
               <th>Descripción</th>
               <th>Fecha del Gasto</th>
+              <?php if($plan_usr == 1 || $plan_usr == 3){?>
+              <th>Recurrente</th>
+              <?php }?>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -77,6 +80,15 @@
               <td><?php echo $gasto['cant_gst'];?></td>
               <td><?php echo $gasto['desc_gst'];?></td>
               <td><?php echo $gasto['fecha_gst'];?></td>
+                    <?php if($plan_usr == 1 || $plan_usr == 3 ){?>
+              <td><?php 
+              if( $gasto['recurrente_gst'] == 1){
+                echo "Si";
+              } elseif($gasto['recurrente_gst'] == 0){
+                echo "No";
+              }
+              ?></td>
+              <?php } ?>
               <td>
                 <a href="#modal-gastos" data="<?php echo $gasto['id_gst']?>" class="btn-edit modal-trigger tooltipped" data-position="left" data-tooltip="Editar"><i class="fas fa-edit"></i></a>
                 <a href="#" data="<?php echo $gasto['id_gst']?>" class="btn-delete tooltipped" data-position="right" data-tooltip="Eliminar"><i class="fas fa-trash-alt"></i></a>
@@ -101,7 +113,8 @@
         </div>
       </div>
     </div>
-    <!-- MODALS FORMS FOR GASTOS (POP UP) -->
+    <?php if($plan_usr == 2){ ?>
+    <!-- MODALS FORMS FOR GASTOS (POP UP) PLAN 2 -->
     <div class="modal" id="modal-gastos">
       <div class="modal-content">
         <div class="row center-align">
@@ -117,14 +130,83 @@
         <div class="row">
           <div class="input-field col s12">
             <select id="id_cat" name="id_cat" class="browser-default">
-              <option value="0" selected disabled>Selecciona una categoria:</option>
+              
               <?php 
-                $categ = $db->select('categorias','*');
+                $categ = $db->select('categorias','*', ['id_usr' => $id_usr]);
+
+                if(!$categ){?>
+                  <option value="0" selected disabled>No existen categorias</option>
+                  <?php 
+                }else{
+                  ?>
+                  <option value="0" selected disabled>Selecciona una categoria:</option>
+                  <?php 
                 foreach($categ as $cat){
                   ?>
                   <option value="<?php echo $cat['id_cat']; ?>"><?php echo $cat['nombre_cat']; ?></option>
                   <?php
-                }
+                }}
+              ?>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="number" id="cant_gst" name="cant_gst" min="1" class="validate"
+              pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Cantidad">
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="text" id="desc_gst" name="desc_gst" class="validate" placeholder="Descripción">
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="text" id="fecha_gst" name="fecha_gst" class="datepicker" placeholder="Fecha del Gasto">
+            <input type="hidden" id="varsesion" name="varsesion" class="hidden" value="<?php echo $varsesion?>">
+          </div>
+        </div>
+        <!-- BOTONES MODAL -->
+        <div class="modal-footer">
+          <button class="modal-close btn red waves-effect waves-light" id="btn-cancel" type="button">Cancelar</button>
+          <button class="btn green waves-effect waves-light" id="btn-form" type="button">Insertar</button>
+        </div>
+      </div>
+    </div>
+              <?php }else{?>
+              <!-- MODALS FORMS FOR GASTOS (POP UP) -->
+    <div class="modal" id="modal-gastos">
+      <div class="modal-content">
+        <div class="row center-align">
+          <h5 class="black-text" id="modal-title">Nuevo Gasto</h5>
+          <h6 class="green-text accent-4"><b>Money-Safe</b></h6>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="text" id="nombre_gst" name="nombre_gst" class="validate" placeholder="Nombre">
+          </div>
+        </div>
+        <!-- SELECT -->
+        <div class="row">
+          <div class="input-field col s12">
+            <select id="id_cat" name="id_cat" class="browser-default">
+              
+              <?php 
+                $categ = $db->select('categorias','*', ['id_usr' => $id_usr]);
+
+                if(!$categ){?>
+                  <option value="0" selected disabled>No existen categorias</option>
+                  <?php 
+                }else{
+                  ?>
+                  <option value="0" selected disabled>Selecciona una categoria:</option>
+                  <?php 
+                foreach($categ as $cat){
+                  ?>
+                  <option value="<?php echo $cat['id_cat']; ?>"><?php echo $cat['nombre_cat']; ?></option>
+                  <?php
+                }}
               ?>
             </select>
           </div>
@@ -166,6 +248,7 @@
         </div>
       </div>
     </div>
+              <?php } ?>
     <!-- MODALS FORMS FOR INFO-PERFIL-USUARIO (POP UP) -->
     <div class="modal" id="modal-info-perfil">
       <div class="modal-content">

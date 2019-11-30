@@ -17,7 +17,6 @@ $(document).ready(function () {
         $('input').removeClass('valid');
         $('input').removeClass('invalid');
 
-
     });
 
     //Boton Insertar nuevo gasto
@@ -25,7 +24,7 @@ $(document).ready(function () {
         obj = {
             accion: "insertGasto"
         };
-        $('#modal-title').text('Nuevo Gasto')
+        $('#modal-title').text('Nuevo Gasto');
         $("#btn-form").text("Insertar");
     });
 

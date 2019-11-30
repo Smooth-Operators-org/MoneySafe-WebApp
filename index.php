@@ -40,13 +40,22 @@
     </div>
     <!-- PHP tarjetas -->
     <?php 
-      $cuentaGastos = $db->count('gastos', ['id_usr' => $id_usr]);
-      $totalG = $db->sum('gastos','cant_gst', ['id_usr' => $id_usr]);
+      // $fecha_actual = date('m');
+      
 
+
+
+      $fecha_actual = date('F Y'); //Noviembre 2019
+      $fecha_sistema = $db->get('gastos','fecha_gst', ['id_gst' => '70']); // Fecha en la BD
+      $fecha_conv = strtotime($fecha_sistema); // Conversion para que se cambie el formato en F_nueva
+      $fecha_nueva = date('F Y', $fecha_conv); // Fecha Sistema en formato Mes Año
+      
+      //$cuentaGastos = $db->count('gastos', '*',["AND" => ['id_usr' => $id_usr, MONTH => 'fecha_gst' => $fecha_nueva]]); 
+      $totalG = $db->sum('gastos','cant_gst', ['id_usr' => $id_usr]);
       $cuentaIngresos = $db->count('ingresos', ['id_usr' => $id_usr]);
       $totalI = $db->sum('ingresos','cant_ing', ['id_usr' => $id_usr]);
-
       $cuentaCat = $db->count('categorias', ['id_usr' => $id_usr]);
+
     ?>
     <!-- TARJETAS INFORMATIVAS -->
     <div class="row">
@@ -99,18 +108,23 @@
       </div>
     </div>
     <!-- BOTONES Y FECHA -->
+    
     <div class="row section">
       <div class="col s4 m4 l2 left-align">
-        <button type="button" id="left"
+        <button type="button" id="left" data="<?php echo $fecha_actual;?>"
           class="btn-floating btn-large waves-effect waves-light blue-grey lighten-1 z-depth-2">
           <i class="fas fa-chevron-left center-align"></i>
         </button>
       </div>
       <div class="col s4 m4 l8 center-align">
-        <h5>Fecha Actual</h5>
+        <h5>
+              <?php  
+                echo $fecha_nueva;
+              ?>
+        </h5>
       </div>
       <div class="col s4 m4 l2 right-align">
-        <button type="button" id="right"
+        <button type="button" id="right" data="<?php echo $fecha_actual;?>"
           class="btn-floating btn-large waves-effect waves-light blue-grey lighten-1 z-depth-2">
           <i class="fas fa-chevron-right center-align"></i>
         </button>
@@ -256,6 +270,7 @@
           <button class="btn green waves-effect waves-light editCat" type="button">Editar</button>
         </div>
     </div>
+    <?php if($plan_usr == 2){?>
     <!-- MODALS FORMS FOR GASTOS (POP UP) -->
     <div class="modal" id="modal-gastos">
       <div class="modal-content">
@@ -274,7 +289,118 @@
             <select id="id_cat" name="id_cat" class="browser-default">
               <option value="0" selected disabled>Selecciona una categoria:</option>
               <?php 
-                $categ = $db->select('categorias','*');
+                $categ = $db->select('categorias','*', ['id_usr' => $id_usr]);
+                foreach($categ as $cat){
+                  ?>
+                  <option value="<?php echo $cat['id_cat']; ?>"><?php echo $cat['nombre_cat']; ?></option>
+                  <?php
+                }
+              ?>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="number" id="cant_gst" name="cant_gst" min="1" class="validate"
+              pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Cantidad">
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="text" id="desc_gst" name="desc_gst" class="validate" placeholder="Descripción">
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="text" id="fecha_gst" name="fecha_gst" class="datepicker" placeholder="Fecha del Gasto">
+            <input type="hidden" id="varsesion" name="varsesion" class="hidden" value="<?php echo $varsesion?>">
+          </div>
+        </div>
+        <!-- <div class="row">
+          <div class="input-field col s12 center-align">
+            <span>¿Es recurrente?</span>
+            <div class="switch">
+              <label>
+                Off
+                <input type="checkbox" id="recurrente_gst" name="recurrente_gst">
+                <span class="lever"></span>
+                On
+              </label>
+            </div>
+          </div>
+        </div> -->
+        <!-- BOTONES MODAL -->
+        <div class="modal-footer">
+          <button class="modal-close btn red waves-effect waves-light" id="btn-cancel" type="button">Cancelar</button>
+          <button class="btn green waves-effect waves-light" id="btn-form" type="button">Insertar</button>
+        </div>
+      </div>
+    </div>
+    <!-- MODALS FORMS FOR INGRESOS (POP UP) -->
+    <div class="modal" id="modal-ingresos">
+      <div class="modal-content">
+        <div class="row center-align">
+          <h5 class="black-text" id="modal-title">Nuevo ingreso</h5>
+          <h6 class="green-text accent-4"><b>Money-Safe</b></h6>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="text" id="nombre_ing" name="nombre_ing" class="validate" placeholder="Nombre">
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="number" id="cant_ing" name="cant_ing" min="1" class="validate"
+              pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Cantidad" >
+          </div> </div> <div class="row">
+          <div class="input-field col s12">
+            <input type="text" id="desc_ing" name="desc_ing" class="validate" placeholder="Descripcion">
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="text" id="fecha_ing" name="fecha_ing" class="datepicker" placeholder="Fecha ingreso">
+            <input type="hidden" id="varsesion" name="varsesion" class="hidden" value="<?php echo $varsesion ?>">
+          </div>
+        </div>
+        <!-- <div class="row">
+          <div class="input-field col s12 center-align">
+            <span>¿Es recurrente?</span>
+            <div class="switch">
+              <label>
+                Off
+                <input type="checkbox" id="recurrente_ing" name="recurrente_ing">
+                <span class="lever"></span>
+                On
+              </label>
+            </div>
+          </div>
+        </div> -->
+        <!-- BOTONES MODAL -->
+        <div class="modal-footer">
+          <button class="modal-close btn red waves-effect waves-light" id="btn-cancel" type="button">Cancelar</button>
+          <button class="btn green waves-effect waves-light" id="btn-form-ingresos" type="button">Insertar</button>
+        </div>
+              <?php } else{?>
+          <!-- MODALS FORMS FOR GASTOS (POP UP) -->
+    <div class="modal" id="modal-gastos">
+      <div class="modal-content">
+        <div class="row center-align">
+          <h5 class="black-text" id="modal-title">Nuevo Gasto</h5>
+          <h6 class="green-text accent-4"><b>Money-Safe</b></h6>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="text" id="nombre_gst" name="nombre_gst" class="validate" placeholder="Nombre">
+          </div>
+        </div>
+        <!-- SELECT -->
+        <div class="row">
+          <div class="input-field col s12">
+            <select id="id_cat" name="id_cat" class="browser-default">
+              <option value="0" selected disabled>Selecciona una categoria:</option>
+              <?php 
+                $categ = $db->select('categorias','*', ['id_usr' => $id_usr]);
                 foreach($categ as $cat){
                   ?>
                   <option value="<?php echo $cat['id_cat']; ?>"><?php echo $cat['nombre_cat']; ?></option>
@@ -336,7 +462,7 @@
         <div class="row">
           <div class="input-field col s12">
             <input type="number" id="cant_ing" name="cant_ing" min="1" class="validate"
-              pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Cantidad" 
+              pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Cantidad" >
           </div> </div> <div class="row">
           <div class="input-field col s12">
             <input type="text" id="desc_ing" name="desc_ing" class="validate" placeholder="Descripcion">
@@ -366,6 +492,7 @@
           <button class="modal-close btn red waves-effect waves-light" id="btn-cancel" type="button">Cancelar</button>
           <button class="btn green waves-effect waves-light" id="btn-form-ingresos" type="button">Insertar</button>
         </div>
+              <?php }?>
       </div>
     </div>
   </div>

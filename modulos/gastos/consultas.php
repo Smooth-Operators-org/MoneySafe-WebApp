@@ -58,7 +58,10 @@
             $rec = 0;
         }else if($_POST["recurrente_gst"] == "true"){
             $rec = 1;
+        }elseif ($_POST["recurrente_ing"] == "") {
+            $rec = 2;
         }
+    
 
         //VALIDACION INSERTAR  
         if($_POST["nombre_gst"] == "" || $_POST["id_cat"] == "" || $_POST["cant_gst"] == "" ||  $_POST["desc_gst"] == "" || $_POST["fecha_gst"] == ""){
@@ -118,7 +121,10 @@
             $rec = 0;
         }else if($_POST["recurrente_gst"] == "true"){
             $rec = 1;
+        }elseif ($_POST["recurrente_ing"] == "") {
+            $rec = 2;
         }
+    
 
         if($_POST["nombre_gst"] == "" || $_POST["id_cat"] == "" || $_POST["cant_gst"] == "" ||  $_POST["desc_gst"] == "" || $_POST["fecha_gst"] == ""){
 

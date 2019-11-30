@@ -32,6 +32,11 @@ $(document).ready(function(){
                   );
             } else if(e.status == 0){
                 swal('¡ERROR!', 'Campo vacio', 'error');
+            } else if(e.status == 2){
+                swal('¡PLAN AGOTADO!','Tu cantidad de registros se ha agotado','warning').then(
+                    () => {
+                    location.reload();
+                });
             }
         }, "JSON");
     });

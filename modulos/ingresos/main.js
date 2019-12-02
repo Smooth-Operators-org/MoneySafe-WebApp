@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
   // Inicializar Funciones Materialize
   $(".sidenav").sidenav();
   $(".modal").modal();
@@ -9,7 +9,7 @@ $(document).ready(function() {
   var obj = {};
 
   // Limpiar inputs del modal
-  $("#btn-cancel").click(function() {
+  $("#btn-cancel").click(function () {
     $("input[type = text]").val("");
     $("#cant_ing").val("");
     $("input[type=checkbox]").prop("checked", false);
@@ -18,7 +18,7 @@ $(document).ready(function() {
   });
 
   //Boton Insertar
-  $(".btn-new-ingreso").click(function() {
+  $(".btn-new-ingreso").click(function () {
     obj = {
       accion: "insertIngreso"
     };
@@ -27,7 +27,7 @@ $(document).ready(function() {
   });
 
   //Boton Editar
-  $(".btn-edit").click(function() {
+  $(".btn-edit").click(function () {
     let id = $(this).attr("data-modal");
     obj = {
       accion: "getIngreso",
@@ -36,7 +36,7 @@ $(document).ready(function() {
     $.post(
       "/modulos/ingresos/consultas.php",
       obj,
-      function(respuesta) {
+      function (respuesta) {
         $("#nombre_ing").val(respuesta.nombre_ing);
         $("#cant_ing").val(respuesta.cant_ing);
         $("#desc_ing").val(respuesta.desc_ing);
@@ -60,11 +60,56 @@ $(document).ready(function() {
     $("#btn-form").text("Editar");
   });
 
+  $('.modal-info').click(function () {
+    let id = $(this).attr('data');
+    obj = {
+      accion: 'getData',
+      id: id
+    };
+    console.log(obj);
+    $.post('../../includes/consultas.php', obj, function (respuesta) {
+      $('#nombre_usr_info').val(respuesta.nombre_usr);
+      if (respuesta.plan_deseado == "0" || respuesta.plan_deseado == 0) {
+        $('#id_plan').val('0');
+      } else {
+        $('#id_plan').val(respuesta.plan_deseado);
+      }
+      obj = {
+        accion: 'updateData',
+        id: id
+      };
+    }, 'JSON');
+  });
+
+  $('#btn-modal-info').click(function () {
+    $('#modal-info-perfil').find('input').map(function (i, e) {
+      obj[$(this).prop('name')] = $(this).val();
+    });
+    $("#modal-info-perfil").find("select").map(function (i, e) {
+      obj[$(this).prop("name")] = $(this).val();
+    });
+    switch (obj.accion) {
+      case 'updateData':
+        $.post('../../includes/consultas.php', obj, function (respuesta) {
+          if (respuesta.status == 0) {
+            swal('¡ERROR!', 'Tu nombre no puede quedar vacío', 'error');
+          } else if (respuesta.status == 1) {
+            swal('Éxito', 'Datos actualizados correctamente', 'success').then(() => {
+              location.reload();
+            });
+          }
+        }, 'JSON');
+        break;
+      default:
+        break;
+    }
+  });
+
   //Boton Insertar/Editar del Modal
-  $("#btn-form-ingresos").click(function() {
+  $("#btn-form-ingresos").click(function () {
     $("#modal-ingresos")
       .find("input")
-      .map(function(i, e) {
+      .map(function (i, e) {
         obj[$(this).prop("name")] = $(this).val();
         if ($(this).prop("type") == "checkbox") {
           obj[$(this).prop("name")] = $(this).prop("checked");
@@ -76,7 +121,7 @@ $(document).ready(function() {
         $.post(
           "/modulos/ingresos/consultas.php",
           obj,
-          function(respuesta) {
+          function (respuesta) {
             if (respuesta.status == 0) {
               swal("¡ERROR!", "Campos vacios", "error");
             } else if (respuesta.status == 2) {
@@ -103,7 +148,7 @@ $(document).ready(function() {
         $.post(
           "/modulos/ingresos/consultas.php",
           obj,
-          function(respuesta) {
+          function (respuesta) {
             if (respuesta.status == 0) {
               swal("¡ERROR!", "Campos vacios", "error");
             } else if (respuesta.status == 1) {
@@ -123,7 +168,7 @@ $(document).ready(function() {
     }
   });
 
-  $(".btn-delete").click(function() {
+  $(".btn-delete").click(function () {
     let id = $(this).attr("data-modal");
     obj = {
       accion: "deleteIngreso",
@@ -140,7 +185,7 @@ $(document).ready(function() {
         $.post(
           "/modulos/ingresos/consultas.php",
           obj,
-          function(respuesta) {
+          function (respuesta) {
             if (respuesta.status == 1) {
               swal("Éxito", "Ingreso eliminado correctamente", "success").then(
                 willDelete => {

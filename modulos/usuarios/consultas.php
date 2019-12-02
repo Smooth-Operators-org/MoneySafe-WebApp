@@ -85,7 +85,8 @@
                     "id_plan" => $_POST["id_plan"],
                     "id_niv" => $_POST["id_niv"],
                     "fecha_alta" => $fecha_alta,
-                    "fecha_baja" => $fecha_baja
+                    "fecha_baja" => $fecha_baja,
+                    "plan_deseado" => 0
                     ]);
                     $respuesta["status"] = 1;
                 }else{

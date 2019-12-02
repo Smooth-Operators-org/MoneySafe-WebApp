@@ -27,7 +27,7 @@
                 <img src="/img/MS-Logo.png" alt="" class="circle">
                 </a>
                 <?php }?>
-                <a href="#modal-info-perfil" class="modal-trigger">
+                <a href="#modal-info-perfil" class="modal-trigger modal-info" data="<?php echo $id_usr ?>">
                     <span class="name black-text"><b><?php echo $nombre_usr?></b></span>
                 </a>
                 <a href="#" class="no-pointer">

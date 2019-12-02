@@ -27,7 +27,6 @@
 </head>
 
 <body>
-  <!-- SIDENAV -->
   <?php 
       Include_once $_SERVER["DOCUMENT_ROOT"].'/shared/sidenav.php';
   ?>
@@ -39,23 +38,12 @@
       </div>
     </div>
     <!-- PHP tarjetas -->
-    <?php 
-      // $fecha_actual = date('m');
-      
-
-
-
-      $fecha_actual = date('F Y'); //Noviembre 2019
-      $fecha_sistema = $db->get('gastos','fecha_gst', ['id_gst' => '70']); // Fecha en la BD
-      $fecha_conv = strtotime($fecha_sistema); // Conversion para que se cambie el formato en F_nueva
-      $fecha_nueva = date('F Y', $fecha_conv); // Fecha Sistema en formato Mes Año
-      
-      //$cuentaGastos = $db->count('gastos', '*',["AND" => ['id_usr' => $id_usr, MONTH => 'fecha_gst' => $fecha_nueva]]); 
+    <?php
       $totalG = $db->sum('gastos','cant_gst', ['id_usr' => $id_usr]);
-      $cuentaIngresos = $db->count('ingresos', ['id_usr' => $id_usr]);
       $totalI = $db->sum('ingresos','cant_ing', ['id_usr' => $id_usr]);
+      $cuentaGastos = $db->count('gastos', '*', ['id_usr' => $id_usr]); 
+      $cuentaIngresos = $db->count('ingresos', ['id_usr' => $id_usr]);
       $cuentaCat = $db->count('categorias', ['id_usr' => $id_usr]);
-
     ?>
     <!-- TARJETAS INFORMATIVAS -->
     <div class="row">
@@ -64,12 +52,14 @@
         <div class="card teal lighten-1 z-depth-2">
           <div class="card-content white-text">
             <span class="card-title"><b><i class="fas fa-dollar-sign"></i> Ingresos</b></span>
-            <p><b>Ingresos registrados: <?php echo $cuentaIngresos  ;?></b></p>
-            <p><b>Total de ingresos: <i class="fas fa-dollar-sign"></i><?php if($totalI == ""){
-                  echo 0;
-                }else{
-                echo $totalI;
-              }?></b></p>
+            <p><b>Ingresos registrados: <?php echo $cuentaIngresos;?></b></p>
+            <p><b>Total de ingresos: <i class="fas fa-dollar-sign"></i>
+            <?php if($totalI == ""){
+                    echo 0;
+                  }else{
+                    echo $totalI;
+            }?>
+            </b></p>
           </div>
           <div class="card-action">
             <a href="#modal-ingresos" class="white-text modal-trigger btn-new-ingreso"><b>Añadir nuevo ingreso</b></a>
@@ -82,11 +72,13 @@
           <div class="card-content white-text">
             <span class="card-title"><b><i class="fas fa-file-invoice-dollar"></i> Gastos</b></span>
             <p><b>Gastos registrados: <?php echo $cuentaGastos;?></b></p>
-            <p><b>Total de gastos: <i class="fas fa-dollar-sign"></i> <?php if($totalG == ""){
-                  echo 0;
-                }else{
-                echo $totalG;
-              }?></b></p>
+            <p><b>Total de gastos: <i class="fas fa-dollar-sign"></i> 
+            <?php if($totalG == ""){
+                    echo 0;
+                  }else{
+                    echo $totalG;
+            }?>
+            </b></p>
           </div>
           <div class="card-action">
             <a href="#modal-gastos" class="white-text modal-trigger btn-new"><b>Añadir nuevo gasto</b></a>
@@ -108,24 +100,17 @@
       </div>
     </div>
     <!-- BOTONES Y FECHA -->
-    
     <div class="row section">
       <div class="col s4 m4 l2 left-align">
-        <button type="button" id="left" data="<?php echo $fecha_actual;?>"
-          class="btn-floating btn-large waves-effect waves-light blue-grey lighten-1 z-depth-2">
+        <button type="button" id="left" class="btn-floating btn-large waves-effect waves-light blue-grey lighten-1 z-depth-2">
           <i class="fas fa-chevron-left center-align"></i>
         </button>
       </div>
       <div class="col s4 m4 l8 center-align">
-        <h5>
-              <?php  
-                echo $fecha_nueva;
-              ?>
-        </h5>
+        <h5 id="fecha_nueva"></h5>
       </div>
       <div class="col s4 m4 l2 right-align">
-        <button type="button" id="right" data="<?php echo $fecha_actual;?>"
-          class="btn-floating btn-large waves-effect waves-light blue-grey lighten-1 z-depth-2">
+        <button type="button" id="right" class="btn-floating btn-large waves-effect waves-light blue-grey lighten-1 z-depth-2">
           <i class="fas fa-chevron-right center-align"></i>
         </button>
       </div>
@@ -134,7 +119,7 @@
     <div class="row">
       <div class="col s12 m12 l6">
         <h4 class="center-align">Gastos</h4>
-        <table class="responsive-table highlight centered grey lighten-2 z-depth-1">
+        <table class="responsive-table highlight centered grey lighten-2 z-depth-1" id="Gastos">
           <thead>
             <tr>
               <th>Nombre</th>
@@ -143,358 +128,51 @@
             </tr>
           </thead>
           <tbody>
-            <?php 
-            $gastos = $db->select('gastos','*',['id_usr' => $id_usr]);
-            if($gastos){
-              $num = 1;
-              foreach($gastos as $gasto){
-          ?>
-            <tr>
-              <td><?php echo utf8_encode($gasto['nombre_gst']);?></td>
-              <td><?php 
-              $categoria = $db->get('categorias','nombre_cat',['id_cat'=>$gasto['id_cat']]);
-                  if($categoria){
-                    echo utf8_encode($categoria); }?>
-              </td>
-              <td><?php echo $gasto['cant_gst'];?></td>
-              <?php
-                $num = $num + 1;
-                }
-              }
-              ?>
-            </tr>
           </tbody>
         </table>
         <div class="collection col s12 m12 l10 offset-l1 blue-grey lighten-1">
-          <p class="collection-item blue-grey lighten-1 white-text"><b>Total: <span class="badge white-text"> $<?php if($totalG == ""){
-                  echo 0;
-                }else{
-                echo $totalG;
-              }?></span></b></p>
+          <p class="collection-item blue-grey lighten-1 white-text" id="totalGasto"></p>
         </div>
+        <input type="hidden" id="totalG">
       </div>
       <div class="col s12 m12 l6">
         <h4 class="center-align">Ingresos</h4>
-        <table class="responsive-table highlight centered grey lighten-2 z-depth-1">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Monto</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php 
-            $ingresos = $db->select('ingresos','*',['id_usr' => $id_usr]);
-            if($ingresos){
-              $num = 1;
-              foreach($ingresos as $ingreso){
-          ?>
-            <tr>
-              <td><?php echo utf8_encode($ingreso['nombre_ing']);?></td>
-              <td><?php echo $ingreso['cant_ing'];?></td>
-              <?php
-                $num = $num + 1;
-                }
-              }
-              ?>
-            </tr>
-          </tbody>
+        <table class="responsive-table highlight centered grey lighten-2 z-depth-1" id="Ingresos">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
         </table>
         <div class="collection col s12 m12 l10 offset-l1 blue-grey lighten-1">
-          <p class="collection-item blue-grey lighten-1 white-text"><b>Total: <span class="badge white-text">$<?php if($totalI == ""){
-                  echo 0;
-                }else{
-                echo $totalI;
-              }?></span></b></p>
+            <p class="collection-item blue-grey lighten-1 white-text" id="totalIngreso"></p>
         </div>
+        <input type="hidden" id="totalI">
       </div>
     </div>
     <!-- TOTAL -->
     <div class="row">
       <div class="col s12 m12 l4 offset-l4">
-        <div class="card-panel teal center-align z-depth-2">
-          <span class="white-text"><b>Total $
-              <?php 
-                $total = $totalI - $totalG;
-                  if($total == ""){
-                    echo 0;
-                  }else{
-                    echo $total;
-                  }
-              ?>
-            </b></span>
+        <div class="card-panel center-align z-depth-2">
+          <b class="white-text">Total: <span class="white-text" id="totalGeneral"></span></b>
         </div>
       </div>
     </div>
-    <!-- MODALS FORMS FOR INFO-PERFIL-USUARIO (POP UP) -->
-    <div class="modal" id="modal-info-perfil">
-      <div class="modal-content">
-        <h5 class="black-text center">Detalles de la cuenta</h5>
-        <div class="collection">
-          <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge">
-              <?php 
-              if ($plan_usr == 1) {
-                echo "Trial";
-              }elseif ($plan_usr == 2) {
-                echo "Basico";
-              }elseif ($plan_usr == 3) {
-                echo "Premium";
-              } 
-            ?></span>Plan contratado</a>
-          <a href="#" class="collection-item no-pointer blue-grey-text"><span
-              class="badge"><?php echo $fecha_baja?></span>Fecha de vencimiento</a>
-          <a href="#" class="collection-item no-pointer blue-grey-text"><span
-              class="badge"><?php echo $days?></span>Días restantes</a>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="modal-close btn blue-grey darken-2 waves-effect waves-light" type="button">Aceptar</button>
-      </div>
-    </div>
-    <!-- MODALS FORMS FOR CATEGORIAS (POP UP) -->
-    <div class="modal" id="modal-categorias">
-      <div class="modal-content">
-        <div class="row center-align">
-          <h5 class="black-text">Nuevo Categoría</h5>
-          <h6 class="green-text accent-4"><b>Money-Safe</b></h6>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" id="nombre_cat" name="nombre_cat" class="validate" placeholder="Nombre">
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-          <button class="modal-close btn red waves-effect waves-light" id="btn-cancel" type="button">Cancelar</button>
-          <button class="btn green waves-effect waves-light insertCat" type="button">Insertar</button>
-          <button class="btn green waves-effect waves-light editCat" type="button">Editar</button>
-        </div>
-    </div>
-    <?php if($plan_usr == 2){?>
-    <!-- MODALS FORMS FOR GASTOS (POP UP) -->
-    <div class="modal" id="modal-gastos">
-      <div class="modal-content">
-        <div class="row center-align">
-          <h5 class="black-text" id="modal-title">Nuevo Gasto</h5>
-          <h6 class="green-text accent-4"><b>Money-Safe</b></h6>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" id="nombre_gst" name="nombre_gst" class="validate" placeholder="Nombre">
-          </div>
-        </div>
-        <!-- SELECT -->
-        <div class="row">
-          <div class="input-field col s12">
-            <select id="id_cat" name="id_cat" class="browser-default">
-              <option value="0" selected disabled>Selecciona una categoria:</option>
-              <?php 
-                $categ = $db->select('categorias','*', ['id_usr' => $id_usr]);
-                foreach($categ as $cat){
-                  ?>
-                  <option value="<?php echo $cat['id_cat']; ?>"><?php echo $cat['nombre_cat']; ?></option>
-                  <?php
-                }
-              ?>
-            </select>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="number" id="cant_gst" name="cant_gst" min="1" class="validate"
-              pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Cantidad">
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" id="desc_gst" name="desc_gst" class="validate" placeholder="Descripción">
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" id="fecha_gst" name="fecha_gst" class="datepicker" placeholder="Fecha del Gasto">
-            <input type="hidden" id="varsesion" name="varsesion" class="hidden" value="<?php echo $varsesion?>">
-          </div>
-        </div>
-        <!-- <div class="row">
-          <div class="input-field col s12 center-align">
-            <span>¿Es recurrente?</span>
-            <div class="switch">
-              <label>
-                Off
-                <input type="checkbox" id="recurrente_gst" name="recurrente_gst">
-                <span class="lever"></span>
-                On
-              </label>
-            </div>
-          </div>
-        </div> -->
-        <!-- BOTONES MODAL -->
-        <div class="modal-footer">
-          <button class="modal-close btn red waves-effect waves-light" id="btn-cancel" type="button">Cancelar</button>
-          <button class="btn green waves-effect waves-light" id="btn-form" type="button">Insertar</button>
-        </div>
-      </div>
-    </div>
-    <!-- MODALS FORMS FOR INGRESOS (POP UP) -->
-    <div class="modal" id="modal-ingresos">
-      <div class="modal-content">
-        <div class="row center-align">
-          <h5 class="black-text" id="modal-title">Nuevo ingreso</h5>
-          <h6 class="green-text accent-4"><b>Money-Safe</b></h6>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" id="nombre_ing" name="nombre_ing" class="validate" placeholder="Nombre">
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="number" id="cant_ing" name="cant_ing" min="1" class="validate"
-              pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Cantidad" >
-          </div> </div> <div class="row">
-          <div class="input-field col s12">
-            <input type="text" id="desc_ing" name="desc_ing" class="validate" placeholder="Descripcion">
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" id="fecha_ing" name="fecha_ing" class="datepicker" placeholder="Fecha ingreso">
-            <input type="hidden" id="varsesion" name="varsesion" class="hidden" value="<?php echo $varsesion ?>">
-          </div>
-        </div>
-        <!-- <div class="row">
-          <div class="input-field col s12 center-align">
-            <span>¿Es recurrente?</span>
-            <div class="switch">
-              <label>
-                Off
-                <input type="checkbox" id="recurrente_ing" name="recurrente_ing">
-                <span class="lever"></span>
-                On
-              </label>
-            </div>
-          </div>
-        </div> -->
-        <!-- BOTONES MODAL -->
-        <div class="modal-footer">
-          <button class="modal-close btn red waves-effect waves-light" id="btn-cancel" type="button">Cancelar</button>
-          <button class="btn green waves-effect waves-light" id="btn-form-ingresos" type="button">Insertar</button>
-        </div>
-              <?php } else{?>
-          <!-- MODALS FORMS FOR GASTOS (POP UP) -->
-    <div class="modal" id="modal-gastos">
-      <div class="modal-content">
-        <div class="row center-align">
-          <h5 class="black-text" id="modal-title">Nuevo Gasto</h5>
-          <h6 class="green-text accent-4"><b>Money-Safe</b></h6>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" id="nombre_gst" name="nombre_gst" class="validate" placeholder="Nombre">
-          </div>
-        </div>
-        <!-- SELECT -->
-        <div class="row">
-          <div class="input-field col s12">
-            <select id="id_cat" name="id_cat" class="browser-default">
-              <option value="0" selected disabled>Selecciona una categoria:</option>
-              <?php 
-                $categ = $db->select('categorias','*', ['id_usr' => $id_usr]);
-                foreach($categ as $cat){
-                  ?>
-                  <option value="<?php echo $cat['id_cat']; ?>"><?php echo $cat['nombre_cat']; ?></option>
-                  <?php
-                }
-              ?>
-            </select>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="number" id="cant_gst" name="cant_gst" min="1" class="validate"
-              pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Cantidad">
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" id="desc_gst" name="desc_gst" class="validate" placeholder="Descripción">
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" id="fecha_gst" name="fecha_gst" class="datepicker" placeholder="Fecha del Gasto">
-            <input type="hidden" id="varsesion" name="varsesion" class="hidden" value="<?php echo $varsesion?>">
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12 center-align">
-            <span>¿Es recurrente?</span>
-            <div class="switch">
-              <label>
-                Off
-                <input type="checkbox" id="recurrente_gst" name="recurrente_gst">
-                <span class="lever"></span>
-                On
-              </label>
-            </div>
-          </div>
-        </div>
-        <!-- BOTONES MODAL -->
-        <div class="modal-footer">
-          <button class="modal-close btn red waves-effect waves-light" id="btn-cancel" type="button">Cancelar</button>
-          <button class="btn green waves-effect waves-light" id="btn-form" type="button">Insertar</button>
-        </div>
-      </div>
-    </div>
-    <!-- MODALS FORMS FOR INGRESOS (POP UP) -->
-    <div class="modal" id="modal-ingresos">
-      <div class="modal-content">
-        <div class="row center-align">
-          <h5 class="black-text" id="modal-title">Nuevo ingreso</h5>
-          <h6 class="green-text accent-4"><b>Money-Safe</b></h6>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" id="nombre_ing" name="nombre_ing" class="validate" placeholder="Nombre">
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="number" id="cant_ing" name="cant_ing" min="1" class="validate"
-              pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Cantidad" >
-          </div> </div> <div class="row">
-          <div class="input-field col s12">
-            <input type="text" id="desc_ing" name="desc_ing" class="validate" placeholder="Descripcion">
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" id="fecha_ing" name="fecha_ing" class="datepicker" placeholder="Fecha ingreso">
-            <input type="hidden" id="varsesion" name="varsesion" class="hidden" value="<?php echo $varsesion ?>">
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12 center-align">
-            <span>¿Es recurrente?</span>
-            <div class="switch">
-              <label>
-                Off
-                <input type="checkbox" id="recurrente_ing" name="recurrente_ing">
-                <span class="lever"></span>
-                On
-              </label>
-            </div>
-          </div>
-        </div>
-        <!-- BOTONES MODAL -->
-        <div class="modal-footer">
-          <button class="modal-close btn red waves-effect waves-light" id="btn-cancel" type="button">Cancelar</button>
-          <button class="btn green waves-effect waves-light" id="btn-form-ingresos" type="button">Insertar</button>
-        </div>
-              <?php }?>
-      </div>
-    </div>
+    <?php 
+      Include_once $_SERVER["DOCUMENT_ROOT"].'/shared/modal_info.php';
+    ?>
+    <?php 
+      Include_once $_SERVER["DOCUMENT_ROOT"].'/shared/modal_categorias.php';
+    ?>
+    <?php 
+      Include_once $_SERVER["DOCUMENT_ROOT"].'/shared/modal_gastos.php';
+    ?>
+    <?php 
+      Include_once $_SERVER["DOCUMENT_ROOT"].'/shared/modal_ingresos.php';
+    ?>
   </div>
   <!-- FONT-AWESOME -->
   <script src="/vendor/fortawesome/font-awesome/js/all.min.js" data-auto-replace-svg="nest"></script>

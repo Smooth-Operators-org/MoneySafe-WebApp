@@ -1,8 +1,55 @@
-$(document).ready(function(){
-    $(".modal").modal();
+$(document).ready(function () {
+    $('.modal-info').click(function () {
+        let id = $(this).attr('data');
+        obj = {
+            accion: 'getData',
+            id: id
+        };
+        console.log(obj);
+        $.post('../../includes/consultas.php', obj, function (respuesta) {
+            $('#nombre_usr_info').val(respuesta.nombre_usr);
+            if (respuesta.plan_deseado == "0" || respuesta.plan_deseado == 0) {
+                $('#id_plan').val('0');
+            } else {
+                $('#id_plan').val(respuesta.plan_deseado);
+            }
+            obj = {
+                accion: 'updateData',
+                id: id
+            };
+        }, 'JSON');
+    });
+
+    $('#btn-modal-info').click(function () {
+        $('#modal-info-perfil').find('input').map(function (i, e) {
+            obj[$(this).prop('name')] = $(this).val();
+        });
+        $("#modal-info-perfil").find("select").map(function (i, e) {
+            obj[$(this).prop("name")] = $(this).val();
+        });
+        switch (obj.accion) {
+            case 'updateData':
+                $.post('../../includes/consultas.php', obj, function (respuesta) {
+                    if (respuesta.status == 0) {
+                        swal('¡ERROR!', 'Tu nombre no puede quedar vacío', 'error');
+                    } else if (respuesta.status == 1) {
+                        swal('Éxito', 'Datos actualizados correctamente', 'success').then(() => {
+                            location.reload();
+                        });
+                    }
+                }, 'JSON');
+                break;
+            default:
+                break;
+        }
+    });
+
+    $('.sidenav').sidenav();
+    $('.modal').modal();
+    $('.tooltipped').tooltip();
     let obj = {};
     let editEnable = false;
-    $('.insert-new__cat').click(function(){
+    $('.insert-new__cat').click(function () {
         editEnable = false;
         checkBtnEnable(editEnable);
         $('#nombre_cat').val('');
@@ -15,40 +62,40 @@ $(document).ready(function(){
         $('input').removeClass('invalid');
     });
 
-    $('.insertCat').click(function(){
+    $('.insertCat').click(function () {
         let nombre_cat = $('#nombre_cat').val();
         obj = {
             "accion": "insertarCategoria",
             "nombre_cat": nombre_cat
         };
-        $.post("../../modulos/categorias/funciones.php", obj, function(e){
+        $.post("../../modulos/categorias/funciones.php", obj, function (e) {
             console.log(e);
-            if(e.status == 1 || e.status == '1'){
+            if (e.status == 1 || e.status == '1') {
                 console.log("Correcto");
                 swal("Éxito", "Categoría añadida correctamente", "success").then(
                     () => {
-                      location.reload();
+                        location.reload();
                     }
-                  );
-            } else if(e.status == 0){
+                );
+            } else if (e.status == 0) {
                 swal('¡ERROR!', 'Campo vacio', 'error');
-            } else if(e.status == 2){
-                swal('¡PLAN AGOTADO!','Tu cantidad de registros se ha agotado','warning').then(
+            } else if (e.status == 2) {
+                swal('¡PLAN AGOTADO!', 'Tu cantidad de registros se ha agotado', 'warning').then(
                     () => {
-                    location.reload();
-                });
+                        location.reload();
+                    });
             }
         }, "JSON");
     });
-    $('.editedit').click(function(e){
+    $('.editedit').click(function (e) {
         $("#modal-title").text("Editar Categoría");
         let idc = $(this).data("modalxd");
         e.preventDefault();
         obj = {
-            "accion":"uniCat",
-            "id":idc
+            "accion": "uniCat",
+            "id": idc
         };
-        $.post("../../modulos/categorias/funciones.php",obj,function(r){
+        $.post("../../modulos/categorias/funciones.php", obj, function (r) {
             console.log(r);
             $('#nombre_cat').val(r.nombre_cat);
             // $('.insertCat').addClass("editCat");
@@ -57,27 +104,27 @@ $(document).ready(function(){
             $('.editCat').attr("data-catcat", idc);
         }, "JSON");
     });
-    $('.btn-edit').click(function(e){
+    $('.btn-edit').click(function (e) {
         editEnable = true;
         checkBtnEnable(editEnable);
         // e.preventDefault();
     });
-    $('.editCat').click(function(){
+    $('.editCat').click(function () {
         let idc = $('.editCat').data("catcat");
         console.log(idc);
         let nombree = $('#nombre_cat').val();
-        console.log(idc,nombree);
+        console.log(idc, nombree);
         obj = {
             "accion": "editCat",
             "id_cat": idc,
             "nombre_cat": nombree
         };
         console.log(obj);
-        $.post("../../modulos/categorias/funciones.php", obj, function(a){
-            if(a.status == 1 || a.status == '1'){
+        $.post("../../modulos/categorias/funciones.php", obj, function (a) {
+            if (a.status == 1 || a.status == '1') {
                 console.log("Bienbien");
                 location.reload();
-            } else if(e.status == 0){
+            } else if (e.status == 0) {
                 swal('¡ERROR!', 'Campo vacio', 'error');
             }
         }, "JSON");
@@ -105,8 +152,7 @@ $(document).ready(function(){
                     } else {
                         errorAlert();
                     }
-                }, "JSON"
-                );
+                }, "JSON");
             }
         });
     });
@@ -114,8 +160,8 @@ $(document).ready(function(){
 
 });
 
-function checkBtnEnable(aaa){
-    if(!aaa){
+function checkBtnEnable(aaa) {
+    if (!aaa) {
         $('.editCat').hide();
         $('.insertCat').show();
     } else {

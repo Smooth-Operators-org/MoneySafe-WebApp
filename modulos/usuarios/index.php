@@ -111,99 +111,12 @@
                 </table>
             </div>
         </div>
-
-        <!-- MODALS FORMS FOR CATEGORIAS (POP UP) -->
-        <div class="modal" id="modal-usuarios">
-            <div class="modal-content">
-                <div class="row center-align">
-                    <h5 class="black-text" id="modal-title">Nuevo Usuario</h5>
-                    <h6 class="green-text accent-4"><b>Money-Safe</b></h6>
-                </div>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input type="text" id="nombre_usr" name="nombre_usr" class="validate" placeholder="Nombre">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input type="email" id="correo_usr" name="correo_usr" class="validate" placeholder="Email">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input type="password" id="password_usr" name="password_usr" class="validate" placeholder="Password">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <select name="id_niv" id="id_niv" class="browser-default">
-                            <option value="0" selected disabled>Seleccione un nivel:</option>
-                            <?php
-                            $niveles = $db->select('niveles', '*');
-                                foreach($niveles as $nivel){
-                            ?>
-                                <option value="<?php echo $nivel['id_niv']; ?>"><?php echo $nivel['nombre_niv']; ?></option>
-                            <?php
-                                }
-                            ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <select name="id_plan" id="id_plan" class="browser-default">
-                            <option value="0">Seleccione un plan:</option>
-                            <?php
-                            $planes = $db->select('planes', '*');
-                                foreach($planes as $plan){
-                            ?>
-                                <option value="<?php echo $plan['id_plan']; ?>"><?php echo $plan['nombre_plan']; ?></option>
-                            <?php
-                                }
-                            ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="input-field col s12 center-align">
-                    <span>Status:</span>
-                    <div class="switch">
-                        <label>
-                            Inactivo
-                            <input type="checkbox" id="status_usr" name="status_usr">
-                            <span class="lever"></span>
-                            Activo
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="modal-close btn red waves-effect waves-light" type="button" id="btn-cancel-modal">Cancelar</button>
-                <button class="btn green waves-effect waves-light" type="button" id="btn-form-modal">Insertar</button>
-            </div>
-        </div>
-        <!-- MODALS FORMS FOR INFO-PERFIL-USUARIO (POP UP) -->
-        <div class="modal" id="modal-info-perfil">
-        <div class="modal-content">
-            <h5 class="black-text center">Detalles de la cuenta</h5>
-            <div class="collection">
-            <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge">
-                <?php 
-                if ($plan_usr == 1) {
-                    echo "Trial";
-                }elseif ($plan_usr == 2) {
-                    echo "Basico";
-                }elseif ($plan_usr == 3) {
-                    echo "Premium";
-                } 
-                ?></span>Plan contratado</a>
-            <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge"><?php echo $fecha_baja?></span>Fecha de vencimiento</a>
-            <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge"><?php echo $days?></span>Días restantes</a>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="modal-close btn blue-grey darken-2 waves-effect waves-light" type="button">Aceptar</button>
-        </div>
-        </div>
+        <?php 
+            Include_once $_SERVER["DOCUMENT_ROOT"].'/shared/modal_info.php';
+        ?>
+        <?php 
+            Include_once $_SERVER["DOCUMENT_ROOT"].'/modulos/usuarios/modal.php';
+        ?>
     </div>
     <!-- FONT-AWESOME -->
     <script src="/vendor/fortawesome/font-awesome/js/all.min.js" data-auto-replace-svg="nest"></script>

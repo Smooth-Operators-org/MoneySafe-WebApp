@@ -37,7 +37,7 @@
     <div class="row">
       <div class="col s12 24">
         <h2>Categorías</h2>
-        <a href="#modal-categorias" class="btn-floating tooltipped pulse modal-trigger right insert-new__cat" data-position="right" data-tooltip="Añadir gasto"><i class="fas fa-plus"></i></a>
+        <a href="#modal-categorias" class="btn-floating tooltipped pulse modal-trigger right insert-new__cat" data-position="right" data-tooltip="Añadir categoría"><i class="fas fa-plus"></i></a>
       </div>
     </div>
 
@@ -66,10 +66,9 @@
               <td><?php echo $c["nombre_cat"]; ?></td>
               <td><?php echo $c["fecha_reg"]; ?></td>
               <td>
-                <a href="#modal-categorias" data-modalxd="<?php echo $c['id_cat']; ?>" class="btn-edit modal-trigger editedit"><i class="fas fa-edit"
+                <a href="#modal-categorias" data-modalxd="<?php echo $c['id_cat']; ?>" class="btn-edit modal-trigger editedit tooltipped" data-position="left" data-tooltip="Editar"><i class="fas fa-edit"
                     title="Editar"></i></a>
-                <a href="#" data-modalxd="<?php echo $c['id_cat']; ?>" class="btn-delete"><i class="fas fa-trash-alt"
-                    title="Eliminar"></i></a>
+                <a href="#" data-modalxd="<?php echo $c['id_cat']; ?>" class="btn-delete"><i class="fas fa-trash-alt tooltipped" data-position="right" data-tooltip="Eliminar"></i></a>
               </td>
             </tr>
             <?php
@@ -80,50 +79,13 @@
         </table>
       </div>
     </div>
-
-    <!-- MODALS FORMS FOR CATEGORIAS (POP UP) -->
-    <div class="modal" id="modal-categorias">
-      <div class="modal-content">
-        <div class="row center-align">
-          <h5 class="black-text" id="modal-title">Nuevo Categoría</h5>
-          <h6 class="green-text accent-4"><b>Money-Safe</b></h6>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" id="nombre_cat" name="nombre_cat" class="validate" placeholder="Nombre">
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-          <button class="modal-close btn red waves-effect waves-light" id="btn-cancel" type="button">Cancelar</button>
-          <button class="btn green waves-effect waves-light insertCat" type="button">Insertar</button>
-          <button class="btn green waves-effect waves-light editCat" type="button">Editar</button>
-        </div>
-    </div>
+    <?php 
+      Include_once $_SERVER["DOCUMENT_ROOT"].'/shared/modal_info.php';
+    ?>
+    <?php 
+      Include_once $_SERVER["DOCUMENT_ROOT"].'/modulos/categorias/modal.php';
+    ?>
   </div>
-    <!-- MODALS FORMS FOR INFO-PERFIL-USUARIO (POP UP) -->
-    <div class="modal" id="modal-info-perfil">
-      <div class="modal-content">
-        <h5 class="black-text center">Detalles de la cuenta</h5>
-        <div class="collection">
-          <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge">
-            <?php 
-              if ($plan_usr == 1) {
-                echo "Trial";
-              }elseif ($plan_usr == 2) {
-                echo "Basico";
-              }elseif ($plan_usr == 3) {
-                echo "Premium";
-              } 
-            ?></span>Plan contratado</a>
-          <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge"><?php echo $fecha_baja?></span>Fecha de vencimiento</a>
-          <a href="#" class="collection-item no-pointer blue-grey-text"><span class="badge"><?php echo $days?></span>Días restantes</a>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="modal-close btn blue-grey darken-2 waves-effect waves-light" type="button">Aceptar</button>
-      </div>
-    </div>
   <!-- FONT-AWESOME -->
   <script src="../../vendor/fortawesome/font-awesome/js/all.min.js" data-auto-replace-svg="nest"></script>
   <!-- JQUERY -->
@@ -131,7 +93,7 @@
   <!-- MATERIALIZE SCRIPT -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <script src="main.js"></script>
+  <script src="/modulos/categorias/main.js"></script>
 </body>
 
 </html>

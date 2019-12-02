@@ -85,6 +85,51 @@ $(document).ready(function(){
         });
     });
 
+    $('.modal-info').click(function (){
+        let id = $(".btn-delete").attr('data-modal');
+        obj = {
+            accion : 'getData',
+            id : id
+        };
+        console.log(obj);
+        $.post('../../includes/consultas.php', obj , function (respuesta) {
+                $('#nombre_usr_info').val(respuesta.nombre_usr);
+                if (respuesta.plan_deseado == "0" || respuesta.plan_deseado == 0) {
+                    $('#id_plan').val('0');
+                }else{
+                    $('#id_plan').val(respuesta.plan_deseado);
+                }
+                obj = {
+                    accion : 'updateData',
+                    id : id
+                };
+        },'JSON');
+    });
+
+    $('#btn-modal-info').click(function () {
+        $('#modal-info-perfil').find('input').map(function (i, e) {
+            obj[$(this).prop('name')] = $(this).val();
+        });
+        $("#modal-info-perfil").find("select").map(function (i, e) {
+            obj[$(this).prop("name")] = $(this).val();
+        });
+        switch (obj.accion) {
+            case 'updateData':
+                $.post('../../includes/consultas.php', obj, function (respuesta) {
+                        if (respuesta.status == 0) {
+                            swal('¡ERROR!', 'Tu nombre no puede quedar vacío', 'error');
+                        } else if (respuesta.status == 1) {
+                            swal('Éxito', 'Datos actualizados correctamente', 'success').then(() => {
+                                location.reload();
+                            });
+                        }
+                    },'JSON');
+                break;
+            default:
+                break;
+        }
+    });
+
     $('#btn-form-modal').click(function () {
         $('#modal-usuarios').find('input').map(function (i, e) {
                 obj[$(this).prop('name')] = $(this).val();

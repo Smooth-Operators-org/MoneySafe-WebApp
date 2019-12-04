@@ -131,7 +131,7 @@
           </tbody>
         </table>
         <div class="collection col s12 m12 l10 offset-l1 blue-grey lighten-1">
-          <p class="collection-item blue-grey lighten-1 white-text" id="totalGasto"></p>
+          <p class="collection-item blue-grey lighten-1 white-text"><b>Total: <span class="badge white-text" id="totalGasto"></span></b></p>
         </div>
         <input type="hidden" id="totalG">
       </div>
@@ -148,16 +148,26 @@
             </tbody>
         </table>
         <div class="collection col s12 m12 l10 offset-l1 blue-grey lighten-1">
-            <p class="collection-item blue-grey lighten-1 white-text" id="totalIngreso"></p>
+          <p class="collection-item blue-grey lighten-1 white-text"><b>Total: <span class="badge white-text" id="totalIngreso"></span></b></p>
         </div>
         <input type="hidden" id="totalI">
       </div>
     </div>
     <!-- TOTAL -->
+    <?php 
+      $total = $totalG - $totalI;
+      if ($total == 0) {
+        $color = "grey";
+      }else if ($total > 0) {
+        $color = "green";
+      }else if ($total < 0) {
+        $color = "red";
+      }
+    ?>
     <div class="row">
       <div class="col s12 m12 l4 offset-l4">
-        <div class="card-panel center-align z-depth-2">
-          <b class="white-text">Total: <span class="white-text" id="totalGeneral"></span></b>
+        <div class="card-panel center-align z-depth-2 <?php echo $color;?>">
+          <b class="white-text">Total: <span class="white-text" id="totalGeneral"><?php echo $total;?> </span></b>
         </div>
       </div>
     </div>

@@ -1,9 +1,11 @@
 $(document).ready(function () {
+    //MATERIALIZE
     $('.sidenav').sidenav();
     $('.modal').modal();
     $('select').formSelect();
     $('.datepicker').datepicker();
 
+    //VARIABLES
     let obj = {};
     var date = new Date();
     let MonthN = date.getMonth();
@@ -12,14 +14,13 @@ $(document).ready(function () {
     let FullDate = MonthName + ', ' + Year;
     $('#fecha_nueva').text(FullDate);
 
+    //EJECUTAR FUNCIONES
     consultarGastos(MonthN, Year);
     consultarIngresos(MonthN, Year);
     sumarGastos(MonthN, Year);
     sumarIngresos(MonthN, Year);
-    totalGasto(totalGasto);
-    totalIngreso(totalIngreso);
     
-    //FUNCION PARA CONSULTAR A LA BD
+    //FUNCION PARA CONSULTAR GASTOS
     function consultarGastos(MonthN, Year) {
         let id = $(".modal-info").attr('data');
         let obj = {
@@ -42,6 +43,7 @@ $(document).ready(function () {
         }, "JSON");
     }
 
+    //FUNCION PARA CONSULTAR INGRESOS
     function consultarIngresos(MonthN, Year) {
         let id = $(".modal-info").attr('data');
         let obj = {
@@ -63,6 +65,7 @@ $(document).ready(function () {
         }, "JSON");
     }
 
+    //FUNCION PARA SUMAR GASTOS
     function sumarGastos(MonthN, Year) {
         let id = $(".modal-info").attr('data');
         let obj = {
@@ -79,11 +82,12 @@ $(document).ready(function () {
                 } else {
                     $('#totalGasto').text("$ " + e.total);
                 }
-                totalGasto(e.total);
+                $("#totalG").attr('data', e.total);
             });
         }, "JSON");
     }
 
+    //FUNCION PARA SUMAR INGRESOS
     function sumarIngresos(MonthN, Year) {
         let id = $(".modal-info").attr('data');
         let obj = {
@@ -100,22 +104,32 @@ $(document).ready(function () {
                 } else {
                     $('#totalIngreso').text("$ " + e.total);
                 }
-                totalIngreso(e.total); 
+                $("#totalI").attr('data', e.total);
             });
         }, "JSON");
     }
 
-    function totalGasto(total) {
-        $('#totalG').val(total);
-        let g = $('#totalG').val();
-        console.log("Gastos"+g);
-    }
+    // function getTotalGasto(totalGasto) {
+    //     let obj = {
+    //         "accion": "getTotalGasto",
+    //         "totalGasto": totalGasto
+    //     }
+    //     $.post("includes/consultas.php", obj, function (respuesta) {
+    //         var totalG = respuesta;
+    //         return totalG;
+    //     }, 'JSON');
+    // }
 
-    function totalIngreso(total) {
-        $('#totalI').val(total);
-        let i = $('#totalI').val();
-        console.log("Ingresos"+i);
-    }
+    // function getTotalIngreso(totalIngreso) {
+    //     let obj = {
+    //         "accion": "getTotalIngreso",
+    //         "totalIngreso": totalIngreso
+    //     }
+    //     $.post("includes/consultas.php", obj, function (respuesta) {
+    //         var totalI = respuesta;
+    //         return totalI;
+    //     }, 'JSON');
+    // }
 
     $('#left').click(function () {
         date.setMonth(date.getMonth() - 1);
@@ -161,6 +175,7 @@ $(document).ready(function () {
         return Months[Number];
     }
 
+    //FUNCION PARA OBTENER Y EDITAR DATOS DE USUARIO
     $('.modal-info').click(function () {
         let id = $(this).attr('data');
         obj = {
@@ -203,5 +218,12 @@ $(document).ready(function () {
             default:
                 break;
         }
+    });
+
+    $( window ).on( "load", function() {
+        let totalG = $("#totalG").attr('data');
+        let totalI = $("#totalI").attr('data');
+        console.log(totalG);
+        console.log(totalI);
     });
 });

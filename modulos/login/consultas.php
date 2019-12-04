@@ -63,9 +63,11 @@
 					$_SESSION['fecha_alta'] = $usuario["fecha_alta"];
 					$_SESSION['fecha_baja'] = $usuario["fecha_baja"];
 					$_SESSION['days'] = dias_restantes($usuario["fecha_baja"]);
+					$varsesion= $_SESSION['email'];
 					$respuesta["status"] = 3;
 					$respuesta["nivelusr"] = $_SESSION['nivel'];
-					$varsesion= $_SESSION['email'];
+					$respuesta["days"] = $_SESSION['days'];
+					$respuesta["plan"] = $_SESSION['plan'];
 				}else{
 					$respuesta["status"] = 2;
 				}

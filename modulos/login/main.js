@@ -38,13 +38,26 @@ $(document).ready(function(){
         }
 
         $.post( "/modulos/login/consultas.php", obj, function (respuesta) {
-            if (respuesta.status == 3) {
-              if(respuesta.nivelusr == 1){
-                window.location.href = "/modulos/usuarios/index.php";
-              }else{
-                window.location.href = "/index.php";
+            if (respuesta.days == 0 && respuesta.plan == 1) {
+              swal("¡PLAN AGOTADO!", "Tu prueba ah terminado", "error").then(
+                () => {
+                  window.location.href = "/includes/close_session.php";
+                }
+              );
+            }else if (respuesta.days == 0 && respuesta.plan > 1) {
+              swal("¡PLAN AGOTADO!", "Tu plan contratado ah terminado", "error").then(
+                () => {
+                  window.location.href = "/includes/close_session.php";
+                }
+              );
+            }else{
+              if (respuesta.status == 3) {
+                if(respuesta.nivelusr == 1){
+                  window.location.href = "/modulos/usuarios/index.php";
+                }else{
+                  window.location.href = "/index.php";
+                }
               }
-              
             }
             if (respuesta.status == 5) {
               swal("¡ERROR!", "Campos vacios", "error");

@@ -1,0 +1,43 @@
+aside .sidenav .user-view{
+    margin-bottom: 0;   
+}
+
+aside a:hover {
+    background-color: #fafafa !important;
+    transition:all 0.3s ease;
+}
+
+aside a:hover span{ 
+    color: #455a64  !important;
+    transition:all 0.3s ease;
+}
+
+aside a:hover i{ 
+    color: #455a64 !important;
+    transition:all 0.3s ease;
+}
+
+.no-pointer{
+    pointer-events: none;
+    cursor: default;
+}
+
+#main-container {
+    padding-left: 200px;
+}
+
+#span_side{
+    font-size: 15px;
+    line-height: 48px;
+}
+
+#icon_side{
+    font-size: 15px;
+    margin: 0 15px 0 0;
+}
+
+@media only screen and (max-width : 992px) {
+    #main-container {
+      padding-left: 0;
+    }
+}

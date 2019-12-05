@@ -14,7 +14,7 @@ body{
 }
 
 .logo{
-    background-image: url("/img/MS-Logo.png");
+    background-image: url("../../img/MS-Logo.png");
     width: 95px;
     height: 90px;
     border-radius: 50%;

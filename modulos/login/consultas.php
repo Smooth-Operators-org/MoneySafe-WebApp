@@ -1,7 +1,7 @@
 <?php
-	require_once $_SERVER["DOCUMENT_ROOT"].'/includes/_db.php';
+	require_once '../../includes/_db.php';
+	require '../../vendor/autoload.php';
 	use PHPMailer\PHPMailer\PHPMailer;
-	require $_SERVER["DOCUMENT_ROOT"].'/vendor/autoload.php';
 	if ($_POST) {
 		switch ($_POST["accion"]) {
 			case 'login':

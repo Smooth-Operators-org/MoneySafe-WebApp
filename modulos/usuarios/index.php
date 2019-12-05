@@ -1,10 +1,10 @@
 <?php
-    require_once $_SERVER["DOCUMENT_ROOT"].'/includes/_db.php';
+    require_once '../../includes/_db.php';
     session_start();
     error_reporting(0);
     $id_niv = $_SESSION['nivel'];
     if ($id_niv == 2) {
-        header('Location: /index.php');
+        header('Location: ../../index.php');
     }else{
         $varsesion = $_SESSION['email'];
         if (isset($varsesion)){   
@@ -17,9 +17,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- CSS -->
-    <link rel="stylesheet" href="/css/estilo.css">
+    <link rel="stylesheet" href="../../css/estilo.css">
     <!-- MATERIAL-ICONS -->
-    <link rel="stylesheet" href="/vendor/mervick/material-design-icons/css/material-icons.css">
+    <link rel="stylesheet" href="../../vendor/mervick/material-design-icons/css/material-icons.css">
     <!-- MATERIALIZE CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <title>Usuarios</title>
@@ -29,7 +29,7 @@
 
     <!-- SIDENAV -->
     <?php 
-      Include_once $_SERVER["DOCUMENT_ROOT"].'/shared/sidenav.php';
+      Include_once '../../shared/sidenav.php';
     ?>
 
     <!-- MAIN CONTAINER -->
@@ -60,7 +60,6 @@
                     </thead>
                     <tbody>
                     <?php
-                        require_once $_SERVER["DOCUMENT_ROOT"].'/includes/_db.php';
                         global $db;
                         $users = $db->select("usuarios", ["id_usr","nombre_usr", "correo_usr", "id_plan", "status_usr", "id_niv", "fecha_alta", "fecha_baja"]);
                         $i = 1;
@@ -181,13 +180,13 @@
             </div>
         </div>
         <?php 
-            Include_once $_SERVER["DOCUMENT_ROOT"].'/shared/modal_info.php';
+            Include_once '../../shared/modal_info.php';
         ?>
     </div>
     <!-- FONT-AWESOME -->
-    <script src="/vendor/fortawesome/font-awesome/js/all.min.js" data-auto-replace-svg="nest"></script>
+    <script src="../../vendor/fortawesome/font-awesome/js/all.min.js" data-auto-replace-svg="nest"></script>
     <!-- JQUERY -->
-    <script src="/vendor/components/jquery/jquery.min.js"></script>
+    <script src="../../vendor/components/jquery/jquery.min.js"></script>
     <!-- MATERIALIZE SCRIPT -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <!-- SWEETALERT SCRIPT -->
@@ -199,7 +198,7 @@
 </html>
 <?php
         }else{
-            header('Location: /modulos/login/index.php');
+            header('Location: ../modulos/login/index.php');
         }
     }
 ?>

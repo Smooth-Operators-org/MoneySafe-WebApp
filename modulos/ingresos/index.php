@@ -1,11 +1,11 @@
 <?php
-require_once $_SERVER["DOCUMENT_ROOT"] . '/includes/_db.php';
+require_once '../../includes/_db.php';
 session_start();
 error_reporting(0);
 $id_niv = $_SESSION['nivel'];
 $id_usr = $_SESSION['id'];
 if ($id_niv == 1) {
-    header('Location: /modulos/usuarios/index.php');
+    header('Location: ../modulos/usuarios/index.php');
 } else {
     $varsesion = $_SESSION['email'];
     if (isset($varsesion)) {
@@ -18,9 +18,9 @@ if ($id_niv == 1) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- CSS -->
-    <link rel="stylesheet" href="/css/estilo.css">
+    <link rel="stylesheet" href="../../css/estilo.css">
     <!-- MATERIAL-ICONS -->
-    <link rel="stylesheet" href="/vendor/mervick/material-design-icons/css/material-icons.css">
+    <link rel="stylesheet" href="../../vendor/mervick/material-design-icons/css/material-icons.css">
     <!-- MATERIALIZE CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <title>Ingresos</title>
@@ -30,8 +30,8 @@ if ($id_niv == 1) {
 
     <!-- SIDENAV -->
     <?php
-                include_once $_SERVER["DOCUMENT_ROOT"] . '/shared/sidenav.php';
-            ?>
+        include_once '../../shared/sidenav.php';
+    ?>
 
     <!-- MAIN CONTAINER -->
     <div class="container" id="main-container">
@@ -113,16 +113,16 @@ if ($id_niv == 1) {
             </div>
         </div>
         <?php 
-            Include_once $_SERVER["DOCUMENT_ROOT"].'/shared/modal_info.php';
+            Include_once '../../shared/modal_info.php';
         ?>
         <?php 
-            Include_once $_SERVER["DOCUMENT_ROOT"].'/modulos/ingresos/modal.php';
+            Include_once 'modal.php';
         ?>
     </div>
     <!-- FONT-AWESOME -->
-    <script src="/vendor/fortawesome/font-awesome/js/all.min.js" data-auto-replace-svg="nest"></script>
+    <script src="../../vendor/fortawesome/font-awesome/js/all.min.js" data-auto-replace-svg="nest"></script>
     <!-- JQUERY -->
-    <script src="/vendor/components/jquery/jquery.min.js"></script>
+    <script src="../../vendor/components/jquery/jquery.min.js"></script>
     <!-- MATERIALIZE SCRIPT -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -132,7 +132,7 @@ if ($id_niv == 1) {
 </html>
 <?php
     } else {
-        header('Location: /modulos/login/index.php');
+        header('Location: ../modulos/login/index.php');
     }
 }
 ?>

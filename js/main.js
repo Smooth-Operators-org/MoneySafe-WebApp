@@ -29,7 +29,11 @@ $(document).ready(function () {
             "year": Year,
             "id": id
         };
-        $.post("includes/consultas.php", obj, function (respuesta) {
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/includes/consultas.php";
+        $.post(ruta, obj, function (respuesta) {
             let templateGastos = ``;
             $.each(respuesta, function (i, e) {
                 templateGastos += `
@@ -52,7 +56,11 @@ $(document).ready(function () {
             "year": Year,
             "id": id
         };
-        $.post("includes/consultas.php", obj, function (respuesta) {
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/includes/consultas.php";
+        $.post(ruta, obj, function (respuesta) {
             let templateIngresos = ``;
             $.each(respuesta, function (i, e) {
                 templateIngresos += `
@@ -74,7 +82,11 @@ $(document).ready(function () {
             "year": Year,
             "id": id
         };
-        $.post("includes/consultas.php", obj, function (respuesta) {
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/includes/consultas.php";
+        $.post(ruta, obj, function (respuesta) {
             $.each(respuesta, function (i, e) {
                 if (e.total == 0 || e.total == "" || e.total == null) {
                     e.total = 0;
@@ -96,7 +108,11 @@ $(document).ready(function () {
             "year": Year,
             "id": id
         };
-        $.post("includes/consultas.php", obj, function (respuesta) {
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/includes/consultas.php";
+        $.post(ruta, obj, function (respuesta) {
             $.each(respuesta, function (i, e) {
                 if (e.total == 0 || e.total == "" || e.total == null) {
                     e.total = 0;
@@ -182,7 +198,11 @@ $(document).ready(function () {
             accion: 'getData',
             id: id
         };
-        $.post('includes/consultas.php', obj, function (respuesta) {
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/includes/consultas.php";
+        $.post(ruta, obj, function (respuesta) {
             $('#nombre_usr_info').val(respuesta.nombre_usr);
             if (respuesta.plan_deseado == "0" || respuesta.plan_deseado == 0) {
                 $('#id_plan').val('0');
@@ -205,7 +225,11 @@ $(document).ready(function () {
         });
         switch (obj.accion) {
             case 'updateData':
-                $.post('includes/consultas.php', obj, function (respuesta) {
+                var hostName = $(location).attr('hostname');
+                var http = "http://";
+                var direc = "/MoneySafe-WebApp";
+                var ruta = http+hostName+direc+"/includes/consultas.php";
+                $.post(ruta, obj, function (respuesta) {
                     if (respuesta.status == 0) {
                         swal('¡ERROR!', 'Tu nombre no puede quedar vacío', 'error');
                     } else if (respuesta.status == 1) {
@@ -218,12 +242,5 @@ $(document).ready(function () {
             default:
                 break;
         }
-    });
-
-    $( window ).on( "load", function() {
-        let totalG = $("#totalG").attr('data');
-        let totalI = $("#totalI").attr('data');
-        console.log(totalG);
-        console.log(totalI);
     });
 });

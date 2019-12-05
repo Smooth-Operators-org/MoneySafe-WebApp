@@ -37,25 +37,25 @@ $(document).ready(function(){
             $.cookie("remember", false);
         }
 
-        $.post( "/modulos/login/consultas.php", obj, function (respuesta) {
+        $.post( "consultas.php", obj, function (respuesta) {
             if (respuesta.days == 0 && respuesta.plan == 1) {
               swal("¡PLAN AGOTADO!", "Tu prueba ah terminado", "error").then(
                 () => {
-                  window.location.href = "/includes/close_session.php";
+                  window.location.href = "../../includes/close_session.php";
                 }
               );
             }else if (respuesta.days == 0 && respuesta.plan > 1) {
               swal("¡PLAN AGOTADO!", "Tu plan contratado ah terminado", "error").then(
                 () => {
-                  window.location.href = "/includes/close_session.php";
+                  window.location.href = "../../includes/close_session.php";
                 }
               );
             }else{
               if (respuesta.status == 3) {
                 if(respuesta.nivelusr == 1){
-                  window.location.href = "/modulos/usuarios/index.php";
+                  window.location.href = "../usuarios/index.php";
                 }else{
-                  window.location.href = "/index.php";
+                  window.location.href = "../../index.php";
                 }
               }
             }
@@ -92,7 +92,7 @@ $(document).ready(function(){
         $("#register-form").find("input, select").map(function (i, e) {
           obj[$(this).prop("name")] = $(this).val();
         });
-        $.post("/modulos/login/consultas.php", obj, function (respuesta) {
+        $.post("consultas.php", obj, function (respuesta) {
           if (respuesta.status == 0) {
             swal("¡ERROR!", "Campos vacios", "error");
           } else if (respuesta.status == 1) {

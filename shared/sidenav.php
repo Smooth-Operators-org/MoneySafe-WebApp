@@ -5,6 +5,10 @@
     $plan_usr = $_SESSION['plan'];
     $fecha_baja = $_SESSION['fecha_baja'];
     $days = $_SESSION['days'];
+    $http = "http://";
+    $server = $_SERVER['HTTP_HOST'];
+    $dir = "/MoneySafe-WebApp";
+    $ruta = $http.$server.$dir;
 ?>
 <!-- SIDENAV -->
 <aside class="container section">
@@ -19,12 +23,12 @@
                 <?php 
                 if($nivel_usr == 1){
                 ?>
-                <a href="/modulos/usuarios/index.php/">
-                    <img src="/img/MS-Logo.png" alt="" class="circle">
+                <a href="<?php echo $ruta?>/modulos/usuarios/index.php">
+                    <img src="<?php echo $ruta?>/img/MS-Logo.png" alt="" class="circle">
                 </a>
                 <?php } elseif($nivel_usr == 2){?>
-                <a href="/index.php/">
-                <img src="/img/MS-Logo.png" alt="" class="circle">
+                <a href="<?php echo $ruta?>/index.php">
+                <img src="<?php echo $ruta?>/img/MS-Logo.png" alt="" class="circle">
                 </a>
                 <?php }?>
                 <a href="#modal-info-perfil" class="modal-trigger modal-info" data="<?php echo $id_usr ?>">
@@ -39,13 +43,13 @@
             if ($nivel_usr == 1) {
         ?>
         <li>
-            <a href="/modulos/usuarios/">
+            <a href="<?php echo $ruta?>/modulos/usuarios/">
                 <i class="fas fa-users fa-lg white-text" id="icon_side"></i>
                 <span class="white-text" id="span_side">Usuarios</span>
             </a>
         </li>
         <li>
-            <a href="/includes/close_session.php">
+            <a href="<?php echo $ruta?>/includes/close_session.php">
                 <i class="fas fa-sign-out-alt fa-lg white-text" id="icon_side"></i>
                 <span class="white-text" id="span_side">Salir</span>
             </a>
@@ -54,29 +58,29 @@
             }elseif ($nivel_usr == 2) {
         ?>
         <li>
-            <a href="/index.php">
+            <a href="<?php echo $ruta?>/index.php">
                 <i class="fas fa-home fa-lg white-text" id="icon_side"></i>
                 <span class="white-text" id="span_side">Home</span>
             </a>
         </li>
         <li>
-            <a href="/modulos/ingresos/">
+            <a href="<?php echo $ruta?>/modulos/ingresos/">
                 <i class="fas fa-dollar-sign fa-lg white-text" id="icon_side"></i>
                 <span class="white-text" id="span_side">Ingresos</span>
             </a>
         </li>
         <li>
-            <a href="/modulos/gastos/">
+            <a href="<?php echo $ruta?>/modulos/gastos/">
                 <i class="fas fa-file-invoice-dollar fa-lg white-text" id="icon_side"></i>
                 <span class="white-text" id="span_side">Gastos</span>
             </a>
-            <a href="/modulos/categorias/categorias.php">
+            <a href="<?php echo $ruta?>/modulos/categorias/categorias.php">
                 <i class="fas fa-chess-board white-text" id="icon_side"></i>
                 <span class="white-text" id="span_side">Categorías</span>
             </a>
         </li>
         <li>
-            <a href="/includes/close_session.php">
+            <a href="<?php echo $ruta?>/includes/close_session.php">
                 <i class="fas fa-sign-out-alt fa-lg white-text" id="icon_side"></i>
                 <span class="white-text" id="span_side">Salir</span>
             </a>

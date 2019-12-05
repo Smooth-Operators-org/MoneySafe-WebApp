@@ -6,7 +6,6 @@ $(document).ready(function () {
             accion: 'getData',
             id: id
         };
-        console.log(obj);
         $.post('../../includes/consultas.php', obj, function (respuesta) {
             $('#nombre_usr_info').val(respuesta.nombre_usr);
             if (respuesta.plan_deseado == "0" || respuesta.plan_deseado == 0) {
@@ -81,8 +80,12 @@ $(document).ready(function () {
             accion: "getGasto",
             id: id,
         };
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/modulos/gastos/consultas.php";
         $.post(
-            "/modulos/gastos/consultas.php",
+            ruta,
             obj,
             function (respuesta) {
                 $("#nombre_gst").val(respuesta.nombre_gst);
@@ -123,9 +126,12 @@ $(document).ready(function () {
         });
 
         switch (obj.accion) {
-
             case "insertGasto":
-                $.post('/modulos/gastos/consultas.php', obj, function (respuesta) {
+                var hostName = $(location).attr('hostname');
+                var http = "http://";
+                var direc = "/MoneySafe-WebApp";
+                var ruta = http+hostName+direc+"/modulos/gastos/consultas.php";
+                $.post(ruta, obj, function (respuesta) {
                     if (respuesta.status == 0) {
                         swal("¡ERROR!", "Campos vacios", "error");
                     } else if (respuesta.status == 2) {
@@ -144,7 +150,11 @@ $(document).ready(function () {
                 break;
 
             case 'updateGasto':
-                $.post('/modulos/gastos/consultas.php', obj, function (respuesta) {
+                var hostName = $(location).attr('hostname');
+                var http = "http://";
+                var direc = "/MoneySafe-WebApp";
+                var ruta = http+hostName+direc+"/modulos/gastos/consultas.php";
+                $.post(ruta, obj, function (respuesta) {
                     if (respuesta.status == 0) {
                         swal('¡ERROR!', 'Campos vacios', 'error');
                     } else if (respuesta.status == 1) {
@@ -160,7 +170,6 @@ $(document).ready(function () {
 
         }
     });
-
     //BOTON BORRAR GASTO
     $(".btn-delete").click(function () {
         let id = $(this).attr("data");
@@ -176,7 +185,11 @@ $(document).ready(function () {
             dangerMode: true
         }).then(willDelete => {
             if (willDelete) {
-                $.post("/modulos/gastos/consultas.php", obj, function (respuesta) {
+                var hostName = $(location).attr('hostname');
+                var http = "http://";
+                var direc = "/MoneySafe-WebApp";
+                var ruta = http+hostName+direc+"/modulos/gastos/consultas.php";
+                $.post(ruta, obj, function (respuesta) {
                     if (respuesta.status == 1) {
                         swal("Éxito", "Gasto eliminado correctamente", "success").then((willDelete) => {
                             location.reload();

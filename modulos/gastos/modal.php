@@ -64,7 +64,7 @@
                 <div class="switch">
                     <label>
                         Off
-                        <input type="checkbox" id="recurrente_ing" name="recurrente_ing">
+                        <input type="checkbox" id="recurrente_gst" name="recurrente_gst">
                         <span class="lever"></span>
                         On
                     </label>

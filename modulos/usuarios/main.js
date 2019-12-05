@@ -35,7 +35,7 @@ $(document).ready(function(){
             accion : 'getUsuario',
             id : id
         };
-        $.post('/modulos/usuarios/consultas.php', obj , function (respuesta) {
+        $.post('consultas.php', obj , function (respuesta) {
                 $('#nombre_usr').val(respuesta.nombre_usr);
                 $('#correo_usr').val(respuesta.correo_usr);
                 $('#password_usr').val(respuesta.password_usr);
@@ -73,7 +73,7 @@ $(document).ready(function(){
             dangerMode: true
         }).then(willDelete => {
             if (willDelete) {
-                $.post('/modulos/usuarios/consultas.php', obj, function (respuesta) {
+                $.post('consultas.php', obj, function (respuesta) {
                         if (respuesta.status == 1) {
                             swal('Éxito', 'Usuario eliminado correctamente', 'success').then((willDelete) => {
                                 location.reload();
@@ -143,7 +143,7 @@ $(document).ready(function(){
         switch (obj.accion) {
 
             case 'insertUsuario':
-                $.post('/modulos/usuarios/consultas.php', obj, function (respuesta) {
+                $.post('consultas.php', obj, function (respuesta) {
                         if (respuesta.status == 0) {
                             swal('¡ERROR!', 'Campos vacios', 'error');
                         } else if (respuesta.status == 2) {
@@ -161,7 +161,7 @@ $(document).ready(function(){
                 break;
 
             case 'updateUsuario':
-                $.post('/modulos/usuarios/consultas.php', obj, function (respuesta) {
+                $.post('consultas.php', obj, function (respuesta) {
                         if (respuesta.status == 0) {
                             swal('¡ERROR!', 'Campos vacios', 'error');
                         } else if (respuesta.status == 1) {

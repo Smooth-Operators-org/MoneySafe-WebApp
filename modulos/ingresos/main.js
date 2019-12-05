@@ -5,7 +5,6 @@ $(document).ready(function () {
   $("select").formSelect();
   $(".datepicker").datepicker();
   $(".tooltipped").tooltip();
-
   var obj = {};
 
   // Limpiar inputs del modal
@@ -33,8 +32,12 @@ $(document).ready(function () {
       accion: "getIngreso",
       id: id
     };
+    var hostName = $(location).attr('hostname');
+    var http = "http://";
+    var direc = "/MoneySafe-WebApp";
+    var ruta = http+hostName+direc+"/modulos/ingresos/consultas.php";
     $.post(
-      "/modulos/ingresos/consultas.php",
+      ruta,
       obj,
       function (respuesta) {
         $("#nombre_ing").val(respuesta.nombre_ing);
@@ -118,8 +121,12 @@ $(document).ready(function () {
 
     switch (obj.accion) {
       case "insertIngreso":
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/modulos/ingresos/consultas.php";
         $.post(
-          "/modulos/ingresos/consultas.php",
+          ruta,
           obj,
           function (respuesta) {
             if (respuesta.status == 0) {
@@ -145,8 +152,12 @@ $(document).ready(function () {
         break;
 
       case "updateIngreso":
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/modulos/ingresos/consultas.php";
         $.post(
-          "/modulos/ingresos/consultas.php",
+          ruta,
           obj,
           function (respuesta) {
             if (respuesta.status == 0) {
@@ -182,8 +193,12 @@ $(document).ready(function () {
       dangerMode: true
     }).then(willDelete => {
       if (willDelete) {
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/modulos/ingresos/consultas.php";
         $.post(
-          "/modulos/ingresos/consultas.php",
+          ruta,
           obj,
           function (respuesta) {
             if (respuesta.status == 1) {

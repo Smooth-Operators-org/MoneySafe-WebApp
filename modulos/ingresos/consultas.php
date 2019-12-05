@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER["DOCUMENT_ROOT"] . '/includes/_db.php';
+require_once '../../includes/_db.php';
 session_start();
 error_reporting(0);
 $id_plan = $_SESSION['plan'];

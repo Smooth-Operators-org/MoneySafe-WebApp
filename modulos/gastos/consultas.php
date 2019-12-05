@@ -181,7 +181,7 @@
 		global $db;
         $gasto = $db->get("gastos", "*", ["id_gst" => $id]);
         $cate = $db->get("categorias","nombre_cat",["id_cat" => $gasto["id_cat"]]);
-        
+         
         $respuesta["nombre_gst"] = $gasto["nombre_gst"];
         $respuesta["id_cat"] = $gasto["id_cat"];
         $respuesta["cant_gst"] = $gasto["cant_gst"];

@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     $('.modal-info').click(function () {
         let id = $(this).attr('data');
         obj = {
@@ -52,23 +51,25 @@ $(document).ready(function () {
     $('.datepicker').datepicker();
     $('.tooltipped').tooltip();
 
-    var obj = {};
-
+    //VARIABLES
+    let obj = {};
+    
     // Limpiar inputs del modal
-    $("#btn-cancel").click(function () {
+    $("#btn-cancela").click(function () {
         $('input[type = text]').val('');
         $('#cant_gst').val('');
         $('input[type=checkbox]').prop("checked", false);
         $('#id_cat').val('0');
         $('input').removeClass('valid');
         $('input').removeClass('invalid');
-
+        
     });
 
     //Boton Insertar nuevo gasto
     $(".btn-new").click(function () {
         obj = {
-            accion: "insertGasto"
+            "accion": "insertGasto"
+            
         };
         $('#modal-title').text('Nuevo Gasto');
         $("#btn-form").text("Insertar");
@@ -79,7 +80,7 @@ $(document).ready(function () {
         let id = $(this).attr("data");
         obj = {
             accion: "getGasto",
-            id: id,
+            id: id
         };
         $.post(
             "/modulos/gastos/consultas.php",
@@ -90,10 +91,11 @@ $(document).ready(function () {
                 $("#cant_gst").val(respuesta.cant_gst);
                 $("#desc_gst").val(respuesta.desc_gst);
                 $("#fecha_gst").val(respuesta.fecha_gst);
+                $("#recurrente_gst").val(respuesta.recurrente_gst);
 
-                if (respuesta.recurrente_gst == 1) {
+                if (respuesta.recurrente_gst == "1") {
                     $("#recurrente_gst").prop("checked", true);
-                } else if (respuesta.recurrente_gst == 0) {
+                } else if (respuesta.recurrente_gst == "0") {
                     $("#recurrente_gst").prop("checked", false);
                 }
 
@@ -129,11 +131,14 @@ $(document).ready(function () {
                     if (respuesta.status == 0) {
                         swal("¡ERROR!", "Campos vacios", "error");
                     } else if (respuesta.status == 2) {
-                        // alert(respuesta.sesion + respuesta.registros);
-                        swal("PLAN AGOTADO", "Tu cantidad de Gastos a llegado a su máximo número de registros", "warning").then(() => {
+                        // alert(respuesta.ola);
+                        swal("PLAN AGOTADO", "Tu cantidad de Gastos a llegado a su máximo número de registros en el mes seleccionado", "warning").then(() => {
                             location.reload();
                         });
-                    } else if (respuesta.status == 1) {
+                    } else if(respuesta.status == 3){
+                        // alert(respuesta.status);
+                        swal("PLAN AGOTADO", "Tu cuenta expira antes que la fecha seleccionada", "warning");
+                    }else if (respuesta.status == 1) {
                         swal("Éxito", "Gasto registrado correctamente", "success").then(() => {
                             location.reload();
                         });
@@ -147,7 +152,15 @@ $(document).ready(function () {
                 $.post('/modulos/gastos/consultas.php', obj, function (respuesta) {
                     if (respuesta.status == 0) {
                         swal('¡ERROR!', 'Campos vacios', 'error');
-                    } else if (respuesta.status == 1) {
+                    } else if (respuesta.status == 2) {
+                        // alert(respuesta.ola);
+                        swal("MES AGOTADO", "Tu cantidad de Gastos a llegado a su máximo número de registros en el mes seleccionado", "warning").then(() => {
+                            location.reload();
+                        });
+                    } else if(respuesta.status == 3){
+                        // alert(respuesta.status);
+                        swal("PLAN AGOTADO", "Tu cuenta expira antes que la fecha seleccionada", "warning");
+                    }else if (respuesta.status == 1) {
                         swal('Éxito', 'Gasto editado correctamente', 'success').then(() => {
                             location.reload();
                         });

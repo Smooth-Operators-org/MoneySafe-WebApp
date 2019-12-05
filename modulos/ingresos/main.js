@@ -9,12 +9,14 @@ $(document).ready(function () {
   var obj = {};
 
   // Limpiar inputs del modal
-  $("#btn-cancel").click(function () {
+  $("#btn-cancelas").click(function () {
     $("input[type = text]").val("");
     $("#cant_ing").val("");
     $("input[type=checkbox]").prop("checked", false);
     $("input").removeClass("valid");
     $("input").removeClass("invalid");
+    // console.log("holass");
+
   });
 
   //Boton Insertar
@@ -127,13 +129,16 @@ $(document).ready(function () {
             } else if (respuesta.status == 2) {
               swal(
                 "PLAN AGOTADO",
-                "Tu cantidad de ingresos a llegado a su máximo número de registros",
+                "Tu cantidad de Ingresos a llegado a su máximo número de registros en el mes seleccionado",
                 "warning"
               ).then(() => {
                 location.reload();
               });
-            } else if (respuesta.status == 1) {
-              swal("Éxito", "ingreso registrado correctamente", "success").then(
+            } else if(respuesta.status == 3){
+              // alert(respuesta.status);
+              swal("PLAN AGOTADO", "Tu cuenta expira antes que la fecha seleccionada", "warning");
+            }else if (respuesta.status == 1) {
+              swal("Éxito", "Ingreso registrado correctamente", "success").then(
                 () => {
                   location.reload();
                 }
@@ -151,8 +156,19 @@ $(document).ready(function () {
           function (respuesta) {
             if (respuesta.status == 0) {
               swal("¡ERROR!", "Campos vacios", "error");
-            } else if (respuesta.status == 1) {
-              swal("Éxito", "ingreso editado correctamente", "success").then(
+            } else if (respuesta.status == 2) {
+              swal(
+                "MES AGOTADO",
+                "Tu cantidad de Ingresos a llegado a su máximo número de registros en el mes seleccionado",
+                "warning"
+              ).then(() => {
+                location.reload();
+              });
+            } else if(respuesta.status == 3){
+              // alert(respuesta.status);
+              swal("PLAN AGOTADO", "Tu cuenta expira antes que la fecha seleccionada", "warning");
+            }else if (respuesta.status == 1) {
+              swal("Éxito", "Ingreso editado correctamente", "success").then(
                 () => {
                   location.reload();
                 }

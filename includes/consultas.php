@@ -96,7 +96,9 @@ function getDataGastos($id){
     global $db;
     $month = fixMonth($_POST['month']);
     $year = $_POST['year'];
-    $gastos = $db->query("SELECT * FROM gastos WHERE <id_usr> = $id AND MONTH(<fecha_gst>) = $month AND YEAR(<fecha_gst>) = $year")->fetchAll();
+    $gastos = $db->query("SELECT g.id_usr, g.nombre_gst, g.id_cat, g.cant_gst, g.fecha_gst, c.id_cat, c.nombre_cat  
+    FROM gastos as g, categorias as c 
+    WHERE <g.id_usr> = $id AND MONTH(<g.fecha_gst>) = $month AND YEAR(<g.fecha_gst>) = $year AND <g.id_cat> = <c.id_cat>")->fetchAll();
     echo json_encode($gastos);
 }
 

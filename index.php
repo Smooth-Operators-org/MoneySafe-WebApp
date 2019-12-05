@@ -155,7 +155,7 @@
     </div>
     <!-- TOTAL -->
     <?php 
-      $total = $totalG - $totalI;
+      $total = $totalI - $totalG;
       if ($total == 0) {
         $color = "grey";
       }else if ($total > 0) {

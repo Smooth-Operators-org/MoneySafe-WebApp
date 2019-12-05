@@ -35,7 +35,7 @@ $(document).ready(function () {
                 templateGastos += `
                     <tr>
                     <td>${e.nombre_gst}</td>
-                    <td>${e.id_cat}</td>
+                    <td>${e.nombre_cat}</td>
                     <td>${"$ "+e.cant_gst}</td>
                     </tr>`;
             });

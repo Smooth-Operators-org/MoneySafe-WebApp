@@ -110,29 +110,30 @@
 								$email = $db->get("usuarios", "*", [
 									"correo_usr" => $_POST["correo_usr"]
 								]);
-								$email_to = $email["correo_usr"];
-								$email_from = "mail@smoothoperators.com.mx";
-								$from_name = "Money-Safe";
-								$subject = "Activación de cuenta Money Safe";
 								$body = "Bienvenido a Money-Safe, en unos momentos uno de nuestros ejecutivos activará tu cuenta. Muchas Gracias.";
-								global $error;
+								$subject = "Activación de cuenta Money Safe";
+								$email_to = $email["correo_usr"];
+								$fromserver = "mail@smoothoperators.com.mx";
+								$from_name = "MoneySafe";
 								$mail = new PHPMailer();
 								$mail->CharSet = "utf-8";
-								$mail->IsSMTP(); 
-								$mail->SMTPDebug = 0;  
-								$mail->SMTPAuth = true;  
-								$mail->SMTPSecure = 'ssl'; 
 								$mail->Host = 'smtp.gmail.com';
-								$mail->Port = 465; 
-								$mail->Username = 'mail.smoothoperators@gmail.com';  
+								$mail->Port = 465;
+								$mail->SMTPDebug = 1;
+								$mail->IsSMTP();
+								$mail->SMTPAuth = true;
+								$mail->SMTPSecure = 'ssl';
+								$mail->Username = 'mail.smoothoperators@gmail.com';
 								$mail->Password = 'Goodluck13';
-								$mail->SetFrom($email_from, $from_name);
+								$mail->From = "mail@smoothoperators.com.mx";
+								$mail->FromName = "MoneySafe";
+								$mail->Sender = $fromserver;
 								$mail->Subject = $subject;
 								$mail->Body = $body;
 								$mail->IsHTML(true);
 								$mail->AddAddress($email_to);
 									if(!$mail->Send()) {
-										echo "Error";
+										echo "NEl";
 									} else {
 										$respuesta["status"] = 1;
 									}

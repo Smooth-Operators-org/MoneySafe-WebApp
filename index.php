@@ -1,7 +1,7 @@
 <?php
   require_once 'includes/_db.php';
 	session_start();
-	error_reporting(0);
+  error_reporting(0);
   $id_niv = $_SESSION['nivel'];
   $id_usr = $_SESSION['id'];
     if ($id_niv == 1) {
@@ -52,8 +52,8 @@
         <div class="card teal lighten-1 z-depth-2">
           <div class="card-content white-text">
             <span class="card-title"><b><i class="fas fa-dollar-sign"></i> Ingresos</b></span>
-            <p><b>Ingresos registrados: <?php echo $cuentaIngresos;?></b></p>
-            <p><b>Total de ingresos: <i class="fas fa-dollar-sign"></i>
+            <p><b>Registrados: <?php echo $cuentaIngresos;?></b></p>
+            <p><b>Total: <i class="fas fa-dollar-sign"></i>
             <?php if($totalI == ""){
                     echo 0;
                   }else{
@@ -71,8 +71,8 @@
         <div class="card blue lighten-1 z-depth-2">
           <div class="card-content white-text">
             <span class="card-title"><b><i class="fas fa-file-invoice-dollar"></i> Gastos</b></span>
-            <p><b>Gastos registrados: <?php echo $cuentaGastos;?></b></p>
-            <p><b>Total de gastos: <i class="fas fa-dollar-sign"></i> 
+            <p><b>Registrados: <?php echo $cuentaGastos;?></b></p>
+            <p><b>Total: <i class="fas fa-dollar-sign"></i> 
             <?php if($totalG == ""){
                     echo 0;
                   }else{
@@ -90,7 +90,7 @@
         <div class="card purple lighten-1 z-depth-2">
           <div class="card-content white-text">
             <span class="card-title"><b><i class="fas fa-chess-board"></i> Categorías</b></span>
-            <p><b>Categorías insertadas: <?php echo $cuentaCat;?></b></p>
+            <p><b>Insertadas: <?php echo $cuentaCat;?></b></p>
             <br>
           </div>
           <div class="card-action">
@@ -119,7 +119,7 @@
     <div class="row">
       <div class="col s12 m12 l6">
         <h4 class="center-align">Gastos</h4>
-        <table class="responsive-table highlight centered grey lighten-2 z-depth-1" id="Gastos">
+        <table class="responsive-table highlight centered grey lighten-2 z-depth-1" id="tabla_gastos">
           <thead>
             <tr>
               <th>Nombre</th>
@@ -133,11 +133,10 @@
         <div class="collection col s12 m12 l10 offset-l1 blue-grey lighten-1">
           <p class="collection-item blue-grey lighten-1 white-text"><b>Total: <span class="badge white-text" id="totalGasto"></span></b></p>
         </div>
-        <input type="hidden" id="totalG">
       </div>
       <div class="col s12 m12 l6">
         <h4 class="center-align">Ingresos</h4>
-        <table class="responsive-table highlight centered grey lighten-2 z-depth-1" id="Ingresos">
+        <table class="responsive-table highlight centered grey lighten-2 z-depth-1" id="tabla_ingresos">
             <thead>
                 <tr>
                     <th>Nombre</th>
@@ -150,24 +149,13 @@
         <div class="collection col s12 m12 l10 offset-l1 blue-grey lighten-1">
           <p class="collection-item blue-grey lighten-1 white-text"><b>Total: <span class="badge white-text" id="totalIngreso"></span></b></p>
         </div>
-        <input type="hidden" id="totalI">
       </div>
     </div>
     <!-- TOTAL -->
-    <?php 
-      $total = $totalG - $totalI;
-      if ($total == 0) {
-        $color = "grey";
-      }else if ($total > 0) {
-        $color = "green";
-      }else if ($total < 0) {
-        $color = "red";
-      }
-    ?>
     <div class="row">
       <div class="col s12 m12 l4 offset-l4">
-        <div class="card-panel center-align z-depth-2 <?php echo $color;?>">
-          <b class="white-text">Total: <span class="white-text" id="totalGeneral"><?php echo $total;?> </span></b>
+        <div class="card-panel center-align z-depth-2" id="cardTotal">
+          <b class="white-text">Total: <span class="white-text" id="totalGeneral"></span></b>
         </div>
       </div>
     </div>

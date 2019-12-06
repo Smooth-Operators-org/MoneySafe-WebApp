@@ -42,14 +42,28 @@ if ($id_niv == 1) {
                     data-position="right" data-tooltip="Añadir ingreso"><i class="fas fa-plus"></i></a>
             </div>
         </div>
-
+        <!-- BOTONES Y FECHA -->
+        <div class="row section">
+        <div class="col s4 m4 l2 left-align">
+            <button type="button" id="left" class="btn-floating btn-large waves-effect waves-light blue-grey lighten-1 z-depth-2">
+            <i class="fas fa-chevron-left center-align"></i>
+            </button>
+        </div>
+        <div class="col s4 m4 l8 center-align">
+            <h5 id="fecha_nueva"></h5>
+        </div>
+        <div class="col s4 m4 l2 right-align">
+            <button type="button" id="right" class="btn-floating btn-large waves-effect waves-light blue-grey lighten-1 z-depth-2">
+            <i class="fas fa-chevron-right center-align"></i>
+            </button>
+        </div>
+        </div>
         <!-- TABLA -->
         <div class="row">
             <div class="col s12 m12 24">
-                <table class="responsive-table highlight centered grey lighten-2 z-depth-1">
+                <table class="responsive-table highlight centered grey lighten-2 z-depth-1" id="Ingresos">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>Nombre</th>
                             <th>Monto</th>
                             <th>Descripción</th>
@@ -61,54 +75,10 @@ if ($id_niv == 1) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-                            $i = 1;
-                            $ingresos = $db->select('ingresos', '*', ['id_usr' => $id_usr]);
-                            $total = $db->sum('ingresos', 'cant_ing', ['id_usr' => $id_usr]);
-                            if ($ingresos) {
-                                foreach ($ingresos as $ingreso) {
-                        ?>
-                        <tr>
-                            <td><?php echo $i; ?></td>
-                            <td><?php echo utf8_encode($ingreso['nombre_ing']); ?></td>
-                            <td><?php echo '$', $ingreso['cant_ing']; ?></td>
-                            <td><?php echo $ingreso['desc_ing']; ?></td>
-                            <td><?php echo $ingreso['fecha_ing']; ?></td>
-                            <?php if($plan_usr == 1 || $plan_usr == 3){?>
-                            <td>
-                            <?php
-                                if ($ingreso['recurrente_ing'] == 0) {
-                                    echo 'No';
-                                } else {
-                                    echo 'Si';
-                                }; ?>
-                            </td>
-                            <?php }?>
-                            <td>
-                                <a href="#modal-ingresos" data-modal="<?php echo $ingreso['id_ing']; ?>"
-                                    class="btn-edit modal-trigger tooltipped" data-position="left"
-                                    data-tooltip="Editar"><i class="fas fa-edit"></i></a>
-                                <a href="#" data-modal="<?php echo $ingreso['id_ing']; ?>" class="btn-delete"><i
-                                        class="fas fa-trash-alt tooltipped" data-position="right"
-                                        data-tooltip="Eliminar"></i></a>
-                            </td>
-                        </tr>
-                        <?php
-                                $i++;
-                                }
-                            }
-                        ?>
                     </tbody>
                 </table>
-                <div class="collection col s8 m8 l4  blue-grey lighten-1">
-                    <p class="collection-item blue-grey lighten-1 white-text"><b>Total: <span class="badge white-text">
-                        $<?php
-                            if ($total == "") {
-                                 echo 0;
-                            } else {
-                                echo $total;
-                            }
-                        ?></span></b></p>
+                <div class="collection col s12 m12 l12  blue-grey lighten-1">
+                    <p class="collection-item blue-grey lighten-1 white-text"><b>Total: <span class="badge white-text" id="totalIngreso"></span></b></p>
                 </div>
             </div>
         </div>

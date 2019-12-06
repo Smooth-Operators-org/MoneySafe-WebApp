@@ -43,7 +43,6 @@
                             <span>Recordar Credenciales</span>
                         </label>
                     </p>
-                    <a href="#"><b>¿Olvidaste tu contraseña?</b></a>
                 </div>
             </div>
             <div class="row">

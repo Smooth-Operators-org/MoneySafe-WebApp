@@ -110,30 +110,29 @@
 								$email = $db->get("usuarios", "*", [
 									"correo_usr" => $_POST["correo_usr"]
 								]);
-								$body = "Bienvenido a Money-Safe, en unos momentos uno de nuestros ejecutivos activará tu cuenta. Muchas Gracias.";
-								$subject = "Activación de cuenta Money Safe";
 								$email_to = $email["correo_usr"];
-								$fromserver = "mail@smoothoperators.com.mx";
+								$email_from = "mail@smoothoperators.com.mx";
 								$from_name = "MoneySafe";
-								$mail = new PHPMailer();
+								$subject = "Activación de cuenta";
+								$body = "Bienvenido a nuestro sistema, en unos momentos un ejecutivo activará tu cuenta";
+								global $error;
+								$mail = new PHPMailer();  // create a new object
 								$mail->CharSet = "utf-8";
+								$mail->IsSMTP(); // enable SMTP
+								$mail->SMTPDebug = 0;  // debugging: 1 = errors and messages, 2 = messages only
+								$mail->SMTPAuth = true;  // authentication enabled
+								$mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for GMail
 								$mail->Host = 'smtp.gmail.com';
-								$mail->Port = 465;
-								$mail->SMTPDebug = 1;
-								$mail->IsSMTP();
-								$mail->SMTPAuth = true;
-								$mail->SMTPSecure = 'ssl';
-								$mail->Username = 'mail.smoothoperators@gmail.com';
-								$mail->Password = 'Goodluck13';
-								$mail->From = "mail@smoothoperators.com.mx";
-								$mail->FromName = "MoneySafe";
-								$mail->Sender = $fromserver;
+								$mail->Port = 465; 
+								$mail->Username = 'mail.smoothoperators@gmail.com';  
+								$mail->Password = 'Unid2019';
+								$mail->SetFrom($email_from, $from_name);
 								$mail->Subject = $subject;
 								$mail->Body = $body;
 								$mail->IsHTML(true);
 								$mail->AddAddress($email_to);
 									if(!$mail->Send()) {
-										echo "NEl";
+										echo "Error";
 									} else {
 										$respuesta["status"] = 1;
 									}

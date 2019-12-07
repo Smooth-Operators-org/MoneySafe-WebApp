@@ -2,6 +2,7 @@
     require_once '../../includes/_db.php';
     session_start();
     error_reporting(0);
+    $id_usr = $_SESSION['id'];
     $id_niv = $_SESSION['nivel'];
     if ($id_niv == 2) {
         header('Location: ../../index.php');

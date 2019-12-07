@@ -104,7 +104,8 @@
                     	"id_plan" => $_POST["id_plan"],
                         "id_niv" => "2",
                         "fecha_alta" => "0",
-                        "fecha_baja" => "0"
+						"fecha_baja" => "0",
+						"plan_deseado" => 0
 						]);
                     		if ($usuarios) {
 								$respuesta["status"] = 1;

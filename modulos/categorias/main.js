@@ -56,7 +56,7 @@ $(document).ready(function () {
         $("#modal-title").text("Nueva Categoría");
     });
 
-    $("#btn-cancel").click(function () {
+    $("#btn-cancela").click(function () {
         $('input[type = text]').val('');
         $('input').removeClass('valid');
         $('input').removeClass('invalid');
@@ -68,7 +68,11 @@ $(document).ready(function () {
             "accion": "insertarCategoria",
             "nombre_cat": nombre_cat
         };
-        $.post("../../modulos/categorias/funciones.php", obj, function (e) {
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/modulos/categorias/funciones.php";
+        $.post(ruta, obj, function (e) {
             console.log(e);
             if (e.status == 1 || e.status == '1') {
                 console.log("Correcto");
@@ -95,7 +99,11 @@ $(document).ready(function () {
             "accion": "uniCat",
             "id": idc
         };
-        $.post("../../modulos/categorias/funciones.php", obj, function (r) {
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/modulos/categorias/funciones.php";
+        $.post(ruta, obj, function (r) {
             console.log(r);
             $('#nombre_cat').val(r.nombre_cat);
             // $('.insertCat').addClass("editCat");
@@ -119,8 +127,11 @@ $(document).ready(function () {
             "id_cat": idc,
             "nombre_cat": nombree
         };
-        console.log(obj);
-        $.post("../../modulos/categorias/funciones.php", obj, function (a) {
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/modulos/categorias/funciones.php";
+        $.post(ruta, obj, function (a) {
             if (a.status == 1 || a.status == '1') {
                 console.log("Bienbien");
                 location.reload();
@@ -144,7 +155,11 @@ $(document).ready(function () {
             dangerMode: true
         }).then(willDelete => {
             if (willDelete) {
-                $.post("../../modulos/categorias/funciones.php", obj, function (respuesta) {
+                var hostName = $(location).attr('hostname');
+                var http = "http://";
+                var direc = "/MoneySafe-WebApp";
+                var ruta = http+hostName+direc+"/modulos/categorias/funciones.php";
+                $.post(ruta, obj, function (respuesta) {
                     if (respuesta.status == 1) {
                         swal("Éxito", "La categoría fue eliminada correctamente", "success").then((willDelete) => {
                             location.reload();

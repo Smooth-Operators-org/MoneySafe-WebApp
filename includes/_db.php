@@ -1,5 +1,5 @@
 <?php
-require $_SERVER["DOCUMENT_ROOT"].'/vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 use Medoo\Medoo;
 try{
     $db = new Medoo([

@@ -1,15 +1,14 @@
 $(document).ready(function () {
-  // Inicializar Funciones Materialize
+  //MATERIALIZE
   $(".sidenav").sidenav();
   $(".modal").modal();
   $("select").formSelect();
   $(".datepicker").datepicker();
   $(".tooltipped").tooltip();
-
   var obj = {};
 
-  // Limpiar inputs del modal
-  $("#btn-cancel").click(function () {
+  //LIMPIAR MODAL
+  $("#btn-cancelaa").click(function () {
     $("input[type = text]").val("");
     $("#cant_ing").val("");
     $("input[type=checkbox]").prop("checked", false);
@@ -17,24 +16,147 @@ $(document).ready(function () {
     $("input").removeClass("invalid");
   });
 
-  //Boton Insertar
+  //CONFIGURACIÓN DE FECHAS
+  function getMonthFromNumber(Number) {
+    var Months = [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre"
+    ];
+    return Months[Number];
+  }
+
+  //VARIABLES FECHAS
+  var date = new Date();
+  let MonthN = date.getMonth();
+  let Year = date.getFullYear();
+  let MonthName = getMonthFromNumber(MonthN);
+  let FullDate = MonthName + ', ' + Year;
+  $('#fecha_nueva').text(FullDate);
+
+  //EJECUTAR FUNCIONES
+  consultarIngresos(MonthN, Year);
+  sumarIngresos(MonthN, Year);
+
+  //FUNCION PARA CONSULTAR INGRESOS
+  function consultarIngresos(MonthN, Year) {
+      let id = $(".modal-info").attr('data');
+      let obj = {
+          "accion": "getDataIngresos",
+          "month": MonthN,
+          "year": Year,
+          "id": id
+      };
+      var hostName = $(location).attr('hostname');
+      var http = "http://";
+      var direc = "/MoneySafe-WebApp";
+      var ruta = http+hostName+direc+"/modulos/ingresos/consultas.php";
+      $.post(ruta, obj, function (respuesta) {
+          let templateIngresos = ``;
+          $.each(respuesta, function (i, e) {
+              if (e.recurrente_ing == 2){
+                templateIngresos += `
+                <tr>
+                <td>${e.nombre_ing}</td>
+                <td>${"$ "+e.cant_ing}</td>
+                <td>${e.desc_ing}</td>
+                <td>${e.fecha_ing}</td>
+                <td>
+                  <a href="#modal-ingresos" data-modal="${e.id_ing}" class="btn-edit modal-trigger tooltipped" data-position="left" data-tooltip="Editar"><i class="fas fa-edit"></i></a>
+                  <a href="#" data-modal="${e.id_ing}" class="btn-delete"><i class="fas fa-trash-alt tooltipped" data-position="right" data-tooltip="Eliminar"></i></a>
+                </td>
+                </tr>`;
+              }else if (e.recurrente_ing == 0) {
+                var rec = "No";
+                templateIngresos += `
+                <tr>
+                <td>${e.nombre_ing}</td>
+                <td>${"$ "+e.cant_ing}</td>
+                <td>${e.desc_ing}</td>
+                <td>${e.fecha_ing}</td>
+                <td>${rec}</td>
+                <td>
+                  <a href="#modal-ingresos" data-modal="${e.id_ing}" class="btn-edit modal-trigger tooltipped" data-position="left" data-tooltip="Editar"><i class="fas fa-edit"></i></a>
+                  <a href="#" data-modal="${e.id_ing}" class="btn-delete"><i class="fas fa-trash-alt tooltipped" data-position="right" data-tooltip="Eliminar"></i></a>
+                </td>
+                </tr>`;
+              }else if(e.recurrente_ing == 1){
+                var rec = "Si";
+                templateIngresos += `
+                <tr>
+                <td>${e.nombre_ing}</td>
+                <td>${"$ "+e.cant_ing}</td>
+                <td>${e.desc_ing}</td>
+                <td>${e.fecha_ing}</td>
+                <td>${rec}</td>
+                <td>
+                  <a href="#modal-ingresos" data-modal="${e.id_ing}" class="btn-edit modal-trigger tooltipped" data-position="left" data-tooltip="Editar"><i class="fas fa-edit"></i></a>
+                  <a href="#" data-modal="${e.id_ing}" class="btn-delete"><i class="fas fa-trash-alt tooltipped" data-position="right" data-tooltip="Eliminar"></i></a>
+                </td>
+                </tr>`;
+              }
+          });
+          $("#Ingresos tbody").html(templateIngresos);
+      }, "JSON");
+  }
+
+  //FUNCION PARA SUMAR INGRESOS
+  function sumarIngresos(MonthN, Year) {
+      let id = $(".modal-info").attr('data');
+      let obj = {
+          "accion": "sumarIngresos",
+          "month": MonthN,
+          "year": Year,
+          "id": id
+      };
+      var hostName = $(location).attr('hostname');
+      var http = "http://";
+      var direc = "/MoneySafe-WebApp";
+      var ruta = http+hostName+direc+"/modulos/ingresos/consultas.php";
+      $.post(ruta, obj, function (respuesta) {
+          $.each(respuesta, function (i, e) {
+              if (e.total == 0 || e.total == "" || e.total == null) {
+                  e.total = 0;
+                  $('#totalIngreso').text("$ " + e.total);                  
+              } else {
+                  $('#totalIngreso').text("$ " + e.total);
+              }
+          });
+      }, "JSON");
+  }
+
+  //BOTON INSERTAR
   $(".btn-new-ingreso").click(function () {
     obj = {
       accion: "insertIngreso"
     };
     $("#modal-title").text("Nuevo Ingreso");
-    $("#btn-form").text("Registrar");
+    $("#btn-form-ingresos").text("Insertar");
   });
 
-  //Boton Editar
-  $(".btn-edit").click(function () {
+  //BOTON EDITAR
+  $("#Ingresos").on("click", ".btn-edit", function (e) {
+    e.preventDefault();
     let id = $(this).attr("data-modal");
     obj = {
       accion: "getIngreso",
       id: id
     };
+    var hostName = $(location).attr('hostname');
+    var http = "http://";
+    var direc = "/MoneySafe-WebApp";
+    var ruta = http+hostName+direc+"/modulos/ingresos/consultas.php";
     $.post(
-      "/modulos/ingresos/consultas.php",
+      ruta,
       obj,
       function (respuesta) {
         $("#nombre_ing").val(respuesta.nombre_ing);
@@ -57,9 +179,48 @@ $(document).ready(function () {
       "JSON"
     );
     $("#modal-title").text("Editar Ingreso");
-    $("#btn-form").text("Editar");
+    $("#btn-form-ingresos").text("Editar");
   });
 
+  //BOTON ELIMINAR
+  $("#Ingresos").on("click", ".btn-delete", function (e) {
+    e.preventDefault();
+    let id = $(this).attr("data-modal");
+    obj = {
+      accion: "deleteIngreso",
+      id: id
+    };
+    swal({
+      title: "¿Estás seguro?",
+      text: "El ingreso será eliminado",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(willDelete => {
+      if (willDelete) {
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/modulos/ingresos/consultas.php";
+        $.post(
+          ruta,
+          obj,
+          function (respuesta) {
+            if (respuesta.status == 1) {
+              swal("Éxito", "Ingreso eliminado correctamente", "success").then(
+                willDelete => {
+                  location.reload();
+                }
+              );
+            }
+          },
+          "JSON"
+        );
+      }
+    });
+  });
+
+  //MOSTRAR DATOS DEL USUARIO
   $('.modal-info').click(function () {
     let id = $(this).attr('data');
     obj = {
@@ -81,6 +242,7 @@ $(document).ready(function () {
     }, 'JSON');
   });
 
+  //UPDATE DATOS USUARIO
   $('#btn-modal-info').click(function () {
     $('#modal-info-perfil').find('input').map(function (i, e) {
       obj[$(this).prop('name')] = $(this).val();
@@ -118,8 +280,12 @@ $(document).ready(function () {
 
     switch (obj.accion) {
       case "insertIngreso":
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/modulos/ingresos/consultas.php";
         $.post(
-          "/modulos/ingresos/consultas.php",
+          ruta,
           obj,
           function (respuesta) {
             if (respuesta.status == 0) {
@@ -127,13 +293,15 @@ $(document).ready(function () {
             } else if (respuesta.status == 2) {
               swal(
                 "PLAN AGOTADO",
-                "Tu cantidad de ingresos a llegado a su máximo número de registros",
+                "Tu cantidad de Ingresos a llegado a su máximo número de registros en el mes seleccionado",
                 "warning"
               ).then(() => {
                 location.reload();
               });
-            } else if (respuesta.status == 1) {
-              swal("Éxito", "ingreso registrado correctamente", "success").then(
+            } else if (respuesta.status == 3){
+              swal("PLAN AGOTADO", "Tu cuenta expira antes que la fecha seleccionada", "warning");
+            }else if (respuesta.status == 1) {
+              swal("Éxito", "Ingreso registrado correctamente", "success").then(
                 () => {
                   location.reload();
                 }
@@ -145,14 +313,20 @@ $(document).ready(function () {
         break;
 
       case "updateIngreso":
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/modulos/ingresos/consultas.php";
         $.post(
-          "/modulos/ingresos/consultas.php",
+          ruta,
           obj,
           function (respuesta) {
             if (respuesta.status == 0) {
               swal("¡ERROR!", "Campos vacios", "error");
+            } else if(respuesta.status == 3){
+              swal("PLAN AGOTADO", "Tu cuenta expira antes que la fecha seleccionada", "warning");
             } else if (respuesta.status == 1) {
-              swal("Éxito", "ingreso editado correctamente", "success").then(
+              swal("Éxito", "Ingreso editado correctamente", "success").then(
                 () => {
                   location.reload();
                 }
@@ -167,36 +341,26 @@ $(document).ready(function () {
         break;
     }
   });
+  //BOTONES ATRAS Y ADELANTE FECHAS
+  $('#left').click(function () {
+    date.setMonth(date.getMonth() - 1);
+    let MonthN = date.getMonth();
+    let Year = date.getFullYear();
+    let MonthName = getMonthFromNumber(MonthN);
+    let FullDate = MonthName + ', ' + Year;
+    $('#fecha_nueva').text(FullDate);
+    consultarIngresos(MonthN, Year);
+    sumarIngresos(MonthN, Year);
+  });
 
-  $(".btn-delete").click(function () {
-    let id = $(this).attr("data-modal");
-    obj = {
-      accion: "deleteIngreso",
-      id: id
-    };
-    swal({
-      title: "¿Estás seguro?",
-      text: "El ingreso será eliminado",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true
-    }).then(willDelete => {
-      if (willDelete) {
-        $.post(
-          "/modulos/ingresos/consultas.php",
-          obj,
-          function (respuesta) {
-            if (respuesta.status == 1) {
-              swal("Éxito", "Ingreso eliminado correctamente", "success").then(
-                willDelete => {
-                  location.reload();
-                }
-              );
-            }
-          },
-          "JSON"
-        );
-      }
-    });
+  $("#right").click(function () {
+    date.setMonth(date.getMonth() + 1);
+    let MonthN = date.getMonth();
+    let Year = date.getFullYear();
+    let MonthName = getMonthFromNumber(MonthN);
+    let FullDate = MonthName + ', ' + Year;
+    $('#fecha_nueva').text(FullDate);
+    consultarIngresos(MonthN, Year);
+    sumarIngresos(MonthN, Year);
   });
 });

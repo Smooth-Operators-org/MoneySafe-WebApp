@@ -19,7 +19,8 @@ $(document).ready(function () {
     consultarIngresos(MonthN, Year);
     sumarGastos(MonthN, Year);
     sumarIngresos(MonthN, Year);
-    
+    sumaGeneral(MonthN, Year);
+
     //FUNCION PARA CONSULTAR GASTOS
     function consultarGastos(MonthN, Year) {
         let id = $(".modal-info").attr('data');
@@ -29,17 +30,21 @@ $(document).ready(function () {
             "year": Year,
             "id": id
         };
-        $.post("includes/consultas.php", obj, function (respuesta) {
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/modulos/gastos/consultas.php";
+        $.post(ruta, obj, function (respuesta) {
             let templateGastos = ``;
             $.each(respuesta, function (i, e) {
                 templateGastos += `
                     <tr>
                     <td>${e.nombre_gst}</td>
-                    <td>${e.id_cat}</td>
+                    <td>${e.nombre_cat}</td>
                     <td>${"$ "+e.cant_gst}</td>
                     </tr>`;
             });
-            $("#Gastos tbody").html(templateGastos);
+            $("#tabla_gastos tbody").html(templateGastos);
         }, "JSON");
     }
 
@@ -52,7 +57,11 @@ $(document).ready(function () {
             "year": Year,
             "id": id
         };
-        $.post("includes/consultas.php", obj, function (respuesta) {
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/modulos/ingresos/consultas.php";
+        $.post(ruta, obj, function (respuesta) {
             let templateIngresos = ``;
             $.each(respuesta, function (i, e) {
                 templateIngresos += `
@@ -61,7 +70,7 @@ $(document).ready(function () {
                     <td>${"$ "+e.cant_ing}</td>
                     </tr>`;
             });
-            $("#Ingresos tbody").html(templateIngresos);
+            $("#tabla_ingresos tbody").html(templateIngresos);
         }, "JSON");
     }
 
@@ -74,7 +83,11 @@ $(document).ready(function () {
             "year": Year,
             "id": id
         };
-        $.post("includes/consultas.php", obj, function (respuesta) {
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/modulos/gastos/consultas.php";
+        $.post(ruta, obj, function (respuesta) {
             $.each(respuesta, function (i, e) {
                 if (e.total == 0 || e.total == "" || e.total == null) {
                     e.total = 0;
@@ -82,7 +95,7 @@ $(document).ready(function () {
                 } else {
                     $('#totalGasto').text("$ " + e.total);
                 }
-                $("#totalG").attr('data', e.total);
+                $("#totalG").val(e.total);
             });
         }, "JSON");
     }
@@ -96,7 +109,11 @@ $(document).ready(function () {
             "year": Year,
             "id": id
         };
-        $.post("includes/consultas.php", obj, function (respuesta) {
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/modulos/ingresos/consultas.php";
+        $.post(ruta, obj, function (respuesta) {
             $.each(respuesta, function (i, e) {
                 if (e.total == 0 || e.total == "" || e.total == null) {
                     e.total = 0;
@@ -104,32 +121,40 @@ $(document).ready(function () {
                 } else {
                     $('#totalIngreso').text("$ " + e.total);
                 }
-                $("#totalI").attr('data', e.total);
+                $("#totalI").val(e.total);
             });
         }, "JSON");
     }
 
-    // function getTotalGasto(totalGasto) {
-    //     let obj = {
-    //         "accion": "getTotalGasto",
-    //         "totalGasto": totalGasto
-    //     }
-    //     $.post("includes/consultas.php", obj, function (respuesta) {
-    //         var totalG = respuesta;
-    //         return totalG;
-    //     }, 'JSON');
-    // }
-
-    // function getTotalIngreso(totalIngreso) {
-    //     let obj = {
-    //         "accion": "getTotalIngreso",
-    //         "totalIngreso": totalIngreso
-    //     }
-    //     $.post("includes/consultas.php", obj, function (respuesta) {
-    //         var totalI = respuesta;
-    //         return totalI;
-    //     }, 'JSON');
-    // }
+    function sumaGeneral(MonthN, Year) {
+        let id = $(".modal-info").attr('data');
+        let obj = {
+            "accion": "sumarGeneral",
+            "month": MonthN,
+            "year": Year,
+            "id": id
+        };
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/modulos/gastos/consultas.php";
+        $.post(ruta, obj, function (respuesta) {
+            if (respuesta.total > 0) {
+                $("#cardTotal").removeClass('grey');
+                $("#cardTotal").removeClass('red');
+                $("#cardTotal").addClass('green');
+            }else if(respuesta.total < 0){
+                $("#cardTotal").removeClass('grey');
+                $("#cardTotal").removeClass('green');
+                $("#cardTotal").addClass('red');
+            }else if(respuesta.total == 0){
+                $("#cardTotal").removeClass('red');
+                $("#cardTotal").removeClass('green');
+                $("#cardTotal").addClass('grey');
+            }
+            $('#totalGeneral').text("$ " +respuesta.total);
+        }, "JSON");
+    }
 
     $('#left').click(function () {
         date.setMonth(date.getMonth() - 1);
@@ -142,6 +167,7 @@ $(document).ready(function () {
         consultarIngresos(MonthN, Year);
         sumarGastos(MonthN, Year);
         sumarIngresos(MonthN, Year);
+        sumaGeneral(MonthN, Year);
     });
 
     $("#right").click(function () {
@@ -155,6 +181,7 @@ $(document).ready(function () {
         consultarIngresos(MonthN, Year);
         sumarGastos(MonthN, Year);
         sumarIngresos(MonthN, Year);
+        sumaGeneral(MonthN, Year);
     });
 
     function getMonthFromNumber(Number) {
@@ -182,7 +209,11 @@ $(document).ready(function () {
             accion: 'getData',
             id: id
         };
-        $.post('includes/consultas.php', obj, function (respuesta) {
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/includes/consultas.php";
+        $.post(ruta, obj, function (respuesta) {
             $('#nombre_usr_info').val(respuesta.nombre_usr);
             if (respuesta.plan_deseado == "0" || respuesta.plan_deseado == 0) {
                 $('#id_plan').val('0');
@@ -205,7 +236,11 @@ $(document).ready(function () {
         });
         switch (obj.accion) {
             case 'updateData':
-                $.post('includes/consultas.php', obj, function (respuesta) {
+                var hostName = $(location).attr('hostname');
+                var http = "http://";
+                var direc = "/MoneySafe-WebApp";
+                var ruta = http+hostName+direc+"/includes/consultas.php";
+                $.post(ruta, obj, function (respuesta) {
                     if (respuesta.status == 0) {
                         swal('¡ERROR!', 'Tu nombre no puede quedar vacío', 'error');
                     } else if (respuesta.status == 1) {
@@ -218,12 +253,5 @@ $(document).ready(function () {
             default:
                 break;
         }
-    });
-
-    $( window ).on( "load", function() {
-        let totalG = $("#totalG").attr('data');
-        let totalI = $("#totalI").attr('data');
-        console.log(totalG);
-        console.log(totalI);
     });
 });

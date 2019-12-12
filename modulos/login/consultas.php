@@ -1,7 +1,7 @@
 <?php
-	require_once $_SERVER["DOCUMENT_ROOT"].'/includes/_db.php';
+	require_once '../../includes/_db.php';
+	require '../../vendor/autoload.php';
 	use PHPMailer\PHPMailer\PHPMailer;
-	require $_SERVER["DOCUMENT_ROOT"].'/vendor/autoload.php';
 	if ($_POST) {
 		switch ($_POST["accion"]) {
 			case 'login':
@@ -104,7 +104,8 @@
                     	"id_plan" => $_POST["id_plan"],
                         "id_niv" => "2",
                         "fecha_alta" => "0",
-                        "fecha_baja" => "0"
+						"fecha_baja" => "0",
+						"plan_deseado" => 0
 						]);
                     		if ($usuarios) {
 								$email = $db->get("usuarios", "*", [
@@ -112,20 +113,20 @@
 								]);
 								$email_to = $email["correo_usr"];
 								$email_from = "mail@smoothoperators.com.mx";
-								$from_name = "Money-Safe";
-								$subject = "Activación de cuenta Money Safe";
-								$body = "Bienvenido a Money-Safe, en unos momentos uno de nuestros ejecutivos activará tu cuenta. Muchas Gracias.";
+								$from_name = "MoneySafe";
+								$subject = "Activación de cuenta";
+								$body = "Bienvenido a nuestro sistema, en unos momentos un ejecutivo activará tu cuenta";
 								global $error;
-								$mail = new PHPMailer();
+								$mail = new PHPMailer();  // create a new object
 								$mail->CharSet = "utf-8";
-								$mail->IsSMTP(); 
-								$mail->SMTPDebug = 0;  
-								$mail->SMTPAuth = true;  
-								$mail->SMTPSecure = 'ssl'; 
+								$mail->IsSMTP(); // enable SMTP
+								$mail->SMTPDebug = 0;  // debugging: 1 = errors and messages, 2 = messages only
+								$mail->SMTPAuth = true;  // authentication enabled
+								$mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for GMail
 								$mail->Host = 'smtp.gmail.com';
 								$mail->Port = 465; 
 								$mail->Username = 'mail.smoothoperators@gmail.com';  
-								$mail->Password = 'Goodluck13';
+								$mail->Password = 'Unid2019';
 								$mail->SetFrom($email_from, $from_name);
 								$mail->Subject = $subject;
 								$mail->Body = $body;

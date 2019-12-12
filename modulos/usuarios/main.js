@@ -35,7 +35,11 @@ $(document).ready(function(){
             accion : 'getUsuario',
             id : id
         };
-        $.post('/modulos/usuarios/consultas.php', obj , function (respuesta) {
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/modulos/usuarios/consultas.php";
+        $.post(ruta, obj, function (respuesta) {
                 $('#nombre_usr').val(respuesta.nombre_usr);
                 $('#correo_usr').val(respuesta.correo_usr);
                 $('#password_usr').val(respuesta.password_usr);
@@ -73,7 +77,11 @@ $(document).ready(function(){
             dangerMode: true
         }).then(willDelete => {
             if (willDelete) {
-                $.post('/modulos/usuarios/consultas.php', obj, function (respuesta) {
+                var hostName = $(location).attr('hostname');
+                var http = "http://";
+                var direc = "/MoneySafe-WebApp";
+                var ruta = http+hostName+direc+"/modulos/usuarios/consultas.php";
+                $.post(ruta, obj, function (respuesta) {
                         if (respuesta.status == 1) {
                             swal('Éxito', 'Usuario eliminado correctamente', 'success').then((willDelete) => {
                                 location.reload();
@@ -86,13 +94,16 @@ $(document).ready(function(){
     });
 
     $('.modal-info').click(function (){
-        let id = $(".btn-delete").attr('data-modal');
+        let id = $(this).attr('data');
         obj = {
             accion : 'getData',
             id : id
         };
-        console.log(obj);
-        $.post('../../includes/consultas.php', obj , function (respuesta) {
+        var hostName = $(location).attr('hostname');
+        var http = "http://";
+        var direc = "/MoneySafe-WebApp";
+        var ruta = http+hostName+direc+"/includes/consultas.php";
+        $.post(ruta, obj , function (respuesta) {
                 $('#nombre_usr_info').val(respuesta.nombre_usr);
                 if (respuesta.plan_deseado == "0" || respuesta.plan_deseado == 0) {
                     $('#id_plan').val('0');
@@ -115,7 +126,11 @@ $(document).ready(function(){
         });
         switch (obj.accion) {
             case 'updateData':
-                $.post('../../includes/consultas.php', obj, function (respuesta) {
+                var hostName = $(location).attr('hostname');
+                var http = "http://";
+                var direc = "/MoneySafe-WebApp";
+                var ruta = http+hostName+direc+"/includes/consultas.php";
+                $.post(ruta, obj, function (respuesta) {
                         if (respuesta.status == 0) {
                             swal('¡ERROR!', 'Tu nombre no puede quedar vacío', 'error');
                         } else if (respuesta.status == 1) {
@@ -143,7 +158,11 @@ $(document).ready(function(){
         switch (obj.accion) {
 
             case 'insertUsuario':
-                $.post('/modulos/usuarios/consultas.php', obj, function (respuesta) {
+                var hostName = $(location).attr('hostname');
+                var http = "http://";
+                var direc = "/MoneySafe-WebApp";
+                var ruta = http+hostName+direc+"/modulos/usuarios/consultas.php";
+                $.post(ruta, obj, function (respuesta) {
                         if (respuesta.status == 0) {
                             swal('¡ERROR!', 'Campos vacios', 'error');
                         } else if (respuesta.status == 2) {
@@ -161,7 +180,11 @@ $(document).ready(function(){
                 break;
 
             case 'updateUsuario':
-                $.post('/modulos/usuarios/consultas.php', obj, function (respuesta) {
+                var hostName = $(location).attr('hostname');
+                var http = "http://";
+                var direc = "/MoneySafe-WebApp";
+                var ruta = http+hostName+direc+"/modulos/usuarios/consultas.php";
+                $.post(ruta, obj, function (respuesta) {
                         if (respuesta.status == 0) {
                             swal('¡ERROR!', 'Campos vacios', 'error');
                         } else if (respuesta.status == 1) {

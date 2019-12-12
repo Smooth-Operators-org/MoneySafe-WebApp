@@ -58,7 +58,7 @@
         <?php }?>
         <!-- BOTONES MODAL -->
         <div class="modal-footer">
-          <button class="modal-close btn red waves-effect waves-light" id="btn-cancel" type="button">Cancelar</button>
+          <button class="modal-close btn red waves-effect waves-light" id="btn-cancelaa" type="button">Cancelar</button>
           <button class="btn green waves-effect waves-light" id="btn-form-ingresos" type="button">Insertar</button>
         </div>
       </div>

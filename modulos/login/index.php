@@ -1,5 +1,5 @@
 <?php 
-    require_once $_SERVER["DOCUMENT_ROOT"].'/includes/_db.php';
+    require_once '../../includes/_db.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -11,7 +11,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="estilo.css">
     <!-- MATERIAL-ICONS -->
-    <link rel="stylesheet" href="/vendor/mervick/material-design-icons/css/material-icons.css">
+    <link rel="stylesheet" href="../../vendor/mervick/material-design-icons/css/material-icons.css">
     <!-- MATERIALIZE CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <title>Login</title>
@@ -43,7 +43,6 @@
                             <span>Recordar Credenciales</span>
                         </label>
                     </p>
-                    <a href="#"><b>¿Olvidaste tu contraseña?</b></a>
                 </div>
             </div>
             <div class="row">
@@ -114,12 +113,12 @@
             </div>
         </form>
     </div>
-    <script src="/vendor/components/jquery/jquery.min.js"></script>
-    <script src="/vendor/components/jquery-cookie/jquery.cookie.js"></script>
-    <script src="/vendor/fortawesome/font-awesome/js/all.js" data-auto-replace-svg="nest"></script>
+    <script src="../../vendor/components/jquery/jquery.min.js"></script>
+    <script src="../../vendor/components/jquery-cookie/jquery.cookie.js"></script>
+    <script src="../../vendor/fortawesome/font-awesome/js/all.js" data-auto-replace-svg="nest"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="/modulos/login/main.js"></script>
+    <script src="main.js"></script>
 </body>
 
 </html>

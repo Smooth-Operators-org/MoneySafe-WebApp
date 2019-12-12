@@ -56,7 +56,7 @@ $(document).ready(function () {
         $("#modal-title").text("Nueva Categoría");
     });
 
-    $("#btn-cancel").click(function () {
+    $("#btn-cancela").click(function () {
         $('input[type = text]').val('');
         $('input').removeClass('valid');
         $('input').removeClass('invalid');

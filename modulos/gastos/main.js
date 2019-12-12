@@ -175,14 +175,13 @@ $(document).ready(function () {
     }
 
     // Limpiar inputs del modal
-    $("#btn-cancel").click(function () {
+    $("#btn-cancela").click(function () {
         $('input[type = text]').val('');
         $('#cant_gst').val('');
         $('input[type=checkbox]').prop("checked", false);
         $('#id_cat').val('0');
         $('input').removeClass('valid');
         $('input').removeClass('invalid');
-
     });
 
     //Boton Insertar nuevo gasto

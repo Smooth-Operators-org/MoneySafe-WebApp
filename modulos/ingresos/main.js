@@ -8,7 +8,7 @@ $(document).ready(function () {
   var obj = {};
 
   //LIMPIAR MODAL
-  $("#btn-cancel").click(function () {
+  $("#btn-cancelaa").click(function () {
     $("input[type = text]").val("");
     $("#cant_ing").val("");
     $("input[type=checkbox]").prop("checked", false);
@@ -140,7 +140,7 @@ $(document).ready(function () {
       accion: "insertIngreso"
     };
     $("#modal-title").text("Nuevo Ingreso");
-    $("#btn-form").text("Registrar");
+    $("#btn-form-ingresos").text("Insertar");
   });
 
   //BOTON EDITAR
@@ -179,7 +179,7 @@ $(document).ready(function () {
       "JSON"
     );
     $("#modal-title").text("Editar Ingreso");
-    $("#btn-form").text("Editar");
+    $("#btn-form-ingresos").text("Editar");
   });
 
   //BOTON ELIMINAR

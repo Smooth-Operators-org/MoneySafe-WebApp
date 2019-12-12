@@ -1,8 +1,7 @@
 <?php
-	require_once '../../includes/_db.php';
-	// session_start();
-    // error_reporting(0);
-    // $varsesion = $_SESSION['email'];
+    require_once '../../includes/_db.php';
+    require '../../vendor/autoload.php';
+	use PHPMailer\PHPMailer\PHPMailer;
 	if ($_POST) {
 		switch ($_POST["accion"]) {
 			case 'insertUsuario':
@@ -138,7 +137,7 @@
                     $fecha_alta = "00-00-00";
                     $fecha_baja = "00-00-00";
                 }
-                $db->update("usuarios", [
+                $update = $db->update("usuarios", [
                     "nombre_usr" => $_POST['nombre_usr'],
                     "correo_usr" => $_POST['correo_usr'],
                     "password_usr" => $_POST['password_usr'],
@@ -150,7 +149,39 @@
                 ], [
                     "id_usr" => $id
                 ]);
-                $respuesta["status"] = 1;
+                if ($update && $status == 1) {
+                    $Link = "http://gastos.smoothoperators.com.mx/MoneySafe-WebApp/modulos/login/index.php";
+                    $email_to = $_POST["correo_usr"];
+                    $email_from = "mail@smoothoperators.com.mx";
+                    $from_name = "MoneySafe";
+                    $subject = "Cuenta Activada";
+                    $body = "Bienvenido a nuestro sistema, su cuenta ah sido activada, puede iniciar sesión en el siguiente link: <br><br><a href=$Link>MoneySafe</a>";
+                    $mail = new PHPMailer();  // create a new object
+                    $mail->CharSet = "utf-8";
+                    $mail->IsSMTP(); // enable SMTP
+                    $mail->SMTPDebug = 0;  // debugging: 1 = errors and messages, 2 = messages only
+                    $mail->SMTPAuth = true;  // authentication enabled
+                    $mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for GMail
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->Port = 465; 
+                    $mail->Username = 'mail.smoothoperators@gmail.com';  
+                    $mail->Password = 'Unid2019';
+                    $mail->SetFrom($email_from, $from_name);
+                    $mail->Subject = $subject;
+                    $mail->Body = $body;
+                    $mail->IsHTML(true);
+                    $mail->AddAddress($email_to);
+                        if(!$mail->Send()) {
+                            echo "Error";
+                        } else {
+                            $respuesta["status"] = 1;
+                        }
+                }else if($update && $status == 0){
+                    $respuesta["status"] = 1;
+                    echo "update";
+                }else{
+                    echo "Error";
+                }
             }
 		echo json_encode($respuesta);
 	}
